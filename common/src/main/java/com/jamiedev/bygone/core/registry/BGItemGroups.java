@@ -13,7 +13,7 @@ public class BGItemGroups {
 
     public static final Supplier<CreativeModeTab> EXAMPLE_TAB = registerTab(
             "test", () -> CreativeModeTab.builder(null, -1)
-                    .icon(() -> new ItemStack(BGBlocks.SABLE_LOG.get()))
+                    .icon(() -> new ItemStack(BGBlocks.CHISELED_SHELLSTONE_BRICKS.get()))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(BGItems.ANCIENT_SIGN.get());
                         output.accept(BGItems.ANCIENT_HANGING_SIGN.get());
@@ -72,7 +72,7 @@ public class BGItemGroups {
                         output.accept(BGItems.WHISKBILL_SPAWN_EGG.get());
                         output.accept(BGItems.WRAITH_SPAWN_EGG.get());
                         output.accept(BGItems.ARCANE_CORE.get());
-                        output.accept(BGItems.HOOK.get());
+                        output.accept(BGItems.ANCIENT_HOOK.get());
                         output.accept(BGItems.MALICIOUS_WAR_HORN.get());
                         output.accept(BGItems.ECHO_GONG.get());
                         output.accept(BGItems.GOLD_BIG_BEAK_ARMOR.get());
@@ -193,12 +193,15 @@ public class BGItemGroups {
                         output.accept(BGBlocks.BELLADONNA.get());
                         output.accept(BGBlocks.COLEUS.get());
 
+                        output.accept(BGItems.EELGRASS.get());
+                        output.accept(BGItems.BREATH_POD.get());
                         output.accept(BGBlocks.SHELLSAND.get());
                         output.accept(BGBlocks.SUSPICIOUS_SHELLSAND.get());
                         output.accept(BGBlocks.COBBLED_SEAGLASS.get());
                         output.accept(BGBlocks.SEAGLASS_BLOCK.get());
                         output.accept(BGBlocks.SEAGLASS_PANE.get());
                         output.accept(BGItems.CRUSHED_SEAGLASS.get());
+                        output.accept(BGItems.SEAGLASS_PRISM.get());
                         output.accept(BGBlocks.SMOOTH_SEAGLASS.get());
                         output.accept(BGBlocks.SHELLSTONE.get());
                         output.accept(BGBlocks.SHELLSTONE_STAIRS.get());
@@ -402,6 +405,22 @@ public class BGItemGroups {
                         output.accept(BGBlocks.SABLE_MOSSY_BYSLATE_STAIRS.get());
                         output.accept(BGBlocks.SABLE_MOSSY_BYSLATE_SLAB.get());
                         output.accept(BGBlocks.SABLE_MOSSY_BYSLATE_WALL.get());
+
+                        output.accept(BGBlocks.PLASMIC_BYSLATE.get());
+                        output.accept(BGBlocks.PLASMIC_BYSLATE_STAIRS.get());
+                        output.accept(BGBlocks.PLASMIC_BYSLATE_SLAB.get());
+                        output.accept(BGBlocks.PLASMIC_BYSLATE_WALL.get());
+                        output.accept(BGBlocks.PLASMIC_BYSLATE_BRICKS.get());
+                        output.accept(BGBlocks.CRACKED_PLASMIC_BYSLATE_BRICKS.get());
+                        output.accept(BGBlocks.GLOWING_CRACKED_PLASMIC_BYSLATE_BRICKS.get());
+                        output.accept(BGBlocks.CHISELED_PLASMIC_BYSLATE_BRICKS.get());
+                        output.accept(BGBlocks.PLASMIC_BYSLATE_BRICKS_STAIRS.get());
+                        output.accept(BGBlocks.PLASMIC_BYSLATE_BRICKS_SLAB.get());
+                        output.accept(BGBlocks.PLASMIC_BYSLATE_BRICKS_WALL.get());
+                        output.accept(BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS.get());
+                        output.accept(BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS_STAIRS.get());
+                        output.accept(BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS_SLAB.get());
+                        output.accept(BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS_WALL.get());
 
                         output.accept(BGBlocks.AMPHORA.get());
                         output.accept(BGBlocks.GILDED_AMPHORA.get());

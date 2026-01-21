@@ -3,6 +3,7 @@ package com.jamiedev.bygone.common.entity;
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
+import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGBlocks;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import net.minecraft.core.BlockPos;
@@ -36,10 +37,18 @@ import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -66,9 +75,11 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
     protected int spellCastingTickCount;
     protected BlockPos targetSavedPos = BlockPos.ZERO;
     private WraithEntity.WraithSpell currentSpell;
+    EntityDimensions dimensions;
 
     public WraithEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
+        this.dimensions = entityType.getDimensions();
         this.xpReward = 5;
         this.moveControl = new FlyingMoveControl(this, 35, false);
         this.setNoGravity(true);
@@ -159,6 +170,8 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
             this.setupAnimationStates();
         }
 
+        noPhysics = !collidingSpectralBlocks();
+
         // Creates the particles for casting the spell.
         if (this.level().isClientSide && this.isCastingSpell()) {
             WraithEntity.WraithSpell spell = this.getCurrentSpell();
@@ -197,10 +210,7 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
         }
     }
 
-    @Override
-    protected SoundEvent getAmbientSound() {
-        return BGSoundEvents.WRAITH_AMBIENT_ADDITIONS_EVENT;
-    }
+
 
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
@@ -237,13 +247,18 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
     }
 
     @Override
-    public void playAttackSound() {
-        this.playSound(BGSoundEvents.WRAITH_ATTACK_ADDITIONS_EVENT, 1.0F, 1.0F);
+    public void performRangedAttack(@NotNull LivingEntity livingEntity, float v) {
+
     }
 
     @Override
-    public void performRangedAttack(@NotNull LivingEntity livingEntity, float v) {
+    protected SoundEvent getAmbientSound() {
+        return BGSoundEvents.WRAITH_AMBIENT_ADDITIONS_EVENT;
+    }
 
+    @Override
+    public void playAttackSound() {
+        this.playSound(BGSoundEvents.WRAITH_ATTACK_ADDITIONS_EVENT, 1.0F, 1.0F);
     }
 
     @Override
@@ -314,6 +329,7 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
     protected void checkFallDamage(double y, boolean onGround, @NotNull BlockState state, @NotNull BlockPos pos) {
     }
 
+
     @Override
     public boolean hurt(DamageSource source, float amount) {
 
@@ -348,6 +364,15 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
             super.travel(travelVector);
         }
     }
+
+    private boolean collidingSpectralBlocks() {
+        AABB aabb = this.getBoundingBox().inflate(1.0F, 1.0F, 1.0F);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((collisionShape) -> {
+            BlockState blockstate = this.level().getBlockState(collisionShape);
+            return blockstate.is(JamiesModTag.SPECTRAL_BLOCKS);
+        });
+    }
+
 
     @Override
     public boolean canFreeze() {

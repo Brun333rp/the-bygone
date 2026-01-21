@@ -8,7 +8,6 @@ import com.jamiedev.bygone.client.renderer.entity.*;
 import com.jamiedev.bygone.common.item.VerdigrisBladeItem;
 import com.jamiedev.bygone.common.util.PlayerWithHook;
 import com.jamiedev.bygone.core.registry.*;
-import net.minecraft.client.model.CowModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -46,6 +45,8 @@ public class BygoneClient {
         consumer.accept(BGBlocks.SEAGLASS_PANE.get(), RenderType.translucent());
         consumer.accept(BGBlocks.COBBLED_SEAGLASS.get(), RenderType.solid());
         consumer.accept(BGBlocks.BREATH_POD.get(), RenderType.cutout());
+        consumer.accept(BGBlocks.EELGRASS.get(), RenderType.cutout());
+        consumer.accept(BGBlocks.EELGRASS_PLANT.get(), RenderType.cutout());
 
         consumer.accept(BGBlocks.ANCIENT_LEAVES.get(), RenderType.cutout());
         consumer.accept(BGBlocks.ANCIENT_ROOTS.get(), RenderType.cutout());
@@ -235,8 +236,8 @@ public class BygoneClient {
         consumer.accept(JamiesModModelLayers.SCUTTLE, ScuttleModel::getTexturedModelData);
         consumer.accept(JamiesModModelLayers.COPPERBUG, CopperbugModel::getTexturedModelData);
         consumer.accept(JamiesModModelLayers.TRILOBITE, TrilobiteModel::getTexturedModelData);
-        consumer.accept(JamiesModModelLayers.MOOBOO, CowModel::createBodyLayer);
-        consumer.accept(JamiesModModelLayers.MOOBOO_TRANS, CowModel::createBodyLayer);
+        consumer.accept(JamiesModModelLayers.MOOBOO, MoobooModel::createBodyLayer);
+        consumer.accept(JamiesModModelLayers.MOOBOO_TRANS, MoobooModel::createBodyLayer);
         consumer.accept(JamiesModModelLayers.FUNGALPARENT, FungalParentModel::getTexturedModelData);
         consumer.accept(JamiesModModelLayers.BIG_BEAK, BigBeakModel::getTexturedModelData);
         consumer.accept(JamiesModModelLayers.BIG_BEAK_SADDLE, BigBeakModel::getTexturedModelData);
@@ -274,7 +275,7 @@ public class BygoneClient {
 
     public static void registerModelPredicateProviders() {
         ItemProperties.register(
-                BGItems.HOOK.get(), Bygone.id("deployed"), (itemStack, clientWorld, livingEntity, seed) -> {
+                BGItems.ANCIENT_HOOK.get(), Bygone.id("deployed"), (itemStack, clientWorld, livingEntity, seed) -> {
                     if (livingEntity instanceof Player) {
                         for (InteractionHand value : InteractionHand.values()) {
                             ItemStack heldStack = livingEntity.getItemInHand(value);

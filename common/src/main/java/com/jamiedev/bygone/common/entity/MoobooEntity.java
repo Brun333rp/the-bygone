@@ -1,5 +1,6 @@
 package com.jamiedev.bygone.common.entity;
 
+import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGBlocks;
 import com.jamiedev.bygone.core.registry.BGItems;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
@@ -11,6 +12,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
@@ -26,9 +28,11 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 public class MoobooEntity extends Cow {
 
+    public AnimationState idleAnimationState = new AnimationState();
     public MoobooEntity(EntityType<? extends Cow> entityType, Level level) {
         super(entityType, level);
     }
@@ -68,8 +72,34 @@ public class MoobooEntity extends Cow {
         return 1;
     }
 
+    private boolean collidingSpectralBlocks() {
+        AABB aabb = this.getBoundingBox().inflate(1.0F, 1.0F, 1.0F);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((collisionShape) -> {
+            BlockState blockstate = this.level().getBlockState(collisionShape);
+            return blockstate.is(JamiesModTag.SPECTRAL_BLOCKS);
+        });
+    }
+
+    public void tick()
+    {
+        super.tick();
+
+        if (this.level().isClientSide()) {
+            this.setupAnimationStates();
+        }
+    }
+
+    @Override
+    public float getLightLevelDependentMagicValue() {
+        return 1.0F;
+    }
+
     protected static boolean isBrightEnoughToSpawn(BlockAndTintGetter level, BlockPos pos) {
         return level.getRawBrightness(pos, 0) > 1;
+    }
+
+    private void setupAnimationStates() {
+        this.idleAnimationState.startIfStopped(this.tickCount);
     }
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
