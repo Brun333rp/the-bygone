@@ -3,8 +3,10 @@ package com.jamiedev.bygone.client;
 import com.jamiedev.bygone.client.particles.BlemishParticle;
 import com.jamiedev.bygone.client.particles.UpsidedownDropParticle;
 import com.jamiedev.bygone.common.block.JamiesModWoodType;
+import com.jamiedev.bygone.core.registry.BGFluids;
 import com.jamiedev.bygone.core.registry.BGParticleTypes;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -25,6 +27,10 @@ public class BygoneClientNeoForge {
             BygoneClient.registerRenderLayers(ItemBlockRenderTypes::setRenderLayer);
             BygoneClient.registerModelPredicateProviders();
             Sheets.addWoodType(JamiesModWoodType.ANCIENT);
+
+            ItemBlockRenderTypes.setRenderLayer(BGFluids.LITHO_FLOWING.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(BGFluids.LITHO_STILL.get(), RenderType.translucent());
+
         });
     }
 

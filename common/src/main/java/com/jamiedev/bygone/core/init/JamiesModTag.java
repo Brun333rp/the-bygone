@@ -44,6 +44,7 @@ public class JamiesModTag {
     public static final TagKey<Block> WHIRLIWEEDS = Blocks.createTag("whirliweeds");
     public static final TagKey<Item> WHIRLIWEEDS_ITEM = Items.createTag("whirliweeds");
 
+    public static final TagKey<Fluid> LITHO = Fluids.create("litho");
 
     public static final TagKey<Block> CORAL_PLANTS = Blocks.createTag("coral_plants");
     public static final TagKey<Block> CORAL_BLOCK_REPLACEABLE = Blocks.createTag("coral_block_replaceable");

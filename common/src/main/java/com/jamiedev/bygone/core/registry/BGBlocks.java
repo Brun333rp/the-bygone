@@ -23,6 +23,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
@@ -2485,6 +2487,25 @@ public class BGBlocks {
             "glowing_plasmic_byslate_bricks_wall", () ->
                     new WallBlock(BlockBehaviour.Properties.ofFullCopy(BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS.get())
                             .strength(2.0f))
+    );
+
+    public static final Supplier<Block>  LITHO = registerBlock(
+            "litho", () ->
+            new LithoFluidBlock(
+                    (FlowingFluid) BGFluids.LITHO_STILL.get(),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.WATER)
+                            .replaceable()
+                            .noCollission()
+                            .lightLevel((state) -> {
+                                return 8;
+                            })
+                            .strength(100.0F)
+                            .pushReaction(PushReaction.DESTROY)
+                            .noLootTable()
+                            .liquid()
+                            .sound(SoundType.EMPTY)
+            )
     );
 
     public static final Supplier<Block> PLASMIC_BYSLATE= registerBlock(

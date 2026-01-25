@@ -14,6 +14,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.function.Supplier;
@@ -23,6 +24,8 @@ import static net.minecraft.world.item.Items.BUCKET;
 
 public class BGItems {
 
+    public static final Supplier<Item> LITHO_BUCKET = registerItem((String)"litho_bucket",
+            () -> new BucketItem(BGFluids.LITHO_STILL.get(), (new Item.Properties()).craftRemainder(BUCKET).stacksTo(1)));
 
     public static final Supplier<Item> CRUSHED_SEAGLASS = registerItem(
             "crushed_seaglass",
