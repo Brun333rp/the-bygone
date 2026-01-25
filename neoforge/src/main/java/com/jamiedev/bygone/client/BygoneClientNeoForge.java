@@ -28,8 +28,6 @@ public class BygoneClientNeoForge {
             BygoneClient.registerModelPredicateProviders();
             Sheets.addWoodType(JamiesModWoodType.ANCIENT);
 
-            ItemBlockRenderTypes.setRenderLayer(BGFluids.LITHO_FLOWING.get(), RenderType.translucent());
-            ItemBlockRenderTypes.setRenderLayer(BGFluids.LITHO_STILL.get(), RenderType.translucent());
 
         });
     }

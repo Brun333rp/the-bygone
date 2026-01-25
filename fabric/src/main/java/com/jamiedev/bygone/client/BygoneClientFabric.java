@@ -36,14 +36,6 @@ public class BygoneClientFabric implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        FluidRenderHandlerRegistry.INSTANCE.register(BGFluids.LITHO_STILL.get(), BGFluids.LITHO_FLOWING.get(), new SimpleFluidRenderHandler(
-                Bygone.id("block/litho_still"),
-                Bygone.id("block/litho_flow"),
-                0xA9E6D4
-        ));
-        BlockRenderLayerMap.INSTANCE.putFluids(RenderType.translucent(),
-                BGFluids.LITHO_STILL.get(), BGFluids.LITHO_FLOWING.get());
-
         BygoneClient.registerRenderLayers(BlockRenderLayerMap.INSTANCE::putBlock);
         BygoneClient.createEntityRenderers();
         BygoneClient.createModelLayers((modelLayerLocation, layerDefinitionSupplier) -> EntityModelLayerRegistry.registerModelLayer(modelLayerLocation, layerDefinitionSupplier::get));

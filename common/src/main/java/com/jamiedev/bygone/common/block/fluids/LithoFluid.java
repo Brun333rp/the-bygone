@@ -69,7 +69,7 @@ public abstract class LithoFluid extends FlowingFluid {
 
     @Override
     public Item getBucket() {
-        return BGItems.LITHO_BUCKET.get();
+        return null;//BGItems.LITHO_BUCKET.get();
     }
 
     @Override
