@@ -19,4 +19,6 @@ public class BGFluids {
     public static Supplier<Fluid> registerFluid(String name, Supplier<Fluid> supplier) {
         return JinxedRegistryHelper.register(BuiltInRegistries.FLUID, Bygone.MOD_ID, name, supplier);
     }
+
+    public static void init() {}
 }

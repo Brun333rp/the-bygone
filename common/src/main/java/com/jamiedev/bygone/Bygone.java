@@ -48,6 +48,7 @@ public class Bygone {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public static void init() {
+        BGFluids.init();
         BGBlocks.init();
         BGBlockEntities.init();
         BGItems.init();
