@@ -1,6 +1,7 @@
 package com.jamiedev.bygone.client;
 
 import com.jamiedev.bygone.Bygone;
+import com.jamiedev.bygone.client.fluids.BGFluidRenderer;
 import com.jamiedev.bygone.client.renderer.entity.BygoneDimensionEffects;
 import com.jamiedev.bygone.common.block.JamiesModWoodType;
 import com.jamiedev.bygone.common.item.VerdigrisBladeItem;
@@ -36,6 +37,7 @@ public class BygoneClientFabric implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        BGFluidRenderer.initialize();
         BygoneClient.registerRenderLayers(BlockRenderLayerMap.INSTANCE::putBlock);
         BygoneClient.createEntityRenderers();
         BygoneClient.createModelLayers((modelLayerLocation, layerDefinitionSupplier) -> EntityModelLayerRegistry.registerModelLayer(modelLayerLocation, layerDefinitionSupplier::get));

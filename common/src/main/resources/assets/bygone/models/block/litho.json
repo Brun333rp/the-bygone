@@ -1,7 +1,7 @@
 {
     "render_type": "minecraft:translucent",
     "textures": {
-        "particle": "bygone:fluid/litho_still"
+        "particle": "bygone:block/litho_still"
     }
 }
 

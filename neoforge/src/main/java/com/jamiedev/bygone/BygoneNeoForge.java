@@ -9,23 +9,34 @@ import com.jamiedev.bygone.common.util.ServerTickHandler;
 import com.jamiedev.bygone.common.util.VexDeathTracker;
 import com.jamiedev.bygone.core.datagen.BygoneDataGenerator;
 import com.jamiedev.bygone.core.registry.*;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
@@ -34,15 +45,49 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 @Mod(Bygone.MOD_ID)
 public class BygoneNeoForge {
+    public static DeferredRegister<Fluid> fluidRegister = DeferredRegister.create(Registries.FLUID, Bygone.MOD_ID);
 
-    IPayloadContext ctx;
+    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(
+            NeoForgeRegistries.Keys.FLUID_TYPES,
+            Bygone.MOD_ID
+    );
+
+    public static final Supplier<FluidType> LITHO_TYPE = FLUID_TYPES.register(
+            "litho_type",
+            () -> new FluidType(
+                    FluidType.Properties.create()
+                            .descriptionId("block.bygone.litho")
+                            .canSwim(true)
+                            .canDrown(true)
+                            .pathType(PathType.WATER)
+                            .adjacentPathType(null)
+                            .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_EMPTY)
+                            .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
+                            .lightLevel(8)
+            ) {
+
+                @Override
+                public boolean canConvertToSource(@NotNull FluidState state, @NotNull LevelReader reader, @NotNull BlockPos pos) {
+                    if (reader instanceof Level level) {
+                        return level.getGameRules().getBoolean(GameRules.RULE_WATER_SOURCE_CONVERSION);
+                    } else {
+                        return super.canConvertToSource(state, reader, pos);
+                    }
+                }
+            }
+    );
 
     public BygoneNeoForge(IEventBus eventBus, Dist dist) {
 
@@ -50,6 +95,8 @@ public class BygoneNeoForge {
         BGDecoratedPotPatternsNeoForge.POT_PATTERNS.register(eventBus);
         Bygone.init();
 
+        fluidRegister.register(eventBus);
+        FLUID_TYPES.register(eventBus);
         eventBus.addListener(PacketHandlerNeoForge::register);
         if (dist.isClient()) {
             BygoneClientNeoForge.init(eventBus);
