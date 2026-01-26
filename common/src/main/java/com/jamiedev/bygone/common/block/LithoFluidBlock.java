@@ -49,6 +49,7 @@ public class LithoFluidBlock extends LiquidBlock
 
     public LithoFluidBlock(FlowingFluid fluid, Properties properties) {
         super(fluid, properties);
+        /**
         this.fluid = fluid;
         this.stateCache = Lists.newArrayList();
         this.stateCache.add(fluid.getSource(false));
@@ -59,9 +60,10 @@ public class LithoFluidBlock extends LiquidBlock
 
         this.stateCache.add(fluid.getFlowing(8, true));
         this.registerDefaultState((BlockState)((BlockState)this.stateDefinition.any()).setValue(LEVEL, 0));
+        **/
     }
 
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+   /** protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (this.shouldSpreadLiquid(level, pos, state)) {
             level.scheduleTick(pos, state.getFluidState().getType(), this.fluid.getTickDelay(level));
         }
@@ -114,6 +116,6 @@ public class LithoFluidBlock extends LiquidBlock
         }
 
         return true;
-    }
+    }**/
 
 }

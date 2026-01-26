@@ -7,17 +7,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class LithoClientExtensions implements IClientFluidTypeExtensions {
 
-    private static final ResourceLocation LAVA_STILL = Bygone.id("block/litho_still");
+    private static final ResourceLocation LITHO_STILL = Bygone.id("block/litho_still");
 
-    private static final ResourceLocation LAVA_FLOW =  Bygone.id("block/litho_flow");
+    private static final ResourceLocation LITHO_FLOW =  Bygone.id("block/litho_flow");
 
     @Override
     public @NotNull ResourceLocation getStillTexture() {
-        return LAVA_STILL;
+        return LITHO_STILL;
     }
 
     @Override
     public @NotNull ResourceLocation getFlowingTexture() {
-        return LAVA_FLOW;
+        return LITHO_FLOW;
     }
 }
