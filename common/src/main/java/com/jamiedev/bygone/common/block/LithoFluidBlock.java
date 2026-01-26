@@ -1,46 +1,20 @@
 package com.jamiedev.bygone.common.block;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.UnmodifiableIterator;
 import com.jamiedev.bygone.core.init.JamiesModTag;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nullable;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class LithoFluidBlock extends LiquidBlock
 {
@@ -49,7 +23,6 @@ public class LithoFluidBlock extends LiquidBlock
 
     public LithoFluidBlock(FlowingFluid fluid, Properties properties) {
         super(fluid, properties);
-        /**
         this.fluid = fluid;
         this.stateCache = Lists.newArrayList();
         this.stateCache.add(fluid.getSource(false));
@@ -60,10 +33,9 @@ public class LithoFluidBlock extends LiquidBlock
 
         this.stateCache.add(fluid.getFlowing(8, true));
         this.registerDefaultState((BlockState)((BlockState)this.stateDefinition.any()).setValue(LEVEL, 0));
-        **/
     }
 
-   /** protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (this.shouldSpreadLiquid(level, pos, state)) {
             level.scheduleTick(pos, state.getFluidState().getType(), this.fluid.getTickDelay(level));
         }
@@ -116,6 +88,5 @@ public class LithoFluidBlock extends LiquidBlock
         }
 
         return true;
-    }**/
-
+    }
 }

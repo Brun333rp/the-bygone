@@ -1,21 +1,17 @@
 package com.jamiedev.bygone.common.block.fluids;
 
-import com.jamiedev.bygone.common.block.LithoFluidBlock;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGBlocks;
 import com.jamiedev.bygone.core.registry.BGFluids;
-import com.jamiedev.bygone.core.registry.BGItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -93,7 +89,7 @@ public abstract class LithoFluid extends FlowingFluid {
     }
 
     public boolean isSame(Fluid fluid) {
-        return fluid == BGFluids.LITHO_STILL || fluid == BGFluids.LITHO_FLOWING;
+        return fluid == BGFluids.LITHO_STILL.get() || fluid == BGFluids.LITHO_FLOWING.get();
     }
 
     protected boolean isRandomlyTicking() {
