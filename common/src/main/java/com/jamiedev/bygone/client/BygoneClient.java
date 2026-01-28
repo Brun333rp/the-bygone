@@ -223,6 +223,7 @@ public class BygoneClient {
         EntityRenderers.register(BGEntityTypes.NECTAUR.get(), NectaurRenderer::new);
         EntityRenderers.register(BGEntityTypes.LITHY.get(), LithyRenderer::new);
         EntityRenderers.register(BGEntityTypes.WISP.get(), WispRenderer::new);
+        EntityRenderers.register(BGEntityTypes.HAUNT.get(), HauntRenderer::new);
         EntityRenderers.register(BGEntityTypes.WRAITH.get(), WraithRenderer::new);
         EntityRenderers.register(BGEntityTypes.SABEAST.get(), SabeastRenderer::new);
         EntityRenderers.register(BGEntityTypes.PRIMORDIAL_FISH.get(), PrimordialFishRenderer::new);
@@ -249,6 +250,7 @@ public class BygoneClient {
         consumer.accept(JamiesModModelLayers.NECTAUR, NectaurModel::getTexturedModelData);
         consumer.accept(JamiesModModelLayers.LITHY, LithyModel::getTexturedModelData);
         consumer.accept(JamiesModModelLayers.WISP, WispModel::getTexturedModelData);
+        consumer.accept(JamiesModModelLayers.HAUNT, HauntModel::getTexturedModelData);
         consumer.accept(JamiesModModelLayers.WRAITH, WraithModel::getTexturedModelData);
         consumer.accept(JamiesModModelLayers.SABEAST, SabeastModel::getTexturedModelData);
         consumer.accept(JamiesModModelLayers.AMOEBA, AmoebaModel::getTexturedModelData);

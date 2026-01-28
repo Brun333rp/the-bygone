@@ -1,0 +1,256 @@
+package com.jamiedev.bygone.common.entity;
+
+import com.jamiedev.bygone.core.registry.BGParticleTypes;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.world.entity.animal.allay.Allay;
+import net.minecraft.world.entity.animal.axolotl.Axolotl;
+import net.minecraft.world.entity.monster.Vex;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+
+import javax.annotation.Nullable;
+import java.util.EnumSet;
+import java.util.function.Predicate;
+
+public class HauntEntity extends Allay {
+    protected static final int ATTACK_TIME = 80;
+    private static final EntityDataAccessor<Integer> DATA_ID_ATTACK_TARGET;
+    public AnimationState idleAnimationState = new AnimationState();
+    public AnimationState floatAnimationState = new AnimationState();
+
+    @Nullable
+    private LivingEntity clientSideCachedAttackTarget;
+    private int clientSideAttackTime;
+    @Nullable
+    protected RandomStrollGoal randomStrollGoal;
+
+    public HauntEntity(EntityType<? extends HauntEntity> entityType, Level level) {
+        super(entityType, level);
+    }
+    
+    public void registerGoals()
+    {
+        super.registerGoals();
+        this.randomStrollGoal = new RandomStrollGoal(this, (double)1.0F, 80);
+        this.goalSelector.addGoal(4, new HauntEntityAttackGoal(this));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, new HauntEntityAttackSelector(this)));
+        this.randomStrollGoal.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+    }
+
+    private void setupAnimationStates() {
+
+        this.idleAnimationState.startIfStopped(this.tickCount);
+        if (this.getDeltaMovement().horizontalDistanceSqr() > 2.5000003E-7F) {
+            this.floatAnimationState.startIfStopped(this.tickCount);
+        } else {
+            this.floatAnimationState.stop();
+        }
+    }
+
+    public void tick() {
+        super.tick();
+
+        if (this.level().isClientSide()) {
+            this.setupAnimationStates();
+        }
+
+    }
+
+    public void aiStep()
+    {
+        super.aiStep();
+
+        if (this.isAlive()) {
+            if (this.level().isClientSide) {
+                if (this.hasActiveAttackTarget()) {
+                    if (this.clientSideAttackTime < this.getAttackDuration()) {
+                        ++this.clientSideAttackTime;
+                    }
+
+                    LivingEntity livingentity = this.getActiveAttackTarget();
+                    if (livingentity != null) {
+                        this.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
+                        this.getLookControl().tick();
+                        double d5 = (double)this.getAttackAnimationScale(0.0F);
+                        double d0 = livingentity.getX() - this.getX();
+                        double d1 = livingentity.getY((double)0.5F) - this.getEyeY();
+                        double d2 = livingentity.getZ() - this.getZ();
+                        double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                        d0 /= d3;
+                        d1 /= d3;
+                        d2 /= d3;
+                        double d4 = this.random.nextDouble();
+
+                        while(d4 < d3) {
+                            d4 += 1.8 - d5 + this.random.nextDouble() * (1.7 - d5);
+                            this.level().addParticle((ParticleOptions) BGParticleTypes.SABLOSSOM, this.getX() + d0 * d4, this.getEyeY() + d1 * d4, this.getZ() + d2 * d4, (double)0.0F, (double)0.0F, (double)0.0F);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public float getLightLevelDependentMagicValue() {
+        return 1.0F;
+    }
+
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_ID_ATTACK_TARGET, 0);
+    }
+
+    public int getAttackDuration() {
+        return 80;
+    }
+
+    void setActiveAttackTarget(int activeAttackTargetId) {
+        this.entityData.set(DATA_ID_ATTACK_TARGET, activeAttackTargetId);
+    }
+
+    public boolean hasActiveAttackTarget() {
+        return (Integer)this.entityData.get(DATA_ID_ATTACK_TARGET) != 0;
+    }
+
+    public LivingEntity getActiveAttackTarget() {
+        if (!this.hasActiveAttackTarget()) {
+            return null;
+        } else if (this.level().isClientSide) {
+            if (this.clientSideCachedAttackTarget != null) {
+                return this.clientSideCachedAttackTarget;
+            } else {
+                Entity entity = this.level().getEntity((Integer)this.entityData.get(DATA_ID_ATTACK_TARGET));
+                if (entity instanceof LivingEntity) {
+                    this.clientSideCachedAttackTarget = (LivingEntity)entity;
+                    return this.clientSideCachedAttackTarget;
+                } else {
+                    return null;
+                }
+            }
+        } else {
+            return this.getTarget();
+        }
+    }
+
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+        super.onSyncedDataUpdated(key);
+        if (DATA_ID_ATTACK_TARGET.equals(key)) {
+            this.clientSideAttackTime = 0;
+            this.clientSideCachedAttackTarget = null;
+        }
+
+    }
+
+    public float getAttackAnimationScale(float partialTick) {
+        return ((float)this.clientSideAttackTime + partialTick) / (float)this.getAttackDuration();
+    }
+
+    public float getClientSideAttackTime() {
+        return (float)this.clientSideAttackTime;
+    }
+
+    static {
+        DATA_ID_ATTACK_TARGET = SynchedEntityData.defineId(HauntEntity.class,
+                EntityDataSerializers.INT);
+    }
+
+    static class HauntEntityAttackGoal extends Goal {
+        private final HauntEntity haunt;
+        private int attackTime;
+
+        public HauntEntityAttackGoal(HauntEntity haunt) {
+            this.haunt = haunt;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        }
+
+        public boolean canUse() {
+            LivingEntity livingentity = this.haunt.getTarget();
+            return livingentity != null && livingentity.isAlive();
+        }
+
+        public boolean canContinueToUse() {
+            return super.canContinueToUse() && (this.haunt.getTarget() != null && this.haunt.distanceToSqr(this.haunt.getTarget()) > (double)9.0F);
+        }
+
+        public void start() {
+            this.attackTime = -10;
+            this.haunt.getNavigation().stop();
+            LivingEntity livingentity = this.haunt.getTarget();
+            if (livingentity != null) {
+                this.haunt.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
+            }
+
+            this.haunt.hasImpulse = true;
+        }
+
+        public void stop() {
+            this.haunt.setActiveAttackTarget(0);
+            this.haunt.setTarget((LivingEntity)null);
+            assert this.haunt.randomStrollGoal != null;
+            this.haunt.randomStrollGoal.trigger();
+        }
+
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+
+        public void tick() {
+            LivingEntity livingentity = this.haunt.getTarget();
+            if (livingentity != null) {
+                this.haunt.getNavigation().stop();
+                this.haunt.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
+                if (!this.haunt.hasLineOfSight(livingentity)) {
+                    this.haunt.setTarget((LivingEntity)null);
+                } else {
+                    ++this.attackTime;
+                    if (this.attackTime == 0) {
+                        this.haunt.setActiveAttackTarget(livingentity.getId());
+                        if (!this.haunt.isSilent()) {
+                            this.haunt.level().broadcastEntityEvent(this.haunt, (byte)21);
+                        }
+                    } else if (this.attackTime >= this.haunt.getAttackDuration()) {
+                        float f = 1.0F;
+                        if (this.haunt.level().getDifficulty() == Difficulty.HARD) {
+                            f += 2.0F;
+                        }
+                        
+                        livingentity.hurt(this.haunt.damageSources().indirectMagic(this.haunt, this.haunt), f);
+                        haunt.heal(f);
+                        this.haunt.doHurtTarget(livingentity);
+                        this.haunt.setTarget((LivingEntity)null);
+                    }
+
+                    super.tick();
+                }
+            }
+
+        }
+    }
+
+    static class HauntEntityAttackSelector implements Predicate<LivingEntity> {
+        private final HauntEntity haunt;
+
+        public HauntEntityAttackSelector(HauntEntity haunt) {
+            this.haunt = haunt;
+        }
+
+        public boolean test(@Nullable LivingEntity entity) {
+            return (entity instanceof MoobooEntity || entity instanceof WraithEntity || entity instanceof Vex)
+                    && entity.distanceToSqr(this.haunt) > (double)9.0F;
+        }
+    }
+}

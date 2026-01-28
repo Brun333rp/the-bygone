@@ -100,6 +100,7 @@ public class Bygone {
         consumer.accept(BGEntityTypes.NECTAUR.get(), NectaurEntity.createAttributes().build());
         consumer.accept(BGEntityTypes.LITHY.get(), LithyEntity.createAttributes().build());
         consumer.accept(BGEntityTypes.WISP.get(), WispEntity.createAttributes().build());
+        consumer.accept(BGEntityTypes.HAUNT.get(), HauntEntity.createAttributes().build());
         consumer.accept(BGEntityTypes.WRAITH.get(), WraithEntity.createAttributes().build());
         consumer.accept(BGEntityTypes.SABEAST.get(), SabeastEntity.createAttributes().build());
         consumer.accept(BGEntityTypes.AMOEBA.get(), AmoebaEntity.createAttributes().build());
@@ -193,6 +194,12 @@ public class Bygone {
                         pos,
                         random
                 )
+        );
+        consumer.accept(
+                (EntityType<T>) BGEntityTypes.HAUNT.get(),
+                SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING,
+                LithyEntity::canSpawn
         );
         consumer.accept(
                 (EntityType<T>) BGEntityTypes.PESKY.get(),

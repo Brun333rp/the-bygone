@@ -174,6 +174,17 @@ public class BGEntityTypes {
                     .build("")
     );
 
+    public static final Supplier<EntityType<HauntEntity>> HAUNT = registerEntityType(
+            "haunt",
+            () -> EntityType.Builder.of(HauntEntity::new, MobCategory.CREATURE)
+                    .sized(0.35F, 0.35F)
+                    .eyeHeight(0.36F)
+                    .ridingOffset(0.04F)
+                    .clientTrackingRange(8)
+                    .updateInterval(2)
+                    .build("")
+    );
+
     public static final Supplier<EntityType<WraithEntity>> WRAITH = registerEntityType(
             "wraith",
             () -> EntityType.Builder.of(WraithEntity::new, MobCategory.CREATURE)

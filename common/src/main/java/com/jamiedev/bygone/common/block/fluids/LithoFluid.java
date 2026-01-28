@@ -3,12 +3,20 @@ package com.jamiedev.bygone.common.block.fluids;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGBlocks;
 import com.jamiedev.bygone.core.registry.BGFluids;
+import com.jamiedev.bygone.core.registry.BGParticleTypes;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.*;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
@@ -17,6 +25,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.*;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -31,6 +41,23 @@ public abstract class LithoFluid extends FlowingFluid {
         return ParticleTypes.DRIPPING_HONEY;
     }
 
+    public void animateTick(Level level, BlockPos pos, FluidState state, RandomSource random) {
+        BlockPos blockpos = pos.above();
+        if (level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
+            if (random.nextInt(100) == 0) {
+                double d0 = (double)pos.getX() + random.nextDouble();
+                double d1 = (double)pos.getY() + (double)1.0F;
+                double d2 = (double)pos.getZ() + random.nextDouble();
+                level.addParticle(DustParticleOptions2.REDSTONE, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, 0.0F, 0.0F, 0.0F);
+                level.playLocalSound(d0, d1, d2, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
+            }
+
+            if (random.nextInt(200) == 0) {
+                level.playLocalSound((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), SoundEvents.LAVA_AMBIENT, SoundSource.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
+            }
+        }
+
+    }
 
     @Override
     public Fluid getFlowing() {
@@ -133,5 +160,32 @@ public abstract class LithoFluid extends FlowingFluid {
         public boolean isSource(FluidState state) {
             return true;
         }
+    }
+}
+class DustParticleOptions2 extends ScalableParticleOptionsBase {
+    public static final Vector3f PLASM_PARTICLE_COLOR = Vec3.fromRGB24(14151396).toVector3f();
+    public static final net.minecraft.core.particles.DustParticleOptions REDSTONE;
+    public static final MapCodec<DustParticleOptions> CODEC;
+    public static final StreamCodec<RegistryFriendlyByteBuf, DustParticleOptions> STREAM_CODEC;
+
+    static {
+        REDSTONE = new net.minecraft.core.particles.DustParticleOptions(PLASM_PARTICLE_COLOR, 1.0F);
+        CODEC = RecordCodecBuilder.mapCodec((p_341566_) -> p_341566_.group(ExtraCodecs.VECTOR3F.fieldOf("color").forGetter(DustParticleOptions::getColor), SCALE.fieldOf("scale").forGetter(ScalableParticleOptionsBase::getScale)).apply(p_341566_, net.minecraft.core.particles.DustParticleOptions::new));
+        STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.VECTOR3F, DustParticleOptions::getColor, ByteBufCodecs.FLOAT, ScalableParticleOptionsBase::getScale, net.minecraft.core.particles.DustParticleOptions::new);
+    }
+
+    private final Vector3f color;
+
+    public DustParticleOptions2(Vector3f color, float scale) {
+        super(scale);
+        this.color = color;
+    }
+
+    public ParticleType<DustParticleOptions> getType() {
+        return ParticleTypes.DUST;
+    }
+
+    public Vector3f getColor() {
+        return this.color;
     }
 }
