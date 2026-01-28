@@ -220,7 +220,7 @@ public class HauntEntity extends Allay {
                     if (this.attackTime == 0) {
                         this.haunt.setActiveAttackTarget(livingentity.getId());
                         if (!this.haunt.isSilent()) {
-                            this.haunt.level().broadcastEntityEvent(this.haunt, (byte)21);
+                            this.haunt.level().broadcastEntityEvent(this.haunt, (byte)121);
                         }
                     } else if (this.attackTime >= this.haunt.getAttackDuration()) {
                         float f = 1.0F;
