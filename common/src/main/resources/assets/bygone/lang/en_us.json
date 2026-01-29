@@ -5,6 +5,7 @@
   "effect.bygone.updraft": "Updraft",
   "effect.bygone.carapace": "Carapace",
   "effect.bygone.satiety": "Satiety",
+  "effect.bygone.haunted": "Haunted",
 
   "enchantment.bygone.leeching": "Leeching",
   "enchantment.bygone.siphoning": "Siphoning",
@@ -104,6 +105,7 @@
   "item.bygone.coelacanth_spawn_egg": "Coelacanth Spawn Egg",
   "item.bygone.copperbug_spawn_egg": "Copperbug Spawn Egg",
   "item.bygone.fungal_parent_spawn_egg": "Fungal Being Spawn Egg",
+  "item.bygone.hauntlithy_spawn_egg": "Haunt Spawn Egg",
   "item.bygone.lithy_spawn_egg": "Lithy Spawn Egg",
   "item.bygone.mooboo_spawn_egg": "Mooboo Spawn Egg",
   "item.bygone.murkling_spawn_egg": "Murkling Spawn Egg",
@@ -139,12 +141,17 @@
   "item.bygone.beak_pottery_sherd": "Beak Pottery Sherd",
   "item.bygone.murky_pottery_sherd": "Murky Pottery Sherd",
 
+  "item.bygone.lithoplasm_arrow": "Lithoplasm Arrow",
+  "item.bygone.lithoplasmic_powder": "Lithoplasmic Powder",
+  "item.bygone.litho_bucket": "Bucket of Lithostream",
+  "block.bygone.litho": "Lithostream",
+  "block.bygone.lithoplasmic_powder_block": "Lithoplasmic Powder Block",
+
   "trim_material.bygone.verdigris": "Verdigris Material",
 
   "itemgroup.test": "The Bygone",
   "itemgroup.bygone": "The Bygone",
-
-
+  
   "block.bygone.black_glow_concrete": "Black Glow Concrete",
   "block.bygone.black_glow_concrete_powder": "Black Glow Concrete Powder",
   "block.bygone.blue_glow_concrete": "Blue Glow Concrete",
@@ -545,6 +552,7 @@
   "block.bygone.tarnished_verdigris_cog": "Tarnished Verdigris Cog",
   "block.bygone.pristine_verdigris_cog": "Pristine Verdigris Cog",
   "block.bygone.lithine_ore": "Lithine Ore",
+  "block.bygone.plasmic_lithine_ore": "Plasmic Lithine Ore",
   "block.bygone.lithine_lamp": "Lithine Lamp",
   "block.bygone.megalith_totem": "Megalith Totem",
 
@@ -558,6 +566,7 @@
   "entity.bygone.fungal_parent": "Fungal Being",
   "entity.bygone.glare": "Glare",
   "entity.bygone.lithy": "Lithy",
+  "entity.bygone.haunt": "Haunt",
   "entity.bygone.hydropus": "Hydropus",
   "entity.bygone.mooboo": "Mooboo",
   "entity.bygone.murkling": "Murkling",
@@ -736,6 +745,11 @@
   "subtitles.entity.sabeast.attack": "Sabeast attacks",
   "subtitles.entity.sabeast.hurt": "Sabeast hurts",
   "subtitles.entity.sabeast.death": "Sabeast dies",
+
+  "subtitles.entity.haunt.attack": "Haunt attacks",
+  "subtitles.entity.haunt.ambient": "Haunt glees",
+  "subtitles.entity.haunt.hurt": "Haunt hurts",
+  "subtitles.entity.haunt.death": "Haunt dies",
 
   "subtitles.block.portal.ambient": "Portal frazzles",
 

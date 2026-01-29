@@ -30,12 +30,14 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 import java.util.List;
+import java.util.function.ToIntFunction;
 
 public class LithoFluidBlock extends LiquidBlock
 {
 
     protected FlowingFluid fluid;
     private List<FluidState> stateCache;
+    public static final ToIntFunction<BlockState> LIGHT_EMISSION = p_153701_ -> p_153701_.getValue(LEVEL);
 
     public LithoFluidBlock(FlowingFluid fluid, Properties properties) {
         super(fluid, properties);

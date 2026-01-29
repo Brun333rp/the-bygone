@@ -104,6 +104,8 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, HauntEntity.class, 16.0F, (double)1.0F,
+                1.5));
         this.goalSelector.addGoal(1, new SpellcasterCastingSpellGoal());
         this.goalSelector.addGoal(
                 2,
@@ -127,7 +129,6 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
                 )))
         );
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.1, true));
-
         this.goalSelector.addGoal(8, new WraithEntity.WraithWanderGoal(this, 0.6));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
         this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
@@ -210,7 +211,10 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
         }
     }
 
-
+    @Override
+    public boolean canBeAffected(MobEffectInstance potioneffect) {
+        return !(potioneffect.is(MobEffects.POISON) || potioneffect.is(MobEffects.HARM)|| potioneffect.is(MobEffects.WITHER)) && super.canBeAffected(potioneffect);
+    }
 
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);

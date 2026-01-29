@@ -24,6 +24,15 @@ import static net.minecraft.world.item.Items.BUCKET;
 
 public class BGItems {
 
+    public static final Supplier<Item> LITHOPLASMIC_POWDER = registerItem(
+            "lithoplasmic_powder",
+            () -> new Item(new Item.Properties())
+    );
+
+    public static final Supplier<Item> LITHOPLASM_ARROW = registerItem(
+            "lithoplasm_arrow",
+            () -> new LithoplasmArrowItem(new Item.Properties().fireResistant())
+    );
     public static final Supplier<Item> LITHO_BUCKET = registerItem((String)"litho_bucket",
             () -> new BucketItem(BGFluids.LITHO_STILL.get(), (new Item.Properties()).craftRemainder(BUCKET).stacksTo(1)));
 
@@ -292,13 +301,17 @@ public class BGItems {
             "fungal_parent_spawn_egg",
             () -> new SpawnEggItem(BGEntityTypes.FUNGAL_PARENT.get(), 0xf5f7e3, 0x3ed8fe, new Item.Properties())
     );
+    public static final Supplier<Item> HAUNT_SPAWN_EGG = registerItem(
+            "haunt_spawn_egg",
+            () -> new SpawnEggItem(BGEntityTypes.HAUNT.get(), 0x9AE4BC, 0xb2c7c8, new Item.Properties())
+    );
     public static final Supplier<Item> LITHY_SPAWN_EGG = registerItem(
             "lithy_spawn_egg",
             () -> new SpawnEggItem(BGEntityTypes.LITHY.get(), 0x5C5B5A, 0x323232, new Item.Properties())
     );
     public static final Supplier<Item> MOOBOO_SPAWN_EGG = registerItem(
             "mooboo_spawn_egg",
-            () -> new SpawnEggItem(BGEntityTypes.MOOBOO.get(), 0x5be3e8, 0xb2c7c8, new Item.Properties())
+            () -> new SpawnEggItem(BGEntityTypes.MOOBOO.get(), 0x5be3e8, 0x9AE4BC, new Item.Properties())
     );
     public static final Supplier<Item> MURKLING_SPAWN_EGG = registerItem(
             "murkling_spawn_egg",

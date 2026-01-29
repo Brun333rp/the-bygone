@@ -59,6 +59,7 @@ public class BGItemGroups {
                         output.accept(BGItems.COELACANTH_SPAWN_EGG.get());
                         output.accept(BGItems.COPPERBUG_SPAWN_EGG.get());
                         output.accept(BGItems.FUNGALPARENT_SPAWN_EGG.get());
+                        output.accept(BGItems.HAUNT_SPAWN_EGG.get());
                         output.accept(BGItems.LITHY_SPAWN_EGG.get());
                         output.accept(BGItems.MOOBOO_SPAWN_EGG.get());
                         output.accept(BGItems.MURKLING_SPAWN_EGG.get());
@@ -355,6 +356,9 @@ public class BGItemGroups {
 
                         output.accept(BGBlocks.ICE_BOUQUET.get());
                         output.accept(BGItems.LITHOPLASM.get());
+                        output.accept(BGItems.LITHOPLASM_ARROW.get());
+                        output.accept(BGItems.LITHOPLASMIC_POWDER.get());
+                        output.accept(BGBlocks.LITHOPLASMIC_POWDER_BLOCK.get());
                         output.accept(BGBlocks.MEGALITH_BLOCK.get());
                         output.accept(BGBlocks.CRACKED_MEGALITH_BLOCK.get());
                         output.accept(BGBlocks.LIT_CRACKED_MEGALITH_BLOCK.get());
@@ -369,6 +373,7 @@ public class BGItemGroups {
                         output.accept(BGBlocks.LITHINE_LAMP.get());
                         output.accept(BGBlocks.MEGALITH_TOTEM.get());
                         output.accept(BGBlocks.LITHINE_ORE.get());
+                        output.accept(BGBlocks.PLASMIC_LITHINE_ORE.get());
 
                         output.accept(BGBlocks.SABLE_SAPLING.get());
                         output.accept(BGBlocks.SABLE_LOG.get());

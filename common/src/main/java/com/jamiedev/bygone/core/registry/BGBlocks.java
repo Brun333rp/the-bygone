@@ -2497,15 +2497,23 @@ public class BGBlocks {
                             .mapColor(MapColor.WATER)
                             .replaceable()
                             .noCollission()
-                            .lightLevel((state) -> {
-                                return 8;
-                            })
+                            .lightLevel(LithoFluidBlock.LIGHT_EMISSION)
                             .strength(100.0F)
                             .pushReaction(PushReaction.DESTROY)
                             .noLootTable()
                             .liquid()
                             .sound(SoundType.EMPTY)
             )
+    );
+
+    public static final Supplier<Block> LITHOPLASMIC_POWDER_BLOCK = registerBlock(
+            "lithoplasmic_powder_block", () ->
+                    new Block(BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_LIGHT_BLUE)
+                            .instrument(NoteBlockInstrument.BASEDRUM)
+                            .requiresCorrectToolForDrops()
+                            .strength(0.1F, 0.15F)
+                            .sound(SoundType.SAND))
     );
 
     public static final Supplier<Block> PLASMIC_BYSLATE= registerBlock(
@@ -2592,6 +2600,16 @@ public class BGBlocks {
 
     public static final Supplier<Block> LITHINE_ORE = registerBlock(
             "lithine_ore", () ->
+                    new LithineOreBlock(BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .instrument(NoteBlockInstrument.BASEDRUM)
+                            .requiresCorrectToolForDrops()
+                            .randomTicks()
+                            .lightLevel(litBlockEmission(9))
+                            .strength(3.0F, 3.0F))
+    );
+    public static final Supplier<Block> PLASMIC_LITHINE_ORE = registerBlock(
+            "plasmic_lithine_ore", () ->
                     new LithineOreBlock(BlockBehaviour.Properties.of()
                             .mapColor(MapColor.STONE)
                             .instrument(NoteBlockInstrument.BASEDRUM)

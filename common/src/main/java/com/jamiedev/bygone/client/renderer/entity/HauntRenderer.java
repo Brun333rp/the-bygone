@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 
 public class HauntRenderer extends MobRenderer<HauntEntity, HauntModel<HauntEntity>> {
     private static final ResourceLocation HAUNT_LOCATION = (Bygone.id("textures/entity/haunt.png"));
-    private static final ResourceLocation HAUNT_BEAM_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/guardian_beam.png");
+    private static final ResourceLocation HAUNT_BEAM_LOCATION = (Bygone.id("textures/entity/haunt_beam.png"));
     private static final RenderType BEAM_RENDER_TYPE;
 
     public HauntRenderer(EntityRendererProvider.Context context) {

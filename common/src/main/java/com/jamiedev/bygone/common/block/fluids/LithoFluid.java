@@ -3,6 +3,7 @@ package com.jamiedev.bygone.common.block.fluids;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGBlocks;
 import com.jamiedev.bygone.core.registry.BGFluids;
+import com.jamiedev.bygone.core.registry.BGItems;
 import com.jamiedev.bygone.core.registry.BGParticleTypes;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -92,7 +93,7 @@ public abstract class LithoFluid extends FlowingFluid {
 
     @Override
     public Item getBucket() {
-        return null;//BGItems.LITHO_BUCKET.get();
+        return BGItems.LITHO_BUCKET.get();
     }
 
     @Override

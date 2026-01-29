@@ -16,6 +16,7 @@ import java.util.function.Supplier;
 
 public class BGMobEffects {
 
+    public static Supplier<Holder<MobEffect>> HAUNTED = register("haunted", HauntedEffect::new);
     public static Supplier<Holder<MobEffect>> UPDRAFT = register("updraft", UpdraftEffect::new);
     public static Supplier<Holder<MobEffect>> SATIETY = register("satiety", () -> new SatietyEffect(0x9a5500));
     public static Supplier<Holder<MobEffect>> ASPHYXIATING = register(

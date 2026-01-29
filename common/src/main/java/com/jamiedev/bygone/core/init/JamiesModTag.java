@@ -69,6 +69,8 @@ public class JamiesModTag {
     public static final TagKey<Structure> BYGONE_ITEM_LOCATED = Structures.createTag("bygone_item_located");
     public static final TagKey<Block> COPPERBUGNESTS = Blocks.createTag("copperbug_nests");
 
+    public static final TagKey<EntityType<?>> SPECTRAL = Entities.createTag("spectral");
+
     public static final TagKey<EntityType<?>> ICE_BOUQUET_HEALS = Entities.createTag("ice_bouquet_heals");
 
     public static final TagKey<EntityType<?>> COPPERBUGNEST_INHABITORS = Entities.createTag("copperbugnest_inhabitors");

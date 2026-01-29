@@ -902,7 +902,12 @@
                       "then_run": {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "bygone:ancient_leaves"
+                          "Name": "bygone:ancient_leaves",
+                          "Properties": {
+                            "distance": "7",
+                            "persistent": "true",
+                            "waterlogged": "false"
+                          }
                         }
                       }
                     },
@@ -918,7 +923,12 @@
                       "then_run": {
                         "type": "minecraft:block",
                         "result_state": {
-                          "Name": "bygone:ancient_leaves"
+                          "Name": "bygone:ancient_leaves",
+                          "Properties": {
+                            "distance": "7",
+                            "persistent": "true",
+                            "waterlogged": "false"
+                          }
                         }
                       }
                     }
