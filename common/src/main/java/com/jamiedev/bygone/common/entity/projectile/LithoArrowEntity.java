@@ -2,13 +2,18 @@ package com.jamiedev.bygone.common.entity.projectile;
 
 import com.jamiedev.bygone.core.registry.BGEntityTypes;
 import com.jamiedev.bygone.core.registry.BGItems;
+import com.jamiedev.bygone.core.registry.BGMobEffects;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.SpectralArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -19,6 +24,9 @@ import java.util.function.Supplier;
 
 public class LithoArrowEntity extends AbstractArrow
 {
+
+    private int duration = 200;
+
     public LithoArrowEntity(EntityType<? extends LithoArrowEntity> entityType, Level world) {
         super(entityType, world);
     }
@@ -41,6 +49,25 @@ public class LithoArrowEntity extends AbstractArrow
             itemEntity.setDefaultPickUpDelay();
             world.addFreshEntity(itemEntity);
         }
+    }
+
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        if (compound.contains("Duration")) {
+            this.duration = compound.getInt("Duration");
+        }
+
+    }
+
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("Duration", this.duration);
+    }
+
+    protected void doPostHurtEffects(LivingEntity living) {
+        super.doPostHurtEffects(living);
+        MobEffectInstance mobeffectinstance = new MobEffectInstance(BGMobEffects.HAUNTED.get(), this.duration, 0);
+        living.addEffect(mobeffectinstance, this.getEffectSource());
     }
 
     public static void dropStack(Level world, BlockPos pos, ItemStack stack) {
