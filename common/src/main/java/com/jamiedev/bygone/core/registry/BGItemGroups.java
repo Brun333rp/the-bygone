@@ -48,7 +48,7 @@ public class BGItemGroups {
                         output.accept(BGItems.PLAGA.get());
                         output.accept(BGItems.SPEED_WHEAT.get());
                         output.accept(BGBlocks.ANCIENT_SPRINKLER.get());
-                        output.accept(BGItems.ECTOPLASM_BUCKET.get());
+                        output.accept(BGItems.PLASMILK_BUCKET.get());
                         output.accept(BGBlocks.ANCIENT_DOGU.get());
                         output.accept(BGBlocks.PAINTED_DOGU.get());
                         output.accept(BGBlocks.SHELLSTONE_DOGU.get());

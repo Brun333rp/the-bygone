@@ -6,6 +6,7 @@
   "effect.bygone.carapace": "Carapace",
   "effect.bygone.satiety": "Satiety",
   "effect.bygone.haunted": "Haunted",
+  "effect.bygone.plasmilk": "Plasmilk Effect",
 
   "enchantment.bygone.leeching": "Leeching",
   "enchantment.bygone.siphoning": "Siphoning",
@@ -134,7 +135,7 @@
   "item.bygone.bucket_o_baitworms": "Bucket o' Baitworms",
   "item.bygone.gumbo_bowl": "Gumbo Bowl",
   "item.bygone.gumbo_bottle": "Gumbo Bottle",
-  "item.bygone.ectoplasm_bucket": "Bucket of Ectoplasm",
+  "item.bygone.plasmilk_bucket": "Bucket of Plasmilk",
   "item.bygone.bucket_o_amoeba": "Bucket of Amoeba",
   "item.bygone.amoeba_gel": "Amoeba Gel",
   "item.bygone.amoeba_gel_on_a_stick": "Amoeba Gel on a Stick",

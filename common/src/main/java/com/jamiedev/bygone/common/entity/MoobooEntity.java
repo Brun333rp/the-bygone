@@ -139,7 +139,7 @@ public class MoobooEntity extends Cow {
         ItemStack itemstack = player.getItemInHand(hand);
         if (itemstack.is(Items.BUCKET) && !this.isBaby()) {
             player.playSound(BGSoundEvents.MOOBOO_MILK_ADDITIONS_EVENT, 1.0F, 1.0F);
-            ItemStack itemstack1 = ItemUtils.createFilledResult(itemstack, player, BGItems.ECTOPLASM_BUCKET.get().getDefaultInstance());
+            ItemStack itemstack1 = ItemUtils.createFilledResult(itemstack, player, BGItems.PLASMILK_BUCKET.get().getDefaultInstance());
             player.setItemInHand(hand, itemstack1);
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         } else {

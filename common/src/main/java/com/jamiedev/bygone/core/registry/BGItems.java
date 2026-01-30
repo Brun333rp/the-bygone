@@ -467,8 +467,8 @@ public class BGItems {
             "roasted_sable_nut",
             () -> new Item(new Item.Properties().food(Foods.BAKED_POTATO))
     );
-    public static final Supplier<Item> ECTOPLASM_BUCKET = registerItem(
-            (String) "ectoplasm_bucket",
+    public static final Supplier<Item> PLASMILK_BUCKET = registerItem(
+            (String) "plasmilk_bucket",
             () -> new EctoplasmBucketItem((new Item.Properties()).craftRemainder(BUCKET).stacksTo(1))
     );
     public static final Supplier<Item> BREATH_POD = registerItem(
