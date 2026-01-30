@@ -23,6 +23,10 @@ public class BGMobEffects {
             "asphyxiating",
             () -> new AsphyxiatingEffect(MobEffectCategory.HARMFUL, 0x5aafcf)
     );
+	public static Supplier<Holder<MobEffect>> PLASMILK = register(
+			"plasmilk",
+			() -> new PlasmilkEffect(MobEffectCategory.NEUTRAL, 0x83ffe0)
+	);
     public static Supplier<Holder<MobEffect>> SIPHONING = register(
             "siphoning",
             () -> new SiphoningEffect(MobEffectCategory.HARMFUL, 0x68b6d3)
@@ -44,6 +48,8 @@ public class BGMobEffects {
                 name
         )).orElseThrow());
     }
+
+
 
     public static void init() {
     }

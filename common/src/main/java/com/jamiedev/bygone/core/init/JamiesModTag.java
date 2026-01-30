@@ -15,6 +15,7 @@ import net.minecraft.world.level.material.Fluid;
 public class JamiesModTag {
 
     public static final TagKey<MobEffect> AIRLESS_BREATHING = MobEffects.createTag("airless_breathing");
+	public static final TagKey<MobEffect> IGNORES_PLASMILK = MobEffects.createTag("ignores_plasmilk");
 
     public static final TagKey<Block> SABLE_LOGS = Blocks.createTag("sable_logs");
     public static final TagKey<Block> BIG_BEAK_SPAWNABLE_ON = Blocks.createTag("big_beak_spawnable_on");

@@ -1,6 +1,7 @@
 package com.jamiedev.bygone.core.mixin;
 
 import com.jamiedev.bygone.common.item.VerdigrisBladeItem;
+import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGMobEffects;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -56,4 +57,12 @@ public abstract class LivingEntityMixin {
             }
         }
     }
+
+	@Inject(method = "canBeAffected", at = @At("HEAD"), cancellable = true)
+	private void beforeAddingEffect(MobEffectInstance instance, CallbackInfoReturnable<Boolean> cir) {
+		LivingEntity self = (LivingEntity)(Object)this;
+		if (!self.hasEffect(BGMobEffects.PLASMILK.get())) return;
+		if (instance.getEffect().is(JamiesModTag.IGNORES_PLASMILK)) return;
+		cir.setReturnValue(false);
+	}
 }
