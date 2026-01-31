@@ -14,7 +14,6 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.function.Supplier;
@@ -26,7 +25,7 @@ public class BGItems {
 
     public static final Supplier<Item> LITHOPLASMIC_POWDER = registerItem(
             "lithoplasmic_powder",
-            () -> new Item(new Item.Properties())
+            () -> new ItemNameBlockItem(BGBlocks.LITHOPLASMIC_POWDER.get(), new Item.Properties())
     );
 
     public static final Supplier<Item> LITHOPLASM_ARROW = registerItem(

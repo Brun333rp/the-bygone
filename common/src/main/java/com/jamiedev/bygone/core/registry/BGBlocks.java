@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
@@ -2509,7 +2508,13 @@ public class BGBlocks {
                             .sound(SoundType.EMPTY)
             )
     );
-
+	public static final Supplier<Block> LITHOPLASMIC_POWDER = registerBlock(
+			"lithoplasmic_powder", () ->
+					new LithoplasmicPowderBlock(BlockBehaviour.Properties.of()
+							.noCollission()
+							.instabreak()
+							.pushReaction(PushReaction.DESTROY))
+	);
     public static final Supplier<Block> LITHOPLASMIC_POWDER_BLOCK = registerBlock(
             "lithoplasmic_powder_block", () ->
                     new Block(BlockBehaviour.Properties.of()
