@@ -418,7 +418,6 @@ public class BGItemGroups {
                         output.accept(BGBlocks.PLASMIC_BYSLATE_WALL.get());
                         output.accept(BGBlocks.PLASMIC_BYSLATE_BRICKS.get());
                         output.accept(BGBlocks.CRACKED_PLASMIC_BYSLATE_BRICKS.get());
-                        output.accept(BGBlocks.GLOWING_CRACKED_PLASMIC_BYSLATE_BRICKS.get());
                         output.accept(BGBlocks.CHISELED_PLASMIC_BYSLATE_BRICKS.get());
                         output.accept(BGBlocks.PLASMIC_BYSLATE_BRICKS_STAIRS.get());
                         output.accept(BGBlocks.PLASMIC_BYSLATE_BRICKS_SLAB.get());
@@ -427,6 +426,7 @@ public class BGItemGroups {
                         output.accept(BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS_STAIRS.get());
                         output.accept(BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS_SLAB.get());
                         output.accept(BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS_WALL.get());
+                        output.accept(BGBlocks.GLOWING_CRACKED_PLASMIC_BYSLATE_BRICKS.get());
 
                         output.accept(BGBlocks.AMPHORA.get());
                         output.accept(BGBlocks.GILDED_AMPHORA.get());

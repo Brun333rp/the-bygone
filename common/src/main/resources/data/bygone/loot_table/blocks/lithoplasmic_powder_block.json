@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "bygone:lithoplasmic_order_block"
+          "name": "bygone:lithoplasmic_powder_block"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "bygone:blocks/lithoplasmic_order_block"
+  "random_sequence": "bygone:blocks/lithoplasmic_powder_block"
 }
