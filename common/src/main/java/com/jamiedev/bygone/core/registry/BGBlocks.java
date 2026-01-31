@@ -796,8 +796,8 @@ public class BGBlocks {
             "potted_montsechia",
             () -> createFlowerPotBlock(MONTSECHIA.get())
     );
-    public static final Supplier<Block> SAGARIA = registerBlock(
-            "sagaria", () -> new FlowerBlock(
+    public static final Supplier<Block> LIME_SAGARIA = registerBlock(
+            "lime_sagaria", () -> new FlowerBlock(
                     MobEffects.LUCK,
                     12.0F,
                     BlockBehaviour.Properties.of()
@@ -810,9 +810,63 @@ public class BGBlocks {
                             .pushReaction(PushReaction.DESTROY)
             )
     );
-    public static final Supplier<Block> POTTED_SAGARIA = registerBlockWithoutBlockItem(
-            "potted_sagaria",
-            () -> createFlowerPotBlock(SAGARIA.get())
+    public static final Supplier<Block> POTTED_LIME_SAGARIA = registerBlockWithoutBlockItem(
+            "potted_lime_sagaria",
+            () -> createFlowerPotBlock(LIME_SAGARIA.get())
+    );
+    public static final Supplier<Block> PINK_SAGARIA = registerBlock(
+            "pink_sagaria", () -> new FlowerBlock(
+                    MobEffects.LUCK,
+                    12.0F,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.PLANT)
+                            .noCollission()
+                            .lightLevel((state) -> 14)
+                            .instabreak()
+                            .sound(SoundType.GRASS)
+                            .offsetType(BlockBehaviour.OffsetType.XZ)
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
+    public static final Supplier<Block> POTTED_PINK_SAGARIA = registerBlockWithoutBlockItem(
+            "potted_pink_sagaria",
+            () -> createFlowerPotBlock(PINK_SAGARIA.get())
+    );
+    public static final Supplier<Block> PURPLE_SAGARIA = registerBlock(
+            "purple_sagaria", () -> new FlowerBlock(
+                    MobEffects.LUCK,
+                    12.0F,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.PLANT)
+                            .noCollission()
+                            .lightLevel((state) -> 14)
+                            .instabreak()
+                            .sound(SoundType.GRASS)
+                            .offsetType(BlockBehaviour.OffsetType.XZ)
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
+    public static final Supplier<Block> POTTED_PURPLE_SAGARIA = registerBlockWithoutBlockItem(
+            "potted_purple_sagaria",
+            () -> createFlowerPotBlock(PURPLE_SAGARIA.get())
+    );
+    public static final Supplier<Block> YELLOW_SAGARIA = registerBlock(
+            "yellow_sagaria", () -> new FlowerBlock(
+                    MobEffects.LUCK,
+                    12.0F,
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.PLANT)
+                            .noCollission()
+                            .lightLevel((state) -> 14)
+                            .instabreak()
+                            .sound(SoundType.GRASS)
+                            .offsetType(BlockBehaviour.OffsetType.XZ)
+                            .pushReaction(PushReaction.DESTROY)
+            )
+    );
+    public static final Supplier<Block> POTTED_YELLOW_SAGARIA = registerBlockWithoutBlockItem(
+            "potted_yellow_sagaria",
+            () -> createFlowerPotBlock(YELLOW_SAGARIA.get())
     );
     public static final Supplier<Block> ROSE = registerBlock(
             "rose", () -> new FlowerBlock(

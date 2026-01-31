@@ -26,11 +26,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "bygone:sagaria"
+          "name": "bygone:pink_sagaria"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "bygone:blocks/sagaria"
+  "random_sequence": "bygone:blocks/pink_sagaria"
 }

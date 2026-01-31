@@ -144,7 +144,10 @@ public class BGItemGroups {
                         output.accept(BGBlocks.SHORT_GRASS.get());
 
                         output.accept(BGBlocks.MONTSECHIA.get());
-                        output.accept(BGBlocks.SAGARIA.get());
+                        output.accept(BGBlocks.LIME_SAGARIA.get());
+                        output.accept(BGBlocks.PINK_SAGARIA.get());
+                        output.accept(BGBlocks.PURPLE_SAGARIA.get());
+                        output.accept(BGBlocks.YELLOW_SAGARIA.get());
                         output.accept(BGBlocks.RAFFLESIA.get());
                         output.accept(BGBlocks.GOURD_VINE.get());
                         output.accept(BGBlocks.GOURD_LANTERN_VERDANT.get());
