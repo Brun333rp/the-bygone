@@ -2469,6 +2469,7 @@ public class BGBlocks {
                             .instrument(NoteBlockInstrument.BASEDRUM)
                             .requiresCorrectToolForDrops()
                             .strength(3.0F, 6.0F)
+                            .lightLevel(state -> 3)
                             .sound(SoundType.DEEPSLATE_TILES))
     );
     public static final Supplier<Block> GLOWING_PLASMIC_BYSLATE_BRICKS_STAIRS = registerBlock(
@@ -2476,17 +2477,20 @@ public class BGBlocks {
                     new StairBlock(
                             BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS.get().defaultBlockState(),
                             BlockBehaviour.Properties.ofFullCopy(Blocks.QUARTZ_STAIRS).strength(2.0f)
+                                    .lightLevel(state -> 3)
                     )
     );
     public static final Supplier<Block> GLOWING_PLASMIC_BYSLATE_BRICKS_SLAB = registerBlock(
             "glowing_plasmic_byslate_bricks_slab", () ->
                     new SlabBlock(BlockBehaviour.Properties.ofFullCopy(BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS.get())
-                            .strength(2.0f))
+                            .strength(2.0f)
+                            .lightLevel(state -> 3))
     );
     public static final Supplier<Block> GLOWING_PLASMIC_BYSLATE_BRICKS_WALL = registerBlock(
             "glowing_plasmic_byslate_bricks_wall", () ->
                     new WallBlock(BlockBehaviour.Properties.ofFullCopy(BGBlocks.GLOWING_PLASMIC_BYSLATE_BRICKS.get())
-                            .strength(2.0f))
+                            .strength(2.0f)
+                            .lightLevel(state -> 3))
     );
 
     public static final Supplier<Block>  LITHO = registerBlock(
@@ -2593,6 +2597,7 @@ public class BGBlocks {
                             .mapColor(MapColor.COLOR_LIGHT_BLUE)
                             .instrument(NoteBlockInstrument.BASEDRUM)
                             .requiresCorrectToolForDrops()
+                            .lightLevel(state -> 2)
                             .strength(3.0F, 6.0F)
                             .sound(SoundType.DEEPSLATE_TILES))
     );

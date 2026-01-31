@@ -1,5 +1,6 @@
 package com.jamiedev.bygone.common.entity;
 
+import com.jamiedev.bygone.client.particles.LithoParticleOptions;
 import com.jamiedev.bygone.core.registry.BGParticleTypes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -103,7 +104,7 @@ public class HauntEntity extends Allay {
 
                         while(d4 < d3) {
                             d4 += 1.8 - d5 + this.random.nextDouble() * (1.7 - d5);
-                            this.level().addParticle((ParticleOptions) BGParticleTypes.SABLOSSOM, this.getX() + d0 * d4, this.getEyeY() + d1 * d4, this.getZ() + d2 * d4, (double)0.0F, (double)0.0F, (double)0.0F);
+                            this.level().addParticle(LithoParticleOptions.REDSTONE, this.getX() + d0 * d4, this.getEyeY() + d1 * d4, this.getZ() + d2 * d4, (double)0.0F, (double)0.0F, (double)0.0F);
                         }
                     }
                 }
