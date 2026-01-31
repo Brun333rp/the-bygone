@@ -1,32 +1,35 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "com.jamiedev.bygone.core.mixin",
-  "refmap": "${mod_id}.refmap.json",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "AxeItemAccess",
-    "DoorBlockMixin",
-    "EmptyMapMixin",
-    "FarmlandBlockMixin",
-    "FishingHookMixin",
-    "LivingEntityMixin",
-    "LivingEntityMixinVex",
-    "MapItemMixin",
-    "MobBucketItemMixin",
-    "MobMixin",
-    "PlayerMixin",
-    "ServerLevelMixin",
-    "VexMixin"
-  ],
-  "client": [
-    "client.BipedEntityModelMixin",
-    "client.MixinHeldItemRenderer",
-    "client.MixinItemRenderer",
-    "client.MixinPlayerEntityRenderer"
-  ],
-  "server": [],
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"required": true,
+	"minVersion": "0.8",
+	"package": "com.jamiedev.bygone.core.mixin",
+	"refmap": "${mod_id}.refmap.json",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"AxeItemAccess",
+		"BundleContentsMixin",
+		"BundleContentsMutableMixin",
+		"BundleItemMixin",
+		"DoorBlockMixin",
+		"EmptyMapMixin",
+		"FarmlandBlockMixin",
+		"FishingHookMixin",
+		"LivingEntityMixin",
+		"LivingEntityMixinVex",
+		"MapItemMixin",
+		"MobBucketItemMixin",
+		"MobMixin",
+		"PlayerMixin",
+		"ServerLevelMixin",
+		"VexMixin"
+	],
+	"client": [
+		"client.BipedEntityModelMixin",
+		"client.MixinHeldItemRenderer",
+		"client.MixinItemRenderer",
+		"client.MixinPlayerEntityRenderer"
+	],
+	"server": [],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }

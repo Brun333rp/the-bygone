@@ -13,6 +13,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -277,6 +278,12 @@ public class BGItems {
                     (new Item.Properties()).stacksTo(1)
             )
     );
+	public static final Supplier<Item> TEST_BUNDLE = registerItem(
+			"test_bundle",
+			() -> new SingleStackBundleItem(
+					new Item.Properties().stacksTo(1).component(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY)
+			)
+	);
     public static final Supplier<Item> AMOEBA_SPAWN_EGG = registerItem(
             "amoeba_spawn_egg",
             () -> new SpawnEggItem(BGEntityTypes.AMOEBA.get(), 0x6C9BB9, 0x8F8763, new Item.Properties())
