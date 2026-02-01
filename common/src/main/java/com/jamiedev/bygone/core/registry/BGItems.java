@@ -277,8 +277,8 @@ public class BGItems {
                     (new Item.Properties()).stacksTo(1)
             )
     );
-	public static final Supplier<Item> TEST_BUNDLE = registerItem(
-			"test_bundle",
+	public static final Supplier<Item> GEAR_BAG = registerItem(
+			"gear_bag",
 			() -> new SingleStackBundleItem(
 					new Item.Properties().stacksTo(1).component(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY)
 			)

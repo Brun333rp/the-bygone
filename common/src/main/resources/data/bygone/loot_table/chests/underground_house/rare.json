@@ -133,6 +133,11 @@
         },
         {
           "type": "minecraft:item",
+          "name": "bygone:gear_bag",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
           "name": "bygone:iron_beak_armor",
           "weight": 1
         },

@@ -12,7 +12,7 @@ public class SingleStackBundleItem extends BundleItem implements CustomizableBun
 
 	@Override
 	public int getMaxWeight() {
-		return 8;
+		return 9;
 	}
 
 	@Override

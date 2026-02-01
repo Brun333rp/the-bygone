@@ -76,6 +76,7 @@ public class BGItemGroups {
                         output.accept(BGItems.ANCIENT_HOOK.get());
                         output.accept(BGItems.MALICIOUS_WAR_HORN.get());
                         output.accept(BGItems.ECHO_GONG.get());
+                        output.accept(BGItems.GEAR_BAG.get());
                         output.accept(BGItems.GOLD_BIG_BEAK_ARMOR.get());
                         output.accept(BGItems.IRON_BIG_BEAK_ARMOR.get());
                         output.accept(BGItems.DIAMOND_BIG_BEAK_ARMOR.get());
