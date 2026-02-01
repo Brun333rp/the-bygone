@@ -23,12 +23,17 @@ public abstract class BundleContentsMutableMixin {
 	)
 	public Fraction wrapGetOccupancy(ItemStack stack, Operation<Fraction> original) {
 		BundleContents.Mutable self = (BundleContents.Mutable)(Object)this;
-		if (self instanceof CustomizableBundleContents contents) return contents.getItem().getStackWeight(stack);
+		if (self instanceof CustomizableBundleContents contents) {
+			if (!contents.getItem().acceptsStack(stack)) {
+				return Fraction.getFraction(2, 1);
+			}
+			return contents.getItem().getStackWeight(stack);
+		}
 		return original.call(stack);
 	}
 
 	@Inject(method = "tryInsert(Lnet/minecraft/world/item/ItemStack;)I", at = @At("HEAD"), cancellable = true)
-	public void wrapAdd(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+	public void beforeTryInsert(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
 		BundleContents.Mutable self = (BundleContents.Mutable)(Object)this;
 		if (self instanceof CustomizableBundleContents contents && !contents.getItem().acceptsStack(stack)) {
 			cir.setReturnValue(0);

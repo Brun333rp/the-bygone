@@ -22,7 +22,7 @@ public class SingleStackBundleItem extends BundleItem implements CustomizableBun
 
 	@Override
 	public Fraction getStackWeight(ItemStack stack) {
-		return Fraction.getFraction(1, this.getMaxWeight());
+		return Fraction.getFraction(stack.getCount(), this.getMaxWeight());
 	}
 
 }
