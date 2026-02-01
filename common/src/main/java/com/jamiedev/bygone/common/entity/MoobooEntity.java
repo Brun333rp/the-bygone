@@ -69,8 +69,6 @@ public class MoobooEntity extends Cow {
             return false;
         } else if (source.is(DamageTypeTags.WITHER_IMMUNE_TO) || source.is(DamageTypeTags.WITCH_RESISTANT_TO)) {
             return false;
-        } else if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            return false;
         } else {
             return super.hurt(source, amount);
         }
