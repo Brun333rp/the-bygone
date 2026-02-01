@@ -14,25 +14,25 @@
                   "data": {
                     "Name": "bygone:lime_sagaria"
                   },
-                  "weight": 2
+                  "weight": 6
                 },
                 {
                   "data": {
                     "Name": "bygone:pink_sagaria"
                   },
-                  "weight": 2
+                  "weight": 7
                 },
                 {
                   "data": {
                     "Name": "bygone:purple_sagaria"
                   },
-                  "weight": 2
+                  "weight": 7
                 },
                 {
                   "data": {
                     "Name": "bygone:yellow_sagaria"
                   },
-                  "weight": 2
+                  "weight": 8
                 },
                 {
                   "data": {
@@ -44,13 +44,19 @@
                   "data": {
                     "Name": "bygone:whirliweed"
                   },
-                  "weight": 2
+                  "weight": 5
                 },
                 {
                   "data": {
                     "Name": "bygone:big_whirliweed"
                   },
                   "weight": 1
+                },
+                {
+                  "data": {
+                    "Name": "bygone:rafflesia"
+                  },
+                  "weight": 3
                 },
                 {
                   "data": {
