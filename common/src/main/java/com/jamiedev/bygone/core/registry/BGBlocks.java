@@ -2559,6 +2559,7 @@ public class BGBlocks {
                             .pushReaction(PushReaction.DESTROY)
                             .noLootTable()
                             .liquid()
+                            .emissiveRendering(Blocks::always)
                             .sound(SoundType.EMPTY)
             )
     );

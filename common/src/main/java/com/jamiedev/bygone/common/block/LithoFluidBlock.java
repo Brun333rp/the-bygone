@@ -1,9 +1,11 @@
 package com.jamiedev.bygone.common.block;
 
 import com.google.common.collect.Lists;
+import com.jamiedev.bygone.client.particles.LithoParticleOptions;
 import com.jamiedev.bygone.common.block.fluids.LithoFluid;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGBlocks;
+import com.jamiedev.bygone.core.registry.BGParticleTypes;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -15,8 +17,11 @@ import net.minecraft.core.particles.ScalableParticleOptionsBase;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -51,6 +56,21 @@ public class LithoFluidBlock extends LiquidBlock
 
         this.stateCache.add(fluid.getFlowing(8, true));
         this.registerDefaultState((BlockState)((BlockState)this.stateDefinition.any()).setValue(LEVEL, 0));
+    }
+
+    /**
+     * Called periodically clientside on blocks near the player to show effects (like furnace fire particles).
+     */
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (random.nextInt(2) == 1)
+        {
+            double d0 = (double)pos.getX() + 0.5 + (0.5 - random.nextDouble());
+            double d1 = (double)pos.getY() + 1.0;
+            double d2 = (double)pos.getZ() + 0.5 + (0.5 - random.nextDouble());
+            double d3 = (double)random.nextFloat() * 0.04;
+            level.addParticle(ParticleTypes.END_ROD, d0, d1, d2, 0.0, d3, 0.0);
+        }
     }
 
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
