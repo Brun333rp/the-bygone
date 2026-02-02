@@ -71,7 +71,10 @@
     ],
     ["bygone:common_glow_lichen"],
     [],
-    [],
+    [
+      "bygone:lithostream_spring_closed",
+      "bygone:lithostream_spring_open"
+    ],
     [],
     []
   ],

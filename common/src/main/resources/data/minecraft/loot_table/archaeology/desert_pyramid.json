@@ -39,14 +39,6 @@
         },
         {
           "type": "minecraft:item",
-          "name": "bygone:gear_bag"
-        },
-        {
-          "type": "minecraft:item",
-          "name": "bygone:ancient_hook"
-        },
-        {
-          "type": "minecraft:item",
           "name": "bygone:arcane_core"
         }
       ],

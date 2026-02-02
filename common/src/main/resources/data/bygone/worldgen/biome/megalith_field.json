@@ -58,9 +58,14 @@
       "bygone:common_ore_verdigris",
       "bygone:megalith_field_vegetation"
     ],
-    ["bygone:common_glow_lichen"],
+    [
+      "bygone:common_glow_lichen"
+    ],
     [],
-    [],
+    [
+      "bygone:lithostream_spring_closed",
+      "bygone:lithostream_spring_open"
+    ],
     [],
     []
   ],
