@@ -82,9 +82,12 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@WrapMethod(method = "isInvulnerableTo")
 	private boolean wrapIsInvulnerableTo(DamageSource source, Operation<Boolean> original) {
-		boolean vulnerableToWeapon = source.getWeaponItem() != null && source.getWeaponItem().is(JamiesModTag.SPECTRAL_VULNERABLE_TO);
-		if (this.getType().is(JamiesModTag.SPECTRAL) && vulnerableToWeapon) return original.call(source);
-		return true;
+		if (this.getType().is(JamiesModTag.SPECTRAL)) {
+			if (source.getWeaponItem() == null || !source.getWeaponItem().is(JamiesModTag.SPECTRAL_VULNERABLE_TO)) {
+				return true;
+			}
+		}
+		return original.call(source);
 	}
 
 }
