@@ -65,7 +65,9 @@ public class JamiesModTag {
 
     public static final TagKey<Item> SABEAST_AFRAID_PLAYER_HOLD = Items.createTag("sabeast_afraid_player_hold");
 
-    public static final TagKey<Structure> ON_BYGONE_PORTAL_MAPS = Structures.createTag("on_bygone_portal_maps");
+	public static final TagKey<Item> SPECTRAL_VULNERABLE_TO = Items.createTag("spectral_vulnerable_to");
+
+	public static final TagKey<Structure> ON_BYGONE_PORTAL_MAPS = Structures.createTag("on_bygone_portal_maps");
 
     public static final TagKey<Structure> BYGONE_ITEM_LOCATED = Structures.createTag("bygone_item_located");
     public static final TagKey<Block> COPPERBUGNESTS = Blocks.createTag("copperbug_nests");
