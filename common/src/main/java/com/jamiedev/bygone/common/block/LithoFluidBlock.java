@@ -113,7 +113,7 @@ public class LithoFluidBlock extends LiquidBlock
                     return false;
                 }
                 if (level.getFluidState(blockpos).is(FluidTags.WATER)) {
-                    Block block = level.getFluidState(pos).isSource() ? BGBlocks.LITHOPLASMIC_POWDER_BLOCK.get() : BGBlocks.BYSLATE.get();
+                    Block block = BGBlocks.LITHOPLASMIC_POWDER_BLOCK.get();
                     level.setBlockAndUpdate(pos, block.defaultBlockState());
                     this.fizz(level, pos);
                     return false;
