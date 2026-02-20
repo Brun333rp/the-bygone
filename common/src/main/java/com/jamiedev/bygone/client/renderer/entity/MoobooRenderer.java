@@ -3,7 +3,9 @@ package com.jamiedev.bygone.client.renderer.entity;
 import com.jamiedev.bygone.Bygone;
 import com.jamiedev.bygone.client.JamiesModModelLayers;
 import com.jamiedev.bygone.client.models.MoobooModel;
+import com.jamiedev.bygone.common.entity.BigBeakEntity;
 import com.jamiedev.bygone.common.entity.MoobooEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -38,5 +40,12 @@ public class MoobooRenderer extends MobRenderer<MoobooEntity, MoobooModel<Mooboo
     @Override
     protected RenderType getRenderType(MoobooEntity p_230496_1_, boolean p_230496_2_, boolean p_230496_3_, boolean p_230496_4_) {
         return RenderType.entityTranslucent(this.getTextureLocation(p_230496_1_));
+    }
+
+    @Override
+    protected void scale(MoobooEntity moob, PoseStack matrixStack, float f) {
+        if (moob.isBaby()) {
+            matrixStack.scale(0.45F, 0.45F, 0.45F);
+        }
     }
 }

@@ -2,9 +2,11 @@ package com.jamiedev.bygone.common.entity;
 
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGBlocks;
+import com.jamiedev.bygone.core.registry.BGEntityTypes;
 import com.jamiedev.bygone.core.registry.BGItems;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
@@ -29,8 +31,11 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
+import javax.annotation.Nullable;
+
 public class MoobooEntity extends Cow {
 
+    private static final EntityDimensions BABY_DIMENSIONS;
     public AnimationState idleAnimationState = new AnimationState();
     public MoobooEntity(EntityType<? extends Cow> entityType, Level level) {
         super(entityType, level);
@@ -92,6 +97,13 @@ public class MoobooEntity extends Cow {
         });
     }
 
+
+    @Nullable
+    public MoobooEntity getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
+        return BGEntityTypes.MOOBOO.get().create(level);
+    }
+
+
     public void tick()
     {
         super.tick();
@@ -136,4 +148,11 @@ public class MoobooEntity extends Cow {
         return true;
     }
 
+    public EntityDimensions getDefaultDimensions(Pose pose) {
+        return this.isBaby() ? BABY_DIMENSIONS : super.getDefaultDimensions(pose);
+    }
+
+    static {
+        BABY_DIMENSIONS = BGEntityTypes.MOOBOO.get().getDimensions().scale(0.5F).withEyeHeight(0.665F);
+    }
 }

@@ -32,7 +32,7 @@ public class LithoArrowEntity extends AbstractArrow
     }
 
     public LithoArrowEntity(Level world, double x, double y, double z, ItemStack stack, @Nullable ItemStack shotFrom) {
-        super(BGEntityTypes.LITHOPLASM_ARROW.get(), x, y, z, world, stack, shotFrom);
+        super((EntityType<? extends AbstractArrow>) BGEntityTypes.LITHOPLASM_ARROW.get(), x, y, z, world, stack, shotFrom);
     }
 
     public LithoArrowEntity(Level world, LivingEntity owner, ItemStack stack, @Nullable ItemStack shotFrom) {

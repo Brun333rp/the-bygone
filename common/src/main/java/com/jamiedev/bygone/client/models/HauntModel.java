@@ -1,12 +1,6 @@
-// Made with Blockbench 5.0.7
-// Exported for Minecraft version 1.17 or later with Mojang mappings
-// Paste this class into your mod and generate all required imports
-
-
 package com.jamiedev.bygone.client.models;
 
 import com.jamiedev.bygone.client.models.animations.HauntAnimations;
-import com.jamiedev.bygone.client.models.animations.MoobooAnimations;
 import com.jamiedev.bygone.common.entity.HauntEntity;
 import com.jamiedev.bygone.common.entity.MoobooEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -74,7 +68,7 @@ public class HauntModel<T extends Entity> extends HierarchicalModel<T> {
 
 		if (entity instanceof HauntEntity haunt)
 		{
-			this.animate(haunt.idleAnimationState, HauntAnimations.IDLE, ageInTicks, 1.0f);
+			this.animate(haunt.idleAnimationState, com.jamiedev.bygone.client.models.animations.HauntAnimations.IDLE, ageInTicks, 1.0f);
 			this.animate(haunt.floatAnimationState, HauntAnimations.MOVING, ageInTicks, 1.0f);
 		}
 	}

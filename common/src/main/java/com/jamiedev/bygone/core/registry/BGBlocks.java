@@ -731,10 +731,9 @@ public class BGBlocks {
     );
     public static final Supplier<Block> CLOUD = registerBlock(
             "cloud", () ->
-                    new HalfTransparentBlock(BlockBehaviour.Properties.of()
+                    new CloudBlock(BlockBehaviour.Properties.of()
                             .mapColor(MapColor.QUARTZ)
                             .strength(0.001F)
-                            .friction(0.989F)
                             .sound(SoundType.WOOL)
                             .noOcclusion()
                             .isValidSpawn(Blocks::never)
@@ -2563,7 +2562,7 @@ public class BGBlocks {
                             .sound(SoundType.EMPTY)
             )
     );
-	public static final Supplier<Block> LITHOPLASMIC_POWDER = registerBlock(
+	public static final Supplier<Block> LITHOPLASMIC_POWDER = registerBlockWithoutBlockItem(
 			"lithoplasmic_powder", () ->
 					new LithoplasmicPowderBlock(BlockBehaviour.Properties.of()
 							.noCollission()

@@ -89,6 +89,13 @@ public class MoobooModel<T extends Entity> extends HierarchicalModel<T> {
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+		if(this.young)
+		{
+			this.head.xScale = 2.0F;
+			this.head.yScale = 2.0F;
+			this.head.zScale = 2.0F;
+		}
+
 		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 	}
 }
