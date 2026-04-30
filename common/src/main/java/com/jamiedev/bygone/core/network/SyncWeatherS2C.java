@@ -1,6 +1,7 @@
 package com.jamiedev.bygone.core.network;
 
 import com.jamiedev.bygone.Bygone;
+import com.jamiedev.bygone.common.weather.BygoneWeather;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -17,7 +18,8 @@ public record SyncWeatherS2C(CompoundTag tag) implements S2CModPacket<RegistryFr
 
     @Override
     public void handleClient() {
-
+        BygoneWeather.Client.getInstance()
+            .updateContext(tag);
     }
 
     @Override

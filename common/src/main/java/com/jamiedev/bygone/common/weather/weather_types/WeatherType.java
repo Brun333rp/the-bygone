@@ -20,10 +20,6 @@ public abstract class WeatherType {
         this.id = id;
     }
 
-//    public WeatherRenderer getRenderer() {
-//        return renderer.get().get();
-//    }
-
     private boolean dirty = false;
     public void setDirty() {
         dirty = true;
@@ -44,16 +40,28 @@ public abstract class WeatherType {
         return new CompoundTag();
     }
 
-    public static class Factory {
+    @SuppressWarnings("rawtypes")
+    public static class Factory<T extends WeatherType> {
         private final String id;
-        private final Function<String, WeatherType> supplier;
-        public Factory(String id, Function<String, WeatherType> supplier) {
+        private final Function<String, T> supplier;
+        private final Supplier<Supplier<WeatherRenderer<T>>> renderer;
+        public Factory(
+            String id,
+            Function<String, T> supplier,
+            Supplier<Supplier<WeatherRenderer<T>>> renderer
+        ) {
             this.id = id;
             this.supplier = supplier;
+            this.renderer = renderer;
         }
 
         public WeatherType construct() {
+            Bygone.LOGGER.info("constructing weather of type {}", id);
             return supplier.apply(id);
+        }
+
+        public WeatherRenderer<T> getRenderer() {
+            return renderer.get().get();
         }
 
         public ResourceKey<Factory> getKey() {
