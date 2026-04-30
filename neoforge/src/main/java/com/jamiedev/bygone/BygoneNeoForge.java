@@ -7,6 +7,7 @@ import com.jamiedev.bygone.client.BygoneClientNeoForge;
 import com.jamiedev.bygone.common.block.entity.GumboPotBlockEntity;
 import com.jamiedev.bygone.common.util.ServerTickHandler;
 import com.jamiedev.bygone.common.util.VexDeathTracker;
+import com.jamiedev.bygone.common.weather.BygoneWeather;
 import com.jamiedev.bygone.core.datagen.BygoneDataGenerator;
 import com.jamiedev.bygone.core.registry.*;
 import net.minecraft.core.BlockPos;
@@ -48,6 +49,7 @@ import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.RegistryBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -87,6 +89,10 @@ public class BygoneNeoForge {
             }
     );
 
+    static {
+        BygoneWeather.WEATHER_TYPES = new RegistryBuilder<>(BygoneWeather.WEATHER_TYPE_REGISTRY_KEY).create();
+    }
+
     public BygoneNeoForge(IEventBus eventBus, Dist dist) {
 
         BGDataComponentsNeoForge.DATA_COMPONENTS.register(eventBus);
@@ -95,6 +101,7 @@ public class BygoneNeoForge {
 
         fluidRegister.register(eventBus);
         FLUID_TYPES.register(eventBus);
+
         eventBus.addListener(PacketHandlerNeoForge::register);
         if (dist.isClient()) {
             BygoneClientNeoForge.init(eventBus);
@@ -561,6 +568,19 @@ public class BygoneNeoForge {
             AttachmentTypesNeoForge.init();
             Bygone.registerBuiltIn();
         }
+
+        if (registry != BygoneWeather.WEATHER_TYPES) return;
+
+        BygoneWeather.bootstrap(
+            (weatherType) -> {
+                event.register(
+                    BygoneWeather.WEATHER_TYPE_REGISTRY_KEY,
+                    register -> register.register(
+                        weatherType.getKey(), weatherType
+                    )
+                );
+            }
+        );
     }
 
 }

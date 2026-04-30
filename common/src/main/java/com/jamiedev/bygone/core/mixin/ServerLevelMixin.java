@@ -40,6 +40,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.List;
 import java.util.function.Supplier;
 
+/*
+* Is this used for anything at all? I don't want to remove it just in case it silently breaks
+* something later but it seems to just be shadowing a bunch of random stuff for no reason
+*/
+
 @Mixin(ServerLevel.class)
 public abstract class ServerLevelMixin extends Level {
 

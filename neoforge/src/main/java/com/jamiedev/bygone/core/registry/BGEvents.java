@@ -1,5 +1,6 @@
 package com.jamiedev.bygone.core.registry;
 
+import com.jamiedev.bygone.common.weather.BygoneWeather;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -20,6 +21,8 @@ import java.util.Set;
 import com.jamiedev.bygone.Bygone;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 @EventBusSubscriber(modid = Bygone.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class BGEvents
@@ -55,6 +58,5 @@ public class BGEvents
                     5
             ));
         }
-
     }
 }

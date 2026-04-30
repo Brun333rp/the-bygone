@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import com.jamiedev.bygone.common.block.entity.GumboPotBlockEntity;
 import com.jamiedev.bygone.common.util.ServerTickHandler;
 import com.jamiedev.bygone.common.util.VexDeathTracker;
+import com.jamiedev.bygone.common.weather.BygoneWeather;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.network.PacketHandler;
 import com.jamiedev.bygone.core.registry.*;
@@ -12,10 +13,13 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -450,6 +454,12 @@ public class BygoneFabric implements ModInitializer {
         });
     }
 
+    static {
+        BygoneWeather.WEATHER_TYPES = FabricRegistryBuilder.createSimple(
+            BygoneWeather.WEATHER_TYPE_REGISTRY_KEY
+        ).attribute(RegistryAttribute.SYNCED).buildAndRegister();
+    }
+
     @Override
     public void onInitialize() {
         BGBlockEntitiesFabric.register();
@@ -458,6 +468,12 @@ public class BygoneFabric implements ModInitializer {
         Bygone.init();
 
         Bygone.registerBuiltIn();
+
+        BygoneWeather.bootstrap(
+            (weatherType) ->
+                Registry.register(BygoneWeather.WEATHER_TYPES,
+                    weatherType.getKey(), weatherType)
+        );
 
         Bygone.registerSpawnPlacements(SpawnPlacements::register);
         JamiesModPortalsFabric.init();
@@ -490,7 +506,6 @@ public class BygoneFabric implements ModInitializer {
         );
 
         Bygone.initAttributes(FabricDefaultAttributeRegistry::register);
-
 
         Bygone.addValidBlocks((type, block) -> type.addSupportedBlock(block));
 
