@@ -125,7 +125,9 @@ public class InvertedRainRenderer implements WeatherRenderer<InvertedRain> {
         double camX, double camY, double camZ,
         float partialTick
     ) {
-        float rainLevel = 1.0f;
+        float rainLevel = 0.0f;
+
+        if (rainLevel <= .0f) return;
 
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder bufferBuilder = null;

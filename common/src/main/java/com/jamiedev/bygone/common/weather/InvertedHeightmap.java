@@ -7,7 +7,6 @@ import net.minecraft.util.SimpleBitStorage;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.levelgen.Heightmap;
 
 public class InvertedHeightmap {
     private final BitStorage data;
