@@ -25,6 +25,7 @@
   ],
   "client": [
     "client.BipedEntityModelMixin",
+    "client.LevelChunkMixin",
     "client.MixinHeldItemRenderer",
     "client.MixinItemRenderer",
     "client.MixinPlayerEntityRenderer"

@@ -471,8 +471,10 @@ public class BygoneFabric implements ModInitializer {
 
         BygoneWeather.bootstrap(
             (weatherType) ->
-                Registry.register(BygoneWeather.WEATHER_TYPES,
-                    weatherType.getKey(), weatherType)
+                Registry.register(
+                    BygoneWeather.WEATHER_TYPES,
+                    weatherType.getKey(), weatherType
+                )
         );
 
         Bygone.registerSpawnPlacements(SpawnPlacements::register);
