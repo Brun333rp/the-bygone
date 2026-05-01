@@ -1,6 +1,5 @@
 package com.jamiedev.bygone.client.renderer.weather;
 
-import com.jamiedev.bygone.Bygone;
 import com.jamiedev.bygone.common.weather.InvertedHeightmap;
 import com.jamiedev.bygone.common.weather.weather_types.InvertedRain;
 import com.jamiedev.bygone.core.extension.LevelChunkExtension;
@@ -9,26 +8,16 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
-
-import java.util.Map;
 
 import static net.minecraft.client.renderer.LevelRenderer.getLightColor;
 
@@ -60,7 +49,11 @@ public class InvertedRainRenderer implements WeatherRenderer<InvertedRain> {
         }
     }
 
-    private float time = 0.0f;
+    private int time = 0;
+    @Override public void tick() {
+        time++;
+    }
+
     @Override public void render(Level level, LightTexture lightTexture, float partialTick, double camX, double camY, double camZ) {
         if (weatherInstance == null) {}
 
@@ -71,7 +64,6 @@ public class InvertedRainRenderer implements WeatherRenderer<InvertedRain> {
         RenderSystem.enableDepthTest();
         RenderSystem.depthMask(Minecraft.useShaderTransparency());
 
-        time += partialTick;
         RenderSystem.setShader(GameRenderer::getParticleShader);
 
         iterateAndRender(
@@ -150,7 +142,7 @@ public class InvertedRainRenderer implements WeatherRenderer<InvertedRain> {
 
 //                debugLineRender(new Vec3(k1, -64, j1), new Vec3(k1, invertedHeightMap.getHeight(k1, j1), j1));
                 if (invertedHeightMap.dirty) invertedHeightMap.primeSelf();
-                int i2 = invertedHeightMap.getHeight(k1, j1);
+                int i2 = invertedHeightMap.getHeight(k1, j1) + 1;
 
                 int j2 = j - rainDensity;
                 int k2 = j + rainDensity;
@@ -165,7 +157,7 @@ public class InvertedRainRenderer implements WeatherRenderer<InvertedRain> {
                     RandomSource randomsource = RandomSource.create((k1 * k1 * 3121L + k1 * 45238971L ^ j1 * j1 * 418711L + j1 * 13761L));
                     mutableBlockPos.set(k1, j2, j1);
 
-                    int i3 = ((int) time & 131071);
+                    int i3 = (time & 131071);
                     int j3 = k1 * k1 * 3121 + k1 * 45238971 + j1 * j1 * 418711 + j1 * 13761 & 255;
                     float f2 = 3.0F + randomsource.nextFloat();
                     float f3 = ((float)(i3 + j3) + partialTick) / 32.0F * f2;

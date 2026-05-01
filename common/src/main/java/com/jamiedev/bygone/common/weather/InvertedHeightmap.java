@@ -15,7 +15,6 @@ public class InvertedHeightmap {
     public boolean dirty = true;
     public InvertedHeightmap(ChunkAccess chunk) {
         this.chunk = chunk;
-
         int i = Mth.ceillog2(chunk.getHeight() + 1);
         this.data = new SimpleBitStorage(i, 256);
     }
@@ -23,14 +22,12 @@ public class InvertedHeightmap {
     public void primeSelf() {
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
         for (int k = 0; k < 16; ++k) {
-            for (int l = 0; l < 16; ++l) {
-                encapsulatedPrime(mutableBlockPos, k, l);
-            }
+            for (int l = 0; l < 16; ++l) encapsulatedPrime(mutableBlockPos, k, l);
         }
         dirty = false;
     }
 
-    private void encapsulatedPrime(BlockPos.MutableBlockPos mutableBlockPos, int k, int l) {
+    public void encapsulatedPrime(BlockPos.MutableBlockPos mutableBlockPos, int k, int l) {
         int startingBlock = chunk.getMinBuildHeight();
         for (int i1 = startingBlock + 1; i1 <= chunk.getMaxBuildHeight(); i1++) {
             mutableBlockPos.set(k, i1, l);
@@ -42,8 +39,8 @@ public class InvertedHeightmap {
         }
     }
 
-    private void setHeight(int x, int z, int value) {
-        this.data.set(getIndex(x, z), value - this.chunk.getMinBuildHeight());
+    public void setHeight(int x, int z, int value) {
+        this.data.set(getIndex(x & 15, z & 15), value - this.chunk.getMinBuildHeight());
     }
 
     public int getHeight(int x, int z) {

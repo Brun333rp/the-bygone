@@ -5,6 +5,7 @@ import com.jamiedev.bygone.client.fluids.BGFluidRenderer;
 import com.jamiedev.bygone.client.renderer.entity.BygoneDimensionEffects;
 import com.jamiedev.bygone.common.block.JamiesModWoodType;
 import com.jamiedev.bygone.common.item.VerdigrisBladeItem;
+import com.jamiedev.bygone.common.weather.BygoneWeather;
 import com.jamiedev.bygone.core.registry.BGDimensions;
 import com.jamiedev.bygone.core.registry.BGFluids;
 import net.fabricmc.api.ClientModInitializer;
@@ -14,6 +15,8 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
@@ -22,6 +25,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.intellij.lang.annotations.Identifier;
 
 import java.util.Objects;
@@ -44,6 +49,21 @@ public class BygoneClientFabric implements ClientModInitializer {
         BygoneClient.registerParticleFactories((particleType, spriteParticleRegistration) -> ParticleFactoryRegistry.getInstance().register(particleType, spriteParticleRegistration::create));
 
 
+        DimensionRenderingRegistry.registerWeatherRenderer(BGDimensions.BYGONE_LEVEL_KEY,
+        worldRenderContext -> {
+            Level level = worldRenderContext.world();
+            if (!level.dimension().equals(BGDimensions.BYGONE_LEVEL_KEY)) return;
+
+            BygoneWeather.Client clientWeather = BygoneWeather.Client.getInstance();
+            Vec3 cameraPosition = worldRenderContext.camera().getPosition();
+            clientWeather.stream().forEach((renderer)
+                    -> renderer.render(
+                    level, worldRenderContext.lightmapTextureManager(),
+                    worldRenderContext.camera().getPartialTickTime(),
+                    cameraPosition.x, cameraPosition.y, cameraPosition.z
+                )
+            );
+        });
         DimensionRenderingRegistry.registerDimensionEffects(BYGONE, BygoneDimensionEffects.INSTANCE);
         DimensionRenderingRegistry.registerSkyRenderer(BGDimensions.BYGONE_LEVEL_KEY, BygoneSkyRenderer.INSTANCE);
 
