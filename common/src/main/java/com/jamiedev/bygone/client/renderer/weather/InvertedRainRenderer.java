@@ -5,18 +5,31 @@ import com.jamiedev.bygone.common.weather.weather_types.InvertedRain;
 import com.jamiedev.bygone.core.extension.LevelChunkExtension;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.ParticleStatus;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.client.Camera;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Matrix4f;
 
 import static net.minecraft.client.renderer.LevelRenderer.getLightColor;
@@ -49,9 +62,76 @@ public class InvertedRainRenderer implements WeatherRenderer<InvertedRain> {
         }
     }
 
+    private float getRainLevel() {
+        return 1.0f;
+    }
+
+    private boolean isRainParticle(FluidState fluidState, BlockState blockState) {
+        return !fluidState.is(FluidTags.LAVA) && !blockState.is(Blocks.MAGMA_BLOCK) && !CampfireBlock.isLitCampfire(blockState);
+    }
+
     private int time = 0;
-    @Override public void tick() {
+    private int rainSoundTime = 0;
+
+    @Override public void tick(Level level) {
         time++;
+
+        Minecraft minecraft = Minecraft.getInstance();
+        Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+        float f = getRainLevel() / (Minecraft.useFancyGraphics() ? 1.0F : 2.0F);
+        if (f <= 0.0F) return;
+
+        RandomSource randomsource = RandomSource.create((long) this.time * 312987231L);
+        BlockPos blockpos = BlockPos.containing(camera.getPosition());
+        BlockPos blockpos1 = null;
+        int i = (int) (100.0F * f * f) / (minecraft.options.particles().get() == ParticleStatus.DECREASED ? 2 : 1);
+
+        BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
+        for (int j = 0; j < i; ++j) {
+            int k = randomsource.nextInt(21) - 10;
+            int l = randomsource.nextInt(21) - 10;
+
+            BlockPos offsetBlockPos = blockpos.offset(k, 0, l);
+            ChunkAccess chunkAccess = level.getChunk(offsetBlockPos);
+            if (chunkAccess instanceof LevelChunk levelChunk) {
+                InvertedHeightmap invertedHeightmap = ((LevelChunkExtension) levelChunk).bygone$getInvertedHeightmap();
+                if (invertedHeightmap != null && invertedHeightmap.dirty) invertedHeightmap.primeSelf();
+                else if (invertedHeightmap == null) return;
+
+                mutableBlockPos.set(
+                    offsetBlockPos.getX(),
+                    invertedHeightmap.getHeight(offsetBlockPos.getX(), offsetBlockPos.getZ()) + 1,
+                    offsetBlockPos.getZ()
+                );
+
+                if (mutableBlockPos.getY() < level.getMaxBuildHeight()
+                && (mutableBlockPos.getY() <= blockpos.getY() + 30
+                && mutableBlockPos.getY() >= blockpos.getY() - 5)) {
+                    blockpos1 = mutableBlockPos;
+                    if (minecraft.options.particles().get() == ParticleStatus.MINIMAL)
+                        break;
+
+                    double d0 = randomsource.nextDouble();
+                    double d1 = randomsource.nextDouble();
+
+                    BlockState blockstate = level.getBlockState(blockpos1);
+                    if (blockstate.is(Blocks.AIR)) continue;
+
+                    FluidState fluidstate = level.getFluidState(blockpos1);
+                    ParticleOptions particleoptions = isRainParticle(fluidstate, blockstate) ? ParticleTypes.RAIN : ParticleTypes.SMOKE;
+                    level.addParticle(particleoptions,
+                        blockpos1.getX() + d0,
+                        blockpos1.getY() - 0.1,
+                        blockpos1.getZ() + d1,
+                        0.0F, 0.0F, 0.0F
+                    );
+                }
+            }
+        }
+        if (blockpos1 != null && randomsource.nextInt(3) < this.rainSoundTime++) {
+            this.rainSoundTime = 0;
+            level.playLocalSound(blockpos1, SoundEvents.WEATHER_RAIN, SoundSource.WEATHER, 0.2F, 1.0F, false);
+        }
     }
 
     @Override public void render(Level level, LightTexture lightTexture, float partialTick, double camX, double camY, double camZ) {
@@ -117,8 +197,7 @@ public class InvertedRainRenderer implements WeatherRenderer<InvertedRain> {
         double camX, double camY, double camZ,
         float partialTick
     ) {
-        float rainLevel = 0.0f;
-
+        float rainLevel = getRainLevel();
         if (rainLevel <= .0f) return;
 
         Tesselator tesselator = Tesselator.getInstance();

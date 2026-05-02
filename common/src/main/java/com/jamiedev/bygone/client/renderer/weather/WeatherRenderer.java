@@ -6,6 +6,6 @@ import net.minecraft.world.level.Level;
 
 public interface WeatherRenderer<T extends WeatherType> {
     void updateWeatherInstance(T newInstance);
-    void tick();
+    void tick(Level level);
     void render(Level level, LightTexture lightTexture, float partialTick, double camX, double camY, double camZ);
 }
