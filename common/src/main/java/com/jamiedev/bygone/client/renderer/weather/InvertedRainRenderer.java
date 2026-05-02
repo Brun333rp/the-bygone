@@ -34,20 +34,16 @@ import org.joml.Matrix4f;
 
 import static net.minecraft.client.renderer.LevelRenderer.getLightColor;
 
-public class InvertedRainRenderer implements WeatherRenderer<InvertedRain> {
+public class InvertedRainRenderer extends WeatherRenderer<InvertedRain> {
 
     private static final ResourceLocation RAIN_LOCATION = ResourceLocation.withDefaultNamespace("textures/environment/rain.png");
-
-    private InvertedRain weatherInstance;
-    @Override
-    public void updateWeatherInstance(InvertedRain newInstance) {
-        weatherInstance = newInstance;
-    }
 
     // From LevelRenderer
     private final float[] rainSizeX;
     private final float[] rainSizeZ;
-    public InvertedRainRenderer() {
+    public InvertedRainRenderer(InvertedRain weatherInstance) {
+        super(weatherInstance);
+
         this.rainSizeX = new float[1024];
         this.rainSizeZ = new float[1024];
 
@@ -63,7 +59,7 @@ public class InvertedRainRenderer implements WeatherRenderer<InvertedRain> {
     }
 
     private float getRainLevel() {
-        return 1.0f;
+        return this.instance.getRainAmount();
     }
 
     private boolean isRainParticle(FluidState fluidState, BlockState blockState) {
@@ -135,7 +131,7 @@ public class InvertedRainRenderer implements WeatherRenderer<InvertedRain> {
     }
 
     @Override public void render(Level level, LightTexture lightTexture, float partialTick, double camX, double camY, double camZ) {
-        if (weatherInstance == null) {}
+        if (instance == null) return;
 
         lightTexture.turnOnLightLayer();
 

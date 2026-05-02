@@ -4,11 +4,21 @@ import com.jamiedev.bygone.Bygone;
 import com.jamiedev.bygone.client.renderer.weather.WeatherRenderer;
 import com.jamiedev.bygone.common.weather.BygoneWeather;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import org.apache.commons.lang3.function.TriFunction;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@SuppressWarnings("rawtypes")
 public abstract class WeatherType {
 
     private final String id;
@@ -20,48 +30,63 @@ public abstract class WeatherType {
         this.id = id;
     }
 
-    private boolean dirty = false;
-    public void setDirty() {
-        dirty = true;
-    }
-    public boolean isDirty() {
-        if (dirty) {
-            dirty = false;
-            return true;
-        }
-        return false;
+    private final Map<String, WeatherProperties.WeatherProperty<?>> propertySet = new HashMap<>();
+    protected <T> void registerProperty(TriFunction<String, T, String, WeatherProperties.WeatherProperty<T>> supplierBiFunction, String identifier, T value) {
+        propertySet.put(identifier, supplierBiFunction.apply(identifier, value, this.getId()));
     }
 
-    public void tick() {}
+    @SuppressWarnings("unchecked")
+    public <T> WeatherProperties.WeatherProperty<T> getProperty(String identifier) {
+        return (WeatherProperties.WeatherProperty<T>) propertySet.get(identifier);
+    }
 
-    public void load(CompoundTag tag) {}
+    public void tick(ServerLevel level) {}
+
+    public Set<WeatherProperties.WeatherProperty> queryStates(Set<WeatherProperties.WeatherProperty> weatherPropertySet) {
+        propertySet.values().forEach(property -> {
+            if (property.checkDirty()) weatherPropertySet.add(property);
+        });
+        return weatherPropertySet;
+    }
+
+    public void load(CompoundTag tag) {
+        propertySet.values().forEach(property -> property.parseSelf(tag));
+    }
 
     public CompoundTag save() {
-        return new CompoundTag();
+        CompoundTag compoundTag = new CompoundTag();
+        propertySet.values().forEach(property -> property.appendToTag(compoundTag));
+        return compoundTag;
     }
 
     @SuppressWarnings("rawtypes")
     public static class Factory<T extends WeatherType> {
         private final String id;
         private final Function<String, T> supplier;
-        private final Supplier<Supplier<WeatherRenderer<T>>> renderer;
+        private final Supplier<Function<T, WeatherRenderer<T>>> renderer;
         public Factory(
-            String id,
-            Function<String, T> supplier,
-            Supplier<Supplier<WeatherRenderer<T>>> renderer
+            String id, Function<String, T> supplier,
+            Supplier<Function<T, WeatherRenderer<T>>> renderer
         ) {
             this.id = id;
             this.supplier = supplier;
             this.renderer = renderer;
         }
 
-        public WeatherType construct() {
+        private T instance;
+        public T get() {
+            if (instance == null)
+                instance = construct();
+            return instance;
+        }
+
+        private T construct() {
             Bygone.LOGGER.info("constructing weather of type {}", id);
             return supplier.apply(id);
         }
 
         public WeatherRenderer<T> getRenderer() {
-            return renderer.get().get();
+            return renderer.get().apply(instance);
         }
 
         public ResourceKey<Factory> getKey() {

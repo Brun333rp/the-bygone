@@ -4,8 +4,12 @@ import com.jamiedev.bygone.common.weather.weather_types.WeatherType;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.level.Level;
 
-public interface WeatherRenderer<T extends WeatherType> {
-    void updateWeatherInstance(T newInstance);
-    void tick(Level level);
-    void render(Level level, LightTexture lightTexture, float partialTick, double camX, double camY, double camZ);
+public abstract class WeatherRenderer<T extends WeatherType> {
+    protected final T instance;
+    public WeatherRenderer(T instance) {
+        this.instance = instance;
+    }
+
+    public abstract void tick(Level level);
+    public abstract void render(Level level, LightTexture lightTexture, float partialTick, double camX, double camY, double camZ);
 }
