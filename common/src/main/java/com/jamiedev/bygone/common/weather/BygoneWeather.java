@@ -88,11 +88,9 @@ public class BygoneWeather extends SavedData {
         for (WeatherProperties.WeatherProperty property : weatherPropertySet)
             property.appendToTag(stateTag);
         if (!stateTag.isEmpty()) {
-            Bygone.LOGGER.info("passing over info: {}", stateTag);
             PacketHandler.sendPacketToAllInLevel(level, new SyncWeatherS2C(stateTag));
+            this.setDirty();
         }
-
-        this.setDirty();
     }
 
     public static class Client {
