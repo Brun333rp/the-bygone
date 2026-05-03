@@ -478,7 +478,7 @@ public class BygoneFabric implements ModInitializer {
         );
 
         Bygone.registerSpawnPlacements(SpawnPlacements::register);
-        JamiesModPortalsFabric.init();
+        //JamiesModPortalsFabric.init();
 
         BGCriteria.init();
 

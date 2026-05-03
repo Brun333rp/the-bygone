@@ -73,6 +73,7 @@ public class BGItemGroups {
                         output.accept(BGItems.WHISKBILL_SPAWN_EGG.get());
                         output.accept(BGItems.WRAITH_SPAWN_EGG.get());
                         output.accept(BGItems.ARCANE_CORE.get());
+                        output.accept(BGItems.ARCANE_MECHANISM.get());
                         output.accept(BGItems.ANCIENT_HOOK.get());
                         output.accept(BGItems.MALICIOUS_WAR_HORN.get());
                         output.accept(BGItems.ECHO_GONG.get());

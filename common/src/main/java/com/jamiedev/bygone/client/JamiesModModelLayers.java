@@ -78,6 +78,9 @@ public class JamiesModModelLayers {
     public static final ModelLayerLocation SABEAST =
             new ModelLayerLocation(Bygone.id("sabeast"), "main");
 
+    public static final ModelLayerLocation BYGONE_PORTAL =
+            new ModelLayerLocation(Bygone.id("bygone_portal"), "main");
+
     public static final ModelLayerLocation PRIMORDIAL_FISH_SMALL = new ModelLayerLocation(
             Bygone.id("primordial_fish_small"),
             "main"

@@ -13,6 +13,13 @@ import java.util.function.Supplier;
 
 public class BGEntityTypes {
 
+    public static final Supplier<EntityType<BygonePortalEntity>> BYGONE_PORTAL = registerEntityType(
+            "bygone_portal", () ->
+                    EntityType.Builder.<BygonePortalEntity>of(BygonePortalEntity::new, MobCategory.MISC)
+                            .sized(1.5F, 1.5F)
+                            .clientTrackingRange(5)
+                            .build("")
+    );
 
     public static final Supplier<EntityType<HookEntity>> HOOK = registerEntityType(
             "hook", () ->

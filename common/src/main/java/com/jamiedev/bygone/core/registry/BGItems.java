@@ -391,6 +391,10 @@ public class BGItems {
             "arcane_core",
             () -> new Item(new Item.Properties().fireResistant())
     );
+    public static final Supplier<Item> ARCANE_MECHANISM = registerItem(
+            "arcane_mechanism",
+            () -> new PortablePortalItem(new Item.Properties().rarity(Rarity.RARE).durability(5))
+    );
     public static final Supplier<Item> VERDIGRIS_SCRAP = registerItem(
             "verdigris_scrap",
             () -> new Item(new Item.Properties().fireResistant())

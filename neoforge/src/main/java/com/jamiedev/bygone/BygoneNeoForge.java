@@ -551,7 +551,7 @@ public class BygoneNeoForge {
             BGDecoratedPotPatternsNeoForge.expandVanilla();
             Bygone.registerStrippables();
             Bygone.addFlammable();
-            JamiesModPortalsNeoForge.init();
+            //JamiesModPortalsNeoForge.init();
             GumboPotBlockEntity.GumboScooping.setFilled(Items.BOWL, BGItems.GUMBO_BOWL.get());
             GumboPotBlockEntity.GumboScooping.setFilled(Items.GLASS_BOTTLE, BGItems.GUMBO_BOTTLE.get());
         });
