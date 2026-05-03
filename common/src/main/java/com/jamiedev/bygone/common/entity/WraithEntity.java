@@ -23,6 +23,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -39,6 +40,7 @@ import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -156,6 +158,10 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
         flyingpathnavigation.setCanFloat(true);
         flyingpathnavigation.setCanPassDoors(true);
         return flyingpathnavigation;
+    }
+
+    public static boolean canSpawn(EntityType<? extends Mob> type, LevelAccessor level, MobSpawnType reason, BlockPos blockPos, RandomSource random) {
+        return level.getBlockState(blockPos.below()).is(JamiesModTag.WRAITH_SPAWNABLE_ON);
     }
 
     protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
@@ -300,13 +306,34 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
 
         if (this.isCastingSpell()) {
             this.spellAnimationState.startIfStopped(this.tickCount);
-        } else {
-            if (this.attackAnim > 0) {
-                this.meleeAnimationState.start(this.tickCount);
-            } else if (this.attackAnim == 0) {
-                this.meleeAnimationState.stop();
-            }
         }
+        this.meleeAnimationState.animateWhen(this.attackAnim > 0, this.tickCount);
+    }
+
+    protected int getCurrentSwingDuration() {
+        int base = 24;
+        if (MobEffectUtil.hasDigSpeed(this)) {
+            base -= 1 + MobEffectUtil.getDigSpeedAmplification(this);
+        } else if (this.hasEffect(MobEffects.DIG_SLOWDOWN)) {
+            base += (1 + this.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) * 2;
+        }
+        return base;
+    }
+
+    @Override
+    protected void updateSwingTime() {
+        int i = this.getCurrentSwingDuration();
+        if (this.swinging) {
+            ++this.swingTime;
+            if (this.swingTime >= i) {
+                this.swingTime = 0;
+                this.swinging = false;
+            }
+        } else {
+            this.swingTime = 0;
+        }
+
+        this.attackAnim = (float)this.swingTime / (float)i;
     }
 
     @Override

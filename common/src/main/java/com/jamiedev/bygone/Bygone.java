@@ -199,7 +199,7 @@ public class Bygone {
                 (EntityType<T>) BGEntityTypes.HAUNT.get(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING,
-                LithyEntity::canSpawn
+                HauntEntity::canSpawn
         );
         consumer.accept(
                 (EntityType<T>) BGEntityTypes.PESKY.get(),
@@ -235,13 +235,13 @@ public class Bygone {
                 (EntityType<T>) BGEntityTypes.WISP.get(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING,
-                LithyEntity::canSpawn
+                WispEntity::canSpawn
         );
         consumer.accept(
                 (EntityType<T>) BGEntityTypes.WRAITH.get(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING,
-                LithyEntity::canSpawn
+                WraithEntity::canSpawn
         );
         consumer.accept(
                 (EntityType<T>) BGEntityTypes.SABEAST.get(),
