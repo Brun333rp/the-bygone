@@ -3,6 +3,7 @@ package com.jamiedev.bygone.client.renderer.weather;
 import com.jamiedev.bygone.common.weather.InvertedHeightmap;
 import com.jamiedev.bygone.common.weather.weather_types.InvertedRain;
 import com.jamiedev.bygone.core.extension.LevelChunkExtension;
+import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.core.Direction;
@@ -126,7 +127,7 @@ public class InvertedRainRenderer extends WeatherRenderer<InvertedRain> {
         }
         if (blockpos1 != null && randomsource.nextInt(3) < this.rainSoundTime++) {
             this.rainSoundTime = 0;
-            level.playLocalSound(blockpos1, SoundEvents.WEATHER_RAIN, SoundSource.WEATHER, 0.2F, 1.0F, false);
+            level.playLocalSound(blockpos1, BGSoundEvents.WEATHER_INVERTED_RAIN_EVENT, SoundSource.WEATHER, 0.2F, 1.0F, false);
         }
     }
 

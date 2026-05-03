@@ -770,5 +770,15 @@
       }
     ],
     "subtitle": "subtitles.bygone.item.whirliweed_bundle.use"
+  },
+
+  "weather.inverted_rain": {
+    "sounds": [
+      "bygone:weather/inverted_rain/loop1",
+      "bygone:weather/inverted_rain/loop2",
+      "bygone:weather/inverted_rain/loop3",
+      "bygone:weather/inverted_rain/loop4"
+    ],
+    "subtitle": "subtitles.bygone.weather.inverted_rain.loop"
   }
 }

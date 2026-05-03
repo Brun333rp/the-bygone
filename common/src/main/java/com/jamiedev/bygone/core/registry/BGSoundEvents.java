@@ -74,6 +74,9 @@ public class BGSoundEvents {
     public static final ResourceLocation ENTITY_LITHY_HURT = id("entity.lithy.hurt");
     public static final ResourceLocation ENTITY_LITHY_DEATH = id("entity.lithy.death");
 
+    public static final ResourceLocation WEATHER_INVERTED_RAIN = id("weather.inverted_rain");
+    public static SoundEvent WEATHER_INVERTED_RAIN_EVENT = SoundEvent.createVariableRangeEvent(WEATHER_INVERTED_RAIN);
+
     public static final ResourceLocation ENTITY_AQUIFAWN_AMBIENT = id("entity.aquifawn.ambient");
     public static final ResourceLocation ENTITY_AQUIFAWN_ANGRY = id("entity.aquifawn.angry");
     public static final ResourceLocation ENTITY_AQUIFAWN_ATTACK = id("entity.aquifawn.attack");
@@ -209,6 +212,9 @@ public class BGSoundEvents {
 
 
     public static void init() {
+
+        Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.WEATHER_INVERTED_RAIN, BGSoundEvents.WEATHER_INVERTED_RAIN_EVENT);
+
         Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.BLOCK_PORTAL_AMBIENT_ID, BLOCK_PORTAL_AMBIENT_EVENT);
 
         Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.AMBIENT_ANCIENTFOREST_ADDITIONS, BGSoundEvents.AMBIENT_ANCIENTFOREST_ADDITIONS_EVENT);
