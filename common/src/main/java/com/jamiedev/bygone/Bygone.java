@@ -115,25 +115,13 @@ public class Bygone {
                 (EntityType<T>) BGEntityTypes.SCUTTLE.get(),
                 SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                (entityType, iServerWorld, reason1, pos1, random1) -> ScuttleEntity.checkSurfaceWaterAnimalSpawnRule(
-                        (EntityType<? extends WaterAnimal>) entityType,
-                        iServerWorld,
-                        reason1,
-                        pos1,
-                        random1
-                )
+				ScuttleEntity::checkSurfaceWaterAnimalSpawnRule
         );
         consumer.accept(
                 (EntityType<T>) BGEntityTypes.AQUIFAWN.get(), 
                 SpawnPlacementTypes.IN_WATER, 
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, 
-                (entityType, iServerWorld, reason1, pos1, random1) -> ScuttleEntity.checkSurfaceWaterAnimalSpawnRule(
-                        (EntityType<? extends WaterAnimal>) entityType, 
-                        iServerWorld,
-                        reason1,
-                        pos1,
-                        random1
-                )
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+				ScuttleEntity::checkSurfaceWaterAnimalSpawnRule
         );
         consumer.accept(
                 (EntityType<T>) BGEntityTypes.GLARE.get(),
@@ -151,49 +139,25 @@ public class Bygone {
                 (EntityType<T>) BGEntityTypes.TRILOBITE.get(),
                 SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                (type1, world1, reason1, pos1, random1) -> TrilobiteEntity.checkSurfaceWaterAnimalSpawnRule(
-                        (EntityType<? extends WaterAnimal>) type1,
-                        world1,
-                        reason1,
-                        pos1,
-                        random1
-                )
+				TrilobiteEntity::checkSurfaceWaterAnimalSpawnRule
         );
         consumer.accept(
                 (EntityType<T>) BGEntityTypes.AMOEBA.get(),
                 SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                (type1, world1, reason1, pos1, random1) -> TrilobiteEntity.checkSurfaceWaterAnimalSpawnRule(
-                        (EntityType<? extends WaterAnimal>) type1,
-                        world1,
-                        reason1,
-                        pos1,
-                        random1
-                )
+				TrilobiteEntity::checkSurfaceWaterAnimalSpawnRule
         );
         consumer.accept(
                 (EntityType<T>) BGEntityTypes.COPPERBUG.get(),
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING,
-                (type1, world1, spawnReason, pos1, random1) -> CopperbugEntity.canSpawn(
-                        (EntityType<CopperbugEntity>) type1,
-                        world1,
-                        spawnReason,
-                        pos1,
-                        random1
-                )
+				CopperbugEntity::canSpawn
         );
         consumer.accept(
                 (EntityType<T>) BGEntityTypes.COELACANTH.get(),
                 SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                (type, world, reason, pos, random) -> CoelacanthEntity.checkSurfaceWaterAnimalSpawnRule(
-                        (EntityType<CoelacanthEntity>) type,
-                        world,
-                        reason,
-                        pos,
-                        random
-                )
+				CoelacanthEntity::checkSurfaceWaterAnimalSpawnRule
         );
         consumer.accept(
                 (EntityType<T>) BGEntityTypes.HAUNT.get(),
@@ -265,13 +229,7 @@ public class Bygone {
                 (EntityType<T>) BGEntityTypes.PRIMORDIAL_FISH.get(),
                 SpawnPlacementTypes.IN_WATER,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                (type1, world1, reason1, pos1, random1) -> PrimordialFishEntity.checkPrimordialFishEntitySpawnRules(
-                        (EntityType<PrimordialFishEntity>) type1,
-                        world1,
-                        reason1,
-                        pos1,
-                        random1
-                )
+				PrimordialFishEntity::checkPrimordialFishEntitySpawnRules
         );
     }
 
