@@ -4,6 +4,7 @@ import com.jamiedev.bygone.Bygone;
 import com.jamiedev.bygone.client.fluids.BGFluidRenderer;
 import com.jamiedev.bygone.client.renderer.entity.BygoneDimensionEffects;
 import com.jamiedev.bygone.common.block.JamiesModWoodType;
+import com.jamiedev.bygone.common.commands.BygoneWeatherCommand;
 import com.jamiedev.bygone.common.item.VerdigrisBladeItem;
 import com.jamiedev.bygone.common.weather.BygoneWeather;
 import com.jamiedev.bygone.core.registry.BGDimensions;
@@ -17,6 +18,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
@@ -47,7 +49,6 @@ public class BygoneClientFabric implements ClientModInitializer {
         BygoneClient.createEntityRenderers();
         BygoneClient.createModelLayers((modelLayerLocation, layerDefinitionSupplier) -> EntityModelLayerRegistry.registerModelLayer(modelLayerLocation, layerDefinitionSupplier::get));
         BygoneClient.registerParticleFactories((particleType, spriteParticleRegistration) -> ParticleFactoryRegistry.getInstance().register(particleType, spriteParticleRegistration::create));
-
 
         DimensionRenderingRegistry.registerWeatherRenderer(BGDimensions.BYGONE_LEVEL_KEY,
         worldRenderContext -> {

@@ -1,8 +1,10 @@
 package com.jamiedev.bygone.core.registry;
 
+import com.jamiedev.bygone.common.commands.BygoneWeatherCommand;
 import com.jamiedev.bygone.common.weather.BygoneWeather;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +14,8 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.saveddata.maps.MapDecorationTypes;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 
 import java.util.Arrays;
@@ -58,5 +62,16 @@ public class BGEvents
                     5
             ));
         }
+    }
+
+    @SubscribeEvent
+    public static void onEntityJoinLevel(final EntityJoinLevelEvent event) {
+        if (event.getEntity() instanceof ServerPlayer serverPlayer)
+            BygoneWeather.getOrDefault(serverPlayer.serverLevel()).informPlayerOfState(serverPlayer);
+    }
+
+    @SubscribeEvent
+    public static void addCommands(final RegisterCommandsEvent event) {
+        BygoneWeatherCommand.register(event.getDispatcher(), event.getBuildContext());
     }
 }

@@ -31,8 +31,14 @@ public abstract class WeatherType {
     }
 
     private final Map<String, WeatherProperties.WeatherProperty<?>> propertySet = new HashMap<>();
-    protected <T> void registerProperty(TriFunction<String, T, String, WeatherProperties.WeatherProperty<T>> supplierBiFunction, String identifier, T value) {
-        propertySet.put(identifier, supplierBiFunction.apply(identifier, value, this.getId()));
+    public Set<WeatherProperties.WeatherProperty> getProperties() {
+        return new HashSet<>(propertySet.values());
+    }
+
+    protected <T> WeatherProperties.WeatherProperty<?> registerProperty(TriFunction<String, T, String, WeatherProperties.WeatherProperty<T>> supplierBiFunction, String identifier, T value) {
+        WeatherProperties.WeatherProperty<T> property = supplierBiFunction.apply(identifier, value, this.getId());
+        propertySet.put(identifier, property);
+        return propertySet.get(identifier);
     }
 
     @SuppressWarnings("unchecked")
@@ -44,7 +50,7 @@ public abstract class WeatherType {
 
     public Set<WeatherProperties.WeatherProperty> queryStates(Set<WeatherProperties.WeatherProperty> weatherPropertySet) {
         propertySet.values().forEach(property -> {
-            if (property.checkDirty()) weatherPropertySet.add(property);
+            if (property.checkDirty() && property.shouldSync()) weatherPropertySet.add(property);
         });
         return weatherPropertySet;
     }

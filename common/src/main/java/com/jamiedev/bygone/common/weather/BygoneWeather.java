@@ -13,6 +13,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
@@ -69,10 +70,15 @@ public class BygoneWeather extends SavedData {
         return this;
     }
 
-    @Override public @NotNull CompoundTag save(@NotNull CompoundTag compoundTag, HolderLookup.@NotNull Provider provider) {
+    @Override public @NotNull CompoundTag save(@NotNull CompoundTag compoundTag, @Nullable HolderLookup.Provider provider) {
         instancedWeatherTypes.forEach((weather)
             -> compoundTag.put(weather.getId(), weather.save()));
         return compoundTag;
+    }
+
+    public void informPlayerOfState(ServerPlayer player) {
+        CompoundTag stateTag = save(new CompoundTag(), null);
+        PacketHandler.sendTo(new SyncWeatherS2C(stateTag), player);
     }
 
     public void tick() {
@@ -85,10 +91,16 @@ public class BygoneWeather extends SavedData {
         }
 
         CompoundTag stateTag = new CompoundTag();
-        for (WeatherProperties.WeatherProperty property : weatherPropertySet)
-            property.appendToTag(stateTag);
+        for (WeatherProperties.WeatherProperty property : weatherPropertySet) {
+            if (!stateTag.contains(property.getOwner(), 10))
+                stateTag.put(property.getOwner(), new CompoundTag());
+            CompoundTag weatherTag = stateTag.getCompound(property.getOwner());
+            property.appendToTag(weatherTag);
+        }
+
         if (!stateTag.isEmpty()) {
-            PacketHandler.sendPacketToAllInLevel(level, new SyncWeatherS2C(stateTag));
+            PacketHandler.sendPacketToAllInLevel(
+                level, new SyncWeatherS2C(stateTag));
             this.setDirty();
         }
     }
@@ -102,6 +114,7 @@ public class BygoneWeather extends SavedData {
 
         private final BygoneWeather weatherContext;
         public void updateContext(CompoundTag compoundTag) {
+//            Bygone.LOGGER.info("client loading {}", compoundTag);
             weatherContext.load(compoundTag, null);
         }
 

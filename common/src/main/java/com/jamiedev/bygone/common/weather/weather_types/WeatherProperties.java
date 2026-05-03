@@ -59,12 +59,23 @@ public class WeatherProperties {
             return this.identifier;
         }
 
-        public record Receive<T>(T value, String owner) {}
+        private final String ownerIdentifier;
+        public String getOwner() {
+            return this.ownerIdentifier;
+        }
+
+        private boolean sendToClient = true;
+        public boolean shouldSync() { return this.sendToClient; }
+        public WeatherProperty<T> setSync(boolean sendToClient) {
+            this.sendToClient = sendToClient;
+            return this;
+        }
 
         WeatherProperty(String identifier, T value, Codec<T> codec, String ownerIdentifier) {
             this.value = value;
             this.identifier = identifier;
             this.codec = codec;
+            this.ownerIdentifier = ownerIdentifier;
         }
     }
 

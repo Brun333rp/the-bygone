@@ -13,7 +13,7 @@ public class BygoneWeatherCommand {
             .requires(stack -> stack.hasPermission(2))
             .then(
                 Commands.argument("weather_type", ResourceArgument.resource(context, BygoneWeather.WEATHER_TYPE_REGISTRY_KEY))
-                    .then(Commands.literal("start").executes(DreamCommand::startDream))
+//                    .then(Commands.literal("start").executes(DreamCommand::startDream))
             )
         );
     }

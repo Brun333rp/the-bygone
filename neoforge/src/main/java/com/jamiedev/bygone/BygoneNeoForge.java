@@ -131,7 +131,8 @@ public class BygoneNeoForge {
 
     public void modifyDefaultComponents(ModifyDefaultComponentsEvent event) {
         BGDataComponents.gumboBootstrap((item, component) ->
-            event.modify(item, builder -> builder.set(BGDataComponents.GUMBO_INGREDIENT_DATA.value(), component)));
+            event.modify(item, builder -> builder.set(BGDataComponents.GUMBO_INGREDIENT_DATA.value(), component))
+        );
     }
 
     void damageEvent(LivingDamageEvent.Pre event) {

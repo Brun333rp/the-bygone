@@ -12,7 +12,7 @@ public class InvertedRain extends WeatherType {
     public InvertedRain(String id) {
         super(id);
 
-        this.registerProperty(WeatherProperties::ofInt, TIME, 0);
+        this.registerProperty(WeatherProperties::ofInt, TIME, 0).setSync(false);
         this.registerProperty(WeatherProperties::ofBool, IS_RAINING, false);
         this.registerProperty(WeatherProperties::ofFloat, RAIN_AMOUNT, 0.0f);
     }

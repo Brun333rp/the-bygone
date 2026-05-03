@@ -3,6 +3,7 @@ package com.jamiedev.bygone;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.jamiedev.bygone.common.block.entity.GumboPotBlockEntity;
+import com.jamiedev.bygone.common.commands.BygoneWeatherCommand;
 import com.jamiedev.bygone.common.util.ServerTickHandler;
 import com.jamiedev.bygone.common.util.VexDeathTracker;
 import com.jamiedev.bygone.common.weather.BygoneWeather;
@@ -17,6 +18,7 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.core.BlockPos;
@@ -122,6 +124,9 @@ public class BygoneFabric implements ModInitializer {
         JamiesModPortalsFabric.init();
 
         BGCriteria.init();
+
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
+            BygoneWeatherCommand.register(dispatcher, registryAccess));
 
         TradeOfferHelper.registerVillagerOffers(
                 VillagerProfession.CARTOGRAPHER, 2, //10 1 12 10

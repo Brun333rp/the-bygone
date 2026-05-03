@@ -21,7 +21,7 @@ public class BGDataComponents {
     public static Holder<DataComponentType<GumboPotBlockEntity.GumboIngredientComponent>> GUMBO_INGREDIENT_DATA;
 
     static GumboPotBlockEntity.GumboIngredientComponent gumboComponent(FoodProperties foodProperties) {
-        return gumboComponent(foodProperties);
+        return new GumboPotBlockEntity.GumboIngredientComponent(foodProperties);
     }
 
     /*
