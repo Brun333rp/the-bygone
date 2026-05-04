@@ -10,6 +10,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Optional;
 
@@ -59,8 +60,8 @@ public class WeatherProperties {
             return this.identifier;
         }
 
-        private final String ownerIdentifier;
-        public String getOwner() {
+        private final ResourceLocation ownerIdentifier;
+        public ResourceLocation getOwner() {
             return this.ownerIdentifier;
         }
 
@@ -71,7 +72,7 @@ public class WeatherProperties {
             return this;
         }
 
-        WeatherProperty(String identifier, T value, Codec<T> codec, String ownerIdentifier) {
+        WeatherProperty(String identifier, T value, Codec<T> codec, ResourceLocation ownerIdentifier) {
             this.value = value;
             this.identifier = identifier;
             this.codec = codec;
@@ -79,24 +80,18 @@ public class WeatherProperties {
         }
     }
 
-    public static WeatherProperty<Boolean> ofBool(String identifier, Boolean defaultValue, String ownerIdentifier) {
+    public static WeatherProperty<Boolean> ofBool(String identifier, Boolean defaultValue, ResourceLocation ownerIdentifier) {
         return new WeatherProperty<Boolean>(
-            identifier, defaultValue,
-            Codec.BOOL, ownerIdentifier
-        );
+            identifier, defaultValue, Codec.BOOL, ownerIdentifier);
     }
 
-    public static WeatherProperty<Integer> ofInt(String identifier, Integer defaultValue, String ownerIdentifier) {
+    public static WeatherProperty<Integer> ofInt(String identifier, Integer defaultValue, ResourceLocation ownerIdentifier) {
         return new WeatherProperty<Integer>(
-            identifier, defaultValue,
-            Codec.INT, ownerIdentifier
-        );
+            identifier, defaultValue, Codec.INT, ownerIdentifier);
     }
 
-    public static WeatherProperty<Float> ofFloat(String identifier, Float defaultValue, String ownerIdentifier) {
+    public static WeatherProperty<Float> ofFloat(String identifier, Float defaultValue, ResourceLocation ownerIdentifier) {
         return new WeatherProperty<Float>(
-            identifier, defaultValue,
-            Codec.FLOAT, ownerIdentifier
-        );
+            identifier, defaultValue, Codec.FLOAT, ownerIdentifier);
     }
 }
