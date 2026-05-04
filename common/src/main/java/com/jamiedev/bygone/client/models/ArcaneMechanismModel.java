@@ -161,6 +161,8 @@ public class ArcaneMechanismModel<T extends BygonePortalEntity> extends Hierarch
 
             this.portal.yRot = yaw * ((float)Math.PI / -180F);
             this.portal.xRot = pitch * ((float)Math.PI / -180F);
+
+            this.arcane_core.yRot = ageInTicks/50f;
         }
     }
 

@@ -4,6 +4,7 @@ import com.jamiedev.bygone.Bygone;
 import com.jamiedev.bygone.core.registry.BGEntityTypes;
 import com.jamiedev.bygone.core.registry.BGItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -15,22 +16,33 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.portal.PortalShape;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.*;
 
 public class BygonePortalEntity extends LivingEntity {
     private static final EntityDataAccessor<Integer> DATA_LIFETIME = SynchedEntityData.defineId(BygonePortalEntity .class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> DATA_RETURN = SynchedEntityData.defineId(BygonePortalEntity .class, EntityDataSerializers.BOOLEAN);
     private int triggerCooldown = 0;
     private boolean wasActivated = false;
 
@@ -40,7 +52,7 @@ public class BygonePortalEntity extends LivingEntity {
 
     public BygonePortalEntity(EntityType<? extends BygonePortalEntity> entityType, Level level) {
         super(entityType, level);
-        this.noPhysics = false;
+        this.noPhysics = true;
         this.setNoGravity(true);
     }
 
@@ -52,6 +64,7 @@ public class BygonePortalEntity extends LivingEntity {
     public void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_LIFETIME, 12000);
+        builder.define(DATA_RETURN, false);
     }
 
     @Override
@@ -60,12 +73,16 @@ public class BygonePortalEntity extends LivingEntity {
         if (compound.contains("LifeTime")) {
             this.setLifeTime(compound.getInt("LifeTime"));
         }
+        if (compound.contains("isReturn")) {
+            this.setReturn(compound.getBoolean("isReturn"));
+        }
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("LifeTime", getLifeTime());
+        compound.putBoolean("isReturn", isReturn());
     }
 
     public void setLifeTime(int lifeTime) {
@@ -74,6 +91,14 @@ public class BygonePortalEntity extends LivingEntity {
 
     public int getLifeTime() {
         return this.getEntityData().get(DATA_LIFETIME);
+    }
+
+    public void setReturn(boolean isReturn) {
+        this.getEntityData().set(DATA_RETURN, isReturn);
+    }
+
+    public boolean isReturn() {
+        return this.getEntityData().get(DATA_RETURN);
     }
 
     public ItemStack getPickResult() {
@@ -93,6 +118,15 @@ public class BygonePortalEntity extends LivingEntity {
             setLifeTime(lifetime - 1);
         }
 
+        if (this.level() instanceof ServerLevel serverLevel && this.isReturn()) {
+            List<BygonePortalEntity> existingPortals = serverLevel.getEntitiesOfClass(BygonePortalEntity.class, new AABB(this.blockPosition()).inflate(3));
+            if (!existingPortals.isEmpty()) {
+                for (BygonePortalEntity portal : existingPortals)
+                    portal.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20));
+                this.discard();
+            }
+        }
+
         if (triggerCooldown > 0) {
             if (triggerCooldown == 1) level().broadcastEntityEvent(this, (byte) 1);
             triggerCooldown--;
@@ -105,6 +139,8 @@ public class BygonePortalEntity extends LivingEntity {
         if (!this.level().isClientSide && triggerCooldown == 0 && tickCount % 40 == 0) {
             checkForNearbyPlayers();
         }
+
+        spawnPortalParticles();
     }
 
     @Override
@@ -151,7 +187,7 @@ public class BygonePortalEntity extends LivingEntity {
     private void checkForNearbyPlayers() {
         if (triggerCooldown > 0) return;
 
-        double range = 6.0;
+        double range = 10.0;
         AABB bounds = this.getBoundingBox().inflate(range);
         List<Player> nearbyPlayers = this.level().getEntitiesOfClass(Player.class, bounds);
 
@@ -186,7 +222,7 @@ public class BygonePortalEntity extends LivingEntity {
     private void spawnPortalParticles() {
         for (int i = 0; i < 3; i++) {
             double x = this.getX() + (this.random.nextDouble() - 0.5) * 1.5;
-            double y = this.getY() + this.random.nextDouble() * 2.0;
+            double y = this.getY() + (this.random.nextDouble() - 0.5) * 2.5;
             double z = this.getZ() + (this.random.nextDouble() - 0.5) * 1.5;
 
             this.level().addParticle(
@@ -199,10 +235,19 @@ public class BygonePortalEntity extends LivingEntity {
         }
     }
 
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        return super.hurt(source, amount);
+    }
+
+    @Override
+    public ProjectileDeflection deflection(Projectile projectile) {
+        return ProjectileDeflection.REVERSE;
+    }
 
     @Override
     public void playerTouch(Player player) {
-        if (!this.level().isClientSide && !this.isRemoved() && this.wasActivated) {
+        if (!this.level().isClientSide && !this.isRemoved() && this.wasActivated && this.tickCount > 90) {
 
             ResourceKey<Level> bygone = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(Bygone.MOD_ID,"bygone"));
             ResourceKey<Level> resourcekey = level().dimension() == bygone ? Level.OVERWORLD : bygone;
@@ -210,22 +255,32 @@ public class BygonePortalEntity extends LivingEntity {
             ServerLevel serverlevel = level().getServer().getLevel(resourcekey);
 
             if (serverlevel != null) {
+                int sourceMinY = level().getMinBuildHeight();
+                int sourceMaxY = level().getMaxBuildHeight();
+                int destMinY = serverlevel.getMinBuildHeight();
+                int destMaxY = serverlevel.getMaxBuildHeight();
+
+                double sourceY = player.getY();
+                double normalizedY = (sourceY - sourceMinY) / (sourceMaxY - sourceMinY);
+                double destY = destMinY + normalizedY * (destMaxY - destMinY);
+
+                destY = Math.min(destMaxY - 3, Math.max(destMinY + 2, destY));
 
                 WorldBorder worldborder = serverlevel.getWorldBorder();
-                double d0 = DimensionType.getTeleportationScale(level().dimensionType(), serverlevel.dimensionType());
-                BlockPos blockpos = worldborder.clampToBounds(player.getX() * d0, player.getY(), player.getZ() * d0);
+                BlockPos blockpos = worldborder.clampToBounds(player.getX(), destY, player.getZ());
 
-                BlockPos finalBlockpos = findSafeTeleportPosition(serverlevel, blockpos);
+                BlockPos finalBlockpos = findSafeTeleportPosition(serverlevel, blockpos, player);
 
                 teleport(player, serverlevel, finalBlockpos);
 
                 BygonePortalEntity newPortal = BGEntityTypes.BYGONE_PORTAL.get().create(serverlevel);
 
                 if (newPortal != null) {
-                  BlockPos spawnPos = findSafePortalSpawn(serverlevel, finalBlockpos);
-                  newPortal.setPos(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5);
-                  newPortal.setLifeTime(6000);
-                  serverlevel.addFreshEntity(newPortal);
+                    newPortal.setPos(player.getX(), player.getY(), player.getZ());
+                    newPortal.setLifeTime(6000);
+                    newPortal.setReturn(true);
+                    newPortal.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20));
+                    serverlevel.addFreshEntity(newPortal);
                 }
 
                 player.playSound(SoundEvents.PORTAL_TRAVEL, 1.0F, 1.0F);
@@ -237,12 +292,37 @@ public class BygonePortalEntity extends LivingEntity {
         player.teleportTo(serverlevel, finalBlockpos.getX() + 0.5, finalBlockpos.getY(), finalBlockpos.getZ() + 0.5, Set.of(), player.getYRot(), player.getXRot());
     }
 
-    private BlockPos findSafeTeleportPosition(Level level, BlockPos pos) {
+    private BlockPos findSafeTeleportPosition(ServerLevel level, BlockPos pos, Player player) {
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+        int searchRadius = 32;
 
-        for (int y = pos.getY() + 50; y > pos.getY() - 50; y--) {
+        for (int radius = 0; radius <= searchRadius; radius++) {
+            for (int x = -radius; x <= radius; x++) {
+                for (int z = -radius; z <= radius; z++) {
+                    for (int yOffset = 0; yOffset < 64; yOffset++) {
+                        int checkY = pos.getY() + yOffset;
+                        if (checkY <= level.getMaxBuildHeight() - 2) {
+                            mutablePos.set(pos.getX() + x, checkY, pos.getZ() + z);
+                            if (isValidSpawnSpot(level, mutablePos)) {
+                                return mutablePos.immutable();
+                            }
+                        }
+
+                        checkY = pos.getY() - yOffset;
+                        if (checkY >= level.getMinBuildHeight() + 1) {
+                            mutablePos.set(pos.getX() + x, checkY, pos.getZ() + z);
+                            if (isValidSpawnSpot(level, mutablePos)) {
+                                return mutablePos.immutable();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int y = level.getMaxBuildHeight() - 2; y >= level.getMinBuildHeight() + 1; y--) {
             mutablePos.set(pos.getX(), y, pos.getZ());
-            if (level.getBlockState(mutablePos).isAir() && level.getBlockState(mutablePos.above()).isAir()) {
+            if (isValidSpawnSpot(level, mutablePos)) {
                 return mutablePos.immutable();
             }
         }
@@ -250,51 +330,15 @@ public class BygonePortalEntity extends LivingEntity {
         return pos;
     }
 
-    private BlockPos findSafePortalSpawn(Level level, BlockPos nearPos) {
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+    private boolean isValidSpawnSpot(ServerLevel level, BlockPos.MutableBlockPos pos) {
+        if (!level.getBlockState(pos).isAir()) return false;
+        if (!level.getBlockState(pos.above()).isAir()) return false;
 
-        for (int radius = 3; radius <= 10; radius++) {
-            for (int x = -radius; x <= radius; x++) {
-                for (int z = -radius; z <= radius; z++) {
-                    mutablePos.set(nearPos.getX() + x, nearPos.getY(), nearPos.getZ() + z);
+        BlockPos groundPos = pos.below();
+        if (!level.getBlockState(groundPos).isSolid()) return false;
+        if (!level.getBlockState(pos).getFluidState().isEmpty()) return false;
 
-                    boolean clear = true;
-                    for (int dx = -1; dx <= 1; dx++) {
-                        for (int dz = -1; dz <= 1; dz++) {
-                            BlockPos checkPos = mutablePos.offset(dx, 0, dz);
-                            if (!level.getBlockState(checkPos).canBeReplaced()) {
-                                clear = false;
-                                break;
-                            }
-                            if (!level.getBlockState(checkPos.above()).canBeReplaced()) {
-                                clear = false;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (clear) {
-                        return mutablePos.immutable();
-                    }
-                }
-            }
-        }
-
-        return nearPos;
-    }
-
-    private BlockPos findOrCreatePortalTarget(Level targetWorld, BlockPos origin) {
-        BlockPos safeSpot = findSafeTeleportPosition(targetWorld, origin);
-        if (safeSpot == null) return null;
-
-        BygonePortalEntity targetPortal = BGEntityTypes.BYGONE_PORTAL.get().create(targetWorld);
-
-        if (targetPortal != null) {
-            targetPortal.setPos(safeSpot.getX() + 0.5, safeSpot.getY(), safeSpot.getZ() + 0.5);
-            targetWorld.addFreshEntity(targetPortal);
-        }
-
-        return safeSpot;
+        return true;
     }
 
     @Override

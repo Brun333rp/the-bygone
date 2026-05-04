@@ -1,3 +1,6 @@
 {
-  "parent": "bygone:item/arcane_mechanism"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "bygone:item/arcane_mechanism"
+  }
 }
