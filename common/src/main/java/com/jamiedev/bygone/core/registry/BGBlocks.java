@@ -928,7 +928,7 @@ public class BGBlocks {
                     .pushReaction(PushReaction.DESTROY))
     );
     public static final Supplier<Block> GOURD_LANTERN_MUAVE = registerBlock(
-            "glow_gourd_muave", () -> new GourdLanternBlock(BlockBehaviour.Properties.of()
+            "glow_gourd_mauve", () -> new GourdLanternBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.ICE)
                     .forceSolidOn()
                     .instabreak()

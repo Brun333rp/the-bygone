@@ -16,7 +16,7 @@
               "type": "minecraft:item",
               "conditions": [
                 {
-                  "block": "bygone:glow_gourd_muave",
+                  "block": "bygone:glow_gourd_mauve",
                   "condition": "minecraft:block_state_property",
                   "properties": {
                     "age": "2"
@@ -51,7 +51,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "bygone:glow_gourd_muave_slice"
+              "name": "bygone:glow_gourd_mauve_slice"
             }
           ]
         }
@@ -62,7 +62,7 @@
       "bonus_rolls": 0,
       "conditions": [
         {
-          "block": "bygone:glow_gourd_muave",
+          "block": "bygone:glow_gourd_mauve",
           "condition": "minecraft:block_state_property",
           "properties": {
             "age": "2"
@@ -73,5 +73,5 @@
       "rolls": 1
     }
   ],
-  "random_sequence": "bygone:glow_gourd_muave"
+  "random_sequence": "bygone:glow_gourd_mauve"
 }

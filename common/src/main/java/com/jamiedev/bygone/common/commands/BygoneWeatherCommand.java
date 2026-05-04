@@ -6,8 +6,10 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ResourceArgument;
+import net.minecraft.server.commands.WeatherCommand;
 
 public class BygoneWeatherCommand {
+
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context) {
         dispatcher.register(Commands.literal("bygone_weather")
             .requires(stack -> stack.hasPermission(2))

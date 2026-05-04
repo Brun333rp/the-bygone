@@ -310,7 +310,7 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
         this.meleeAnimationState.animateWhen(this.attackAnim > 0, this.tickCount);
     }
 
-    protected int getCurrentSwingDuration() {
+    public int getCurrentSwingDuration() {
         int base = 24;
         if (MobEffectUtil.hasDigSpeed(this)) {
             base -= 1 + MobEffectUtil.getDigSpeedAmplification(this);

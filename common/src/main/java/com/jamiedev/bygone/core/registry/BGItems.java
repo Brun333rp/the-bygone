@@ -189,11 +189,11 @@ public class BGItems {
             () -> new ItemNameBlockItem(BGBlocks.GOURD_LANTERN_BEIGE.get(), new Item.Properties())
     );
     public static final Supplier<Item> MUAVE_SLICE = registerItem(
-            "glow_gourd_muave_slice",
+            "glow_gourd_mauve_slice",
             () -> new Item(new Item.Properties().food(Foods.CARROT))
     );
     public static final Supplier<Item> MUAVE_GOURD_SEEDS = registerItem(
-            "glow_gourd_muave_seeds",
+            "glow_gourd_mauve_seeds",
             () -> new ItemNameBlockItem(BGBlocks.GOURD_LANTERN_MUAVE.get(), new Item.Properties())
     );
     public static final Supplier<Item> VERDANT_SLICE = registerItem(
