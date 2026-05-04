@@ -18,8 +18,7 @@ public record SyncWeatherS2C(CompoundTag tag) implements S2CModPacket<RegistryFr
 
     @Override
     public void handleClient() {
-        BygoneWeather.Client.getInstance()
-            .updateContext(tag);
+        BygoneWeather.Client.getInstance().updateContext(tag);
     }
 
     @Override

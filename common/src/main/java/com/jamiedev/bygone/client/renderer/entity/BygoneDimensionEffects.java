@@ -19,7 +19,7 @@ public class BygoneDimensionEffects extends DimensionSpecialEffects {
     private int rainSoundTime;
 
     public BygoneDimensionEffects(float cloudsHeight, boolean alternateSkyColor, SkyType skyType, boolean brightenLighting, boolean darkened) {
-        super(Float.NaN, true, SkyType.NORMAL, false, false);
+        super(192.0F, true, SkyType.NORMAL, false, false);
     }
 
     public static boolean fogThicknessAdjustments(

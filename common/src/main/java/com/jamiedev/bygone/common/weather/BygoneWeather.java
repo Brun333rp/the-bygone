@@ -4,23 +4,25 @@ import com.jamiedev.bygone.Bygone;
 import com.jamiedev.bygone.client.renderer.weather.InvertedRainRenderer;
 import com.jamiedev.bygone.client.renderer.weather.WeatherRenderer;
 import com.jamiedev.bygone.common.weather.weather_types.InvertedRain;
+import com.jamiedev.bygone.common.weather.weather_types.WeatherProperties;
 import com.jamiedev.bygone.common.weather.weather_types.WeatherType;
 import com.jamiedev.bygone.core.network.PacketHandler;
 import com.jamiedev.bygone.core.network.SyncWeatherS2C;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -41,7 +43,7 @@ public class BygoneWeather extends SavedData {
     public BygoneWeather(@Nullable ServerLevel level) {
         this.level = level;
         instancedWeatherTypes = WEATHER_TYPES.stream()
-            .map(WeatherType.Factory::construct)
+            .map(WeatherType.Factory::get)
             .collect(Collectors.toSet());
     }
 
@@ -62,36 +64,44 @@ public class BygoneWeather extends SavedData {
     }
 
     public BygoneWeather load(CompoundTag tag, HolderLookup.Provider provider) {
-        for (WeatherType instance : instancedWeatherTypes) {
-            Tag weatherTag = tag.get(instance.getId());
-            if (weatherTag == null) continue;
-            if (weatherTag instanceof CompoundTag compoundTag) instance.load(compoundTag);
-        }
+        instancedWeatherTypes.forEach((weather) -> {
+            if (tag.get(weather.getId()) instanceof CompoundTag compoundTag) weather.load(compoundTag);
+        });
         return this;
     }
 
-    @Override public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider provider) {
+    @Override public @NotNull CompoundTag save(@NotNull CompoundTag compoundTag, @Nullable HolderLookup.Provider provider) {
         instancedWeatherTypes.forEach((weather)
             -> compoundTag.put(weather.getId(), weather.save()));
         return compoundTag;
     }
 
+    public void informPlayerOfState(ServerPlayer player) {
+        CompoundTag stateTag = save(new CompoundTag(), null);
+        PacketHandler.sendTo(new SyncWeatherS2C(stateTag), player);
+    }
+
     public void tick() {
-        CompoundTag tag = new CompoundTag();
-        instancedWeatherTypes.forEach(
-        (weather) -> {
-            weather.tick();
-            if (weather.isDirty()) {
-                tag.put(
-                    weather.getId(),
-                    weather.save()
-                );
-            }
-        });
-        if (!tag.isEmpty()) {
+        if (level == null) return;
+
+        Set<WeatherProperties.WeatherProperty> weatherPropertySet = new HashSet<>();
+        for (WeatherType weather : instancedWeatherTypes) {
+            weather.tick(level);
+            weatherPropertySet = weather.queryStates(weatherPropertySet);
+        }
+
+        CompoundTag stateTag = new CompoundTag();
+        for (WeatherProperties.WeatherProperty property : weatherPropertySet) {
+            if (!stateTag.contains(property.getOwner(), 10))
+                stateTag.put(property.getOwner(), new CompoundTag());
+            CompoundTag weatherTag = stateTag.getCompound(property.getOwner());
+            property.appendToTag(weatherTag);
+        }
+
+        if (!stateTag.isEmpty()) {
             PacketHandler.sendPacketToAllInLevel(
-                level, new SyncWeatherS2C(tag)
-            );
+                level, new SyncWeatherS2C(stateTag));
+            this.setDirty();
         }
     }
 
@@ -102,8 +112,9 @@ public class BygoneWeather extends SavedData {
             return INSTANCE;
         }
 
-        private final BygoneWeather weatherContext = new BygoneWeather(null);
+        private final BygoneWeather weatherContext;
         public void updateContext(CompoundTag compoundTag) {
+//            Bygone.LOGGER.info("client loading {}", compoundTag);
             weatherContext.load(compoundTag, null);
         }
 
@@ -112,6 +123,7 @@ public class BygoneWeather extends SavedData {
             return instancedWeatherRenderers.stream();
         }
         private Client() {
+            weatherContext = new BygoneWeather(null);
             instancedWeatherRenderers = WEATHER_TYPES.stream()
                 .map(WeatherType.Factory::getRenderer)
                 .collect(Collectors.toSet());

@@ -92,10 +92,10 @@
   "item.bygone.glow_chitin": "Glow Chitin",
   "item.bygone.scuttle_spike": "Scuttle Spike",
   "item.bygone.glow_gourd_beige_slice": "Beige Glow Gourd Slice",
-  "item.bygone.glow_gourd_muave_slice": "Muave Glow Gourd Slice",
+  "item.bygone.glow_gourd_mauve_slice": "Mauve Glow Gourd Slice",
   "item.bygone.glow_gourd_verdant_slice": "Verdant Glow Gourd Slice",
   "item.bygone.glow_gourd_beige_seeds": "Beige Glow Gourd Seeds",
-  "item.bygone.glow_gourd_muave_seeds": "Muave Glow Gourd Seeds",
+  "item.bygone.glow_gourd_mauve_seeds": "Mauve Glow Gourd Seeds",
   "item.bygone.glow_gourd_verdant_seeds": "Verdant Glow Gourd Seeds",
   "item.bygone.gold_beak_armor": "Golden Big Beak Armor",
   "item.bygone.iron_beak_armor": "Iron Big Beak Armor",
@@ -257,7 +257,7 @@
   "block.bygone.whirliweed": "Whirliweed",
   "block.bygone.gourd_vine": "Gourd Vines",
   "block.bygone.glow_gourd_beige": "Beige Glow Gourd",
-  "block.bygone.glow_gourd_muave": "Muave Glow Gourd",
+  "block.bygone.glow_gourd_mauve": "Mauve Glow Gourd",
   "block.bygone.glow_gourd_verdant": "Verdant Glow Gourd",
   "block.bygone.glow_gourd_dango": "Glow Gourd Dango",
   "block.bygone.cave_vines": "Byvine",
@@ -759,6 +759,8 @@
   "subtitles.block.portal.ambient": "Portal frazzles",
 
   "subtitles.ambient.sound": "Eerie noise",
+
+  "subtitles.bygone.weather.inverted_rain.loop": "Rain rises",
 
   "item.bygone.music_disc_shuffle": "Music Disc",
   "item.bygone.shuffle_music_disc.desc": "Ludo Crypt - Shuffle",

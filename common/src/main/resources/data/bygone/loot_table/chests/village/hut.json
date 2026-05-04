@@ -197,7 +197,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "bygone:glow_gourd_muave_slice",
+          "name": "bygone:glow_gourd_mauve_slice",
           "weight": 1
         },
         {
@@ -213,7 +213,7 @@
               "function": "minecraft:set_count"
             }
           ],
-          "name": "bygone:glow_gourd_muave_seeds",
+          "name": "bygone:glow_gourd_mauve_seeds",
           "weight": 1
         },
         {
