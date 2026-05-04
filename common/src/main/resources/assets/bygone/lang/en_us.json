@@ -672,6 +672,10 @@
   "subtitles.ambient.shelfhollows.additions": "Fungal noises ring...",
   "subtitles.ambient.sable_forest.additions": "",
 
+  "subtitles.entity.arcane_mechanism.open": "Arcane Mechanism opens",
+  "subtitles.entity.arcane_mechanism.idle": "Arcane Mechanism whirls",
+  "subtitles.entity.arcane_mechanism.close": "Arcane Mechanism closes",
+
   "subtitles.entity.amoeba.ambient": "Amoeba squeaks",
   "subtitles.entity.amoeba.bucket": "Amoeba bucketed",
   "subtitles.entity.amoeba.hurt": "Amoeba hurts",

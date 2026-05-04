@@ -730,6 +730,16 @@
     ],
     "subtitle": "subtitles.entity.aquifawn.flop"
   },
+
+  "entity.arcane_mechanism.open": {
+    "sounds": [
+      "bygone:entity/arcane_mechanism/open1",
+      "bygone:entity/arcane_mechanism/open2",
+      "bygone:entity/arcane_mechanism/open3",
+      "bygone:entity/arcane_mechanism/open4"
+    ],
+    "subtitle": "subtitles.entity.arcane_mechanism.open"
+  },
   
   "item.war_horn.use": {
     "sounds": [

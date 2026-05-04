@@ -27,6 +27,13 @@ public class BGSoundEvents {
     public static final Holder.Reference<SoundEvent> MUSIC_DISC_SHUFFLE = registerSoundEventHolder("music_disc.shuffle");
     public static final ResourceLocation BLOCK_MEGALITH_BLOCK_IDLE = id("block.megalith_block.idle");
 
+    public static final ResourceLocation ENTITY_ARCANE_MECHANISM_OPEN = id("entity.arcane_mechanism.open");
+    public static SoundEvent ENTITY_ARCANE_MECHANISM_OPEN_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_ARCANE_MECHANISM_OPEN);
+    public static final ResourceLocation ENTITY_ARCANE_MECHANISM_CLOSE = id("entity.arcane_mechanism.close");
+    public static SoundEvent ENTITY_ARCANE_MECHANISM_CLOSE_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_ARCANE_MECHANISM_CLOSE);
+    public static final ResourceLocation ENTITY_ARCANE_MECHANISM_IDLE = id("entity.arcane_mechanism.idle");
+    public static SoundEvent ENTITY_ARCANE_MECHANISM_IDLE_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_ARCANE_MECHANISM_IDLE);
+
     public static final ResourceLocation ENTITY_AMOEBA_AMBIENT = id("entity.amoeba.ambient");
     public static final ResourceLocation ENTITY_AMOEBA_FLOP = id("entity.amoeba.flop");
     public static final ResourceLocation ENTITY_AMOEBA_HURT = id("entity.amoeba.hurt");
@@ -212,6 +219,10 @@ public class BGSoundEvents {
 
 
     public static void init() {
+
+        Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_ARCANE_MECHANISM_OPEN, BGSoundEvents.ENTITY_ARCANE_MECHANISM_OPEN_EVENT);
+        Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_ARCANE_MECHANISM_CLOSE, BGSoundEvents.ENTITY_ARCANE_MECHANISM_CLOSE_EVENT);
+        Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_ARCANE_MECHANISM_IDLE, BGSoundEvents.ENTITY_ARCANE_MECHANISM_IDLE_EVENT);
 
         Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.WEATHER_INVERTED_RAIN, BGSoundEvents.WEATHER_INVERTED_RAIN_EVENT);
 

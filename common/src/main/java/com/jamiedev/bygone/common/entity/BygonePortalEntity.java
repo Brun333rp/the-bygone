@@ -3,6 +3,7 @@ package com.jamiedev.bygone.common.entity;
 import com.jamiedev.bygone.Bygone;
 import com.jamiedev.bygone.core.registry.BGEntityTypes;
 import com.jamiedev.bygone.core.registry.BGItems;
+import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -198,7 +199,7 @@ public class BygonePortalEntity extends LivingEntity {
             wasActivated = true;
             triggerCooldown = 40;
 
-            this.playSound(SoundEvents.VAULT_OPEN_SHUTTER, 1.0F, 1.0F);
+            this.playSound(BGSoundEvents.ENTITY_ARCANE_MECHANISM_OPEN_EVENT, 1.0F, 1.0F);
             return;
         }
 
