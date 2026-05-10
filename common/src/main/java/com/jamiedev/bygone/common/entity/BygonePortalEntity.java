@@ -1,6 +1,7 @@
 package com.jamiedev.bygone.common.entity;
 
 import com.jamiedev.bygone.Bygone;
+import com.jamiedev.bygone.client.BygoneClient;
 import com.jamiedev.bygone.core.registry.BGEntityTypes;
 import com.jamiedev.bygone.core.registry.BGItems;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
@@ -18,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -50,6 +52,8 @@ public class BygonePortalEntity extends LivingEntity {
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState triggerAnimationState = new AnimationState();
     public AnimationState activeAnimationState = new AnimationState();
+
+    public Map<Player, Integer> teleportCountdown = new HashMap<>();
 
     public BygonePortalEntity(EntityType<? extends BygonePortalEntity> entityType, Level level) {
         super(entityType, level);
@@ -122,10 +126,16 @@ public class BygonePortalEntity extends LivingEntity {
         if (this.level() instanceof ServerLevel serverLevel && this.isReturn()) {
             List<BygonePortalEntity> existingPortals = serverLevel.getEntitiesOfClass(BygonePortalEntity.class, new AABB(this.blockPosition()).inflate(3));
             if (!existingPortals.isEmpty()) {
-                for (BygonePortalEntity portal : existingPortals)
+                for (BygonePortalEntity portal : existingPortals) {
                     portal.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20));
+                }
+                existingPortals.getFirst().setLifeTime(12000);
                 this.discard();
             }
+        }
+
+        if (!this.level().isClientSide) {
+            teleportCountdown.entrySet().removeIf(entry -> !entry.getKey().isAlive() || entry.getKey().level() != this.level());
         }
 
         if (triggerCooldown > 0) {
@@ -139,6 +149,10 @@ public class BygonePortalEntity extends LivingEntity {
 
         if (!this.level().isClientSide && triggerCooldown == 0 && tickCount % 40 == 0) {
             checkForNearbyPlayers();
+        }
+
+        if (this.level().isClientSide && tickCount % (40 + this.random.nextInt(40)) == 0) {
+            level().playSound(this, this.blockPosition(), BGSoundEvents.ENTITY_ARCANE_MECHANISM_IDLE_EVENT, SoundSource.BLOCKS, 1.0F, this.random.nextFloat()+1);
         }
 
         spawnPortalParticles();
@@ -170,7 +184,7 @@ public class BygonePortalEntity extends LivingEntity {
                         this.getZ() + 0.5,
                         0, 0.1, 0);
 
-                level().playSound(this, this.blockPosition(), SoundEvents.CONDUIT_ACTIVATE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level().playSound(this, this.blockPosition(), BGSoundEvents.ENTITY_ARCANE_MECHANISM_CLOSE_EVENT, SoundSource.BLOCKS, 1.0F, 1.0F);
                 return;
             }
         }
@@ -238,7 +252,15 @@ public class BygonePortalEntity extends LivingEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        return super.hurt(source, amount);
+        if (source == this.damageSources().genericKill()) {
+            return super.hurt(source, amount);
+        }
+
+        if (!this.level().isClientSide) {
+            this.playSound(BGSoundEvents.ENTITY_ARCANE_MECHANISM_IDLE_EVENT, 0.5F, 1.2F);
+        }
+
+        return false;
     }
 
     @Override
@@ -254,6 +276,22 @@ public class BygonePortalEntity extends LivingEntity {
             ResourceKey<Level> resourcekey = level().dimension() == bygone ? Level.OVERWORLD : bygone;
 
             ServerLevel serverlevel = level().getServer().getLevel(resourcekey);
+
+            if (teleportCountdown.containsKey(player)) {
+                int remaining = teleportCountdown.get(player);
+                if (remaining > 0) {
+                    teleportCountdown.put(player, remaining - 1);
+                    BygoneClient.portalOverlay = Math.clamp(BygoneClient.portalOverlay + 0.05f, 0f,1f);
+                    BygoneClient.portalTimeout = 30;
+                    return;
+                } else {
+                    teleportCountdown.remove(player);
+                }
+            } else {
+                teleportCountdown.put(player, 80);
+                BygoneClient.portalOverlay = 80;
+                return;
+            }
 
             if (serverlevel != null) {
                 int sourceMinY = level().getMinBuildHeight();

@@ -34,6 +34,8 @@ import java.util.function.Supplier;
 
 public class BygoneClient {
     public static final CubeDeformation FISH_PATTERN_DEFORMATION = new CubeDeformation(0.008F);
+    public static float portalOverlay = 0;
+    public static float portalTimeout = 0;
 
     public static void registerRenderLayers(BiConsumer<Block, RenderType> consumer) {
         consumer.accept(BGBlocks.AMBER.get(), RenderType.translucent());
