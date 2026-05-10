@@ -63,8 +63,6 @@ public class BlueAlgueBlock extends BushBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {
-        FluidState fluidState = world.getFluidState(pos);
-        FluidState fluidState2 = world.getFluidState(pos.above());
-        return (fluidState.getType() == Fluids.WATER || floor.getBlock() instanceof IceBlock) && fluidState2.getType() == Fluids.EMPTY;
+        return world.getFluidState(pos).getType() == Fluids.WATER || floor.getBlock() instanceof IceBlock;
     }
 }
