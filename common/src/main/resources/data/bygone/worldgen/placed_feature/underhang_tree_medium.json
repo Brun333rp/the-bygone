@@ -8,7 +8,7 @@
           "placement": [
             {
               "type": "minecraft:count",
-              "count": 8
+              "count": 16
             }
           ]
         },
@@ -17,7 +17,7 @@
           "placement": [
             {
               "type": "minecraft:count",
-              "count": 8
+              "count": 16
             }
           ]
         },
@@ -26,7 +26,7 @@
           "placement": [
             {
               "type": "minecraft:count",
-              "count": 8
+              "count": 16
             }
           ]
         },
@@ -35,7 +35,7 @@
           "placement": [
             {
               "type": "minecraft:count",
-              "count": 8
+              "count": 16
             }
           ]
         },
@@ -44,7 +44,7 @@
           "placement": [
             {
               "type": "minecraft:count",
-              "count": 8
+              "count": 16
             }
           ]
         }
