@@ -37,6 +37,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -62,6 +63,33 @@ public class BygoneFabric implements ModInitializer {
             BlockState state = world.getBlockState(pos);
             ItemStack stack = player.getItemInHand(hand);
 
+            if (stack.getItem() instanceof ShovelItem && (state.is(BGBlocks.MOSSY_CLAYSTONE.get()))) {
+                BlockPos blockAbovePos = pos.above();
+                BlockState blockAboveState = world.getBlockState(blockAbovePos);
+                if (blockAboveState.isAir()) {
+                    world.playSound(null, pos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    world.setBlock(pos, BGBlocks.MOSSY_CLAYSTONE_PATH.get().defaultBlockState(), Block.UPDATE_CLIENTS);
+
+                    if (!player.isCreative()) {
+                        stack.hurtAndBreak(1, player, player.getEquipmentSlotForItem(player.getUseItem()));
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+            }
+
+            if (stack.getItem() instanceof ShovelItem && (state.is(BGBlocks.ALPHA_MOSSY_CLAYSTONE.get()))) {
+                BlockPos blockAbovePos = pos.above();
+                BlockState blockAboveState = world.getBlockState(blockAbovePos);
+                if (blockAboveState.isAir()) {
+                    world.playSound(null, pos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    world.setBlock(pos, BGBlocks.ALPHA_MOSSY_CLAYSTONE_PATH.get().defaultBlockState(), Block.UPDATE_CLIENTS);
+
+                    if (!player.isCreative()) {
+                        stack.hurtAndBreak(1, player, player.getEquipmentSlotForItem(player.getUseItem()));
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+            }
 
             if (stack.getItem() instanceof HoeItem && (state.is(BGBlocks.CLAYSTONE.get()) || state.is(BGBlocks.MOSSY_CLAYSTONE.get()))) {
                 BlockPos blockAbovePos = pos.above();

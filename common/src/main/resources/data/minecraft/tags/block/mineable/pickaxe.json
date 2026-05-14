@@ -167,6 +167,14 @@
     "bygone:plasmic_byslate_bricks",
     "bygone:plasmic_byslate_bricks_slab",
     "bygone:plasmic_byslate_bricks_stairs",
-    "bygone:plasmic_byslate_bricks_wall"
+    "bygone:plasmic_byslate_bricks_wall",
+
+
+    "bygone:chiseled_terraclaystone",
+    "bygone:embedded_chiseled_terraclaystone",
+    "bygone:embedded_terraclaystone_bricks",
+    "bygone:embedded_terraclaystone",
+    "bygone:terraclaystone",
+    "bygone:terraclaystone_bricks"
   ]
 }

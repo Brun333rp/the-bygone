@@ -48,7 +48,16 @@
     "bygone:rafflesia": {
       "chance": 0.8
     },
-    "bygone:sagaria": {
+    "bygone:sagaria_lime": {
+      "chance": 0.2
+    },
+    "bygone:sagaria_pink": {
+      "chance": 0.2
+    },
+    "bygone:sagaria_purple": {
+      "chance": 0.2
+    },
+    "bygone:sagaria_yellow": {
       "chance": 0.2
     },
     "bygone:shelf_fungus": {

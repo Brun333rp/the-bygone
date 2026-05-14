@@ -1012,6 +1012,53 @@ public class BGBlocks {
                     .strength(0.6F)
                     .sound(SoundType.GRASS))
     );
+
+    public static final Supplier<Block> CHISELED_TERRACLAYSTONE = registerBlock(
+            "chiseled_terraclaystone",
+            () -> new Block(BlockBehaviour.Properties.ofLegacyCopy(DIRT)
+                    .strength(1.0F, 3.0F)
+                    .sound(SoundType.PACKED_MUD)));
+    public static final Supplier<Block> EMBEDDED_CHISELED_TERRACLAYSTONE = registerBlock(
+            "embedded_chiseled_terraclaystone",
+            () -> new Block(BlockBehaviour.Properties.ofLegacyCopy(DIRT)
+                    .strength(1.0F, 3.0F)
+                    .sound(SoundType.PACKED_MUD)));
+    public static final Supplier<Block> EMBEDDED_TERRACLAYSTONE = registerBlock(
+            "embedded_terraclaystone",
+            () -> new Block(BlockBehaviour.Properties.ofLegacyCopy(DIRT)
+                    .strength(1.0F, 3.0F)
+                    .sound(SoundType.PACKED_MUD)));
+    public static final Supplier<Block> EMBEDDED_TERRACLAYSTONE_BRICKS = registerBlock(
+            "embedded_terraclaystone_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofLegacyCopy(DIRT)
+                    .strength(1.0F, 3.0F)
+                    .sound(SoundType.PACKED_MUD)));
+    public static final Supplier<Block> TERRACLAYSTONE = registerBlock(
+            "terraclaystone",
+            () -> new Block(BlockBehaviour.Properties.ofLegacyCopy(DIRT)
+                    .strength(1.0F, 3.0F)
+                    .sound(SoundType.PACKED_MUD)));
+    public static final Supplier<Block> TERRACLAYSTONE_BRICKS = registerBlock(
+            "terraclaystone_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofLegacyCopy(DIRT)
+                    .strength(1.0F, 3.0F)
+                    .sound(SoundType.PACKED_MUD)));
+
+    public static final Supplier<Block> MOSSY_CLAYSTONE_PATH = registerBlock(
+            "mossy_claystone_path",
+            () -> new ClaystonePathBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.GRASS)
+                    .randomTicks()
+                    .strength(0.6F)
+                    .sound(SoundType.MUD)));
+    public static final Supplier<Block> ALPHA_MOSSY_CLAYSTONE_PATH = registerBlock(
+            "alpha_mossy_claystone_path",
+            () -> new ClaystonePathBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.GRASS)
+                    .randomTicks()
+                    .strength(0.6F)
+                    .sound(SoundType.MUD)));
+
     public static final Supplier<Block> ANCIENT_ROOTS = registerBlock(
             "ancient_roots", () ->
                     new AncientRootBlock(BlockBehaviour.Properties.of()

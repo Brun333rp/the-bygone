@@ -6,6 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import org.spongepowered.asm.util.ObfuscationUtil;
 
 import java.util.function.Supplier;
 
@@ -163,11 +164,17 @@ public class BGItemGroups {
                         output.accept(BGBlocks.CLAYSTONE_FARMLAND.get());
                         output.accept(BGBlocks.COARSE_CLAYSTONE.get());
                         output.accept(BGBlocks.CLAYSTONE_BRICKS.get());
-
                         output.accept(BGBlocks.CLAYSTONE_BRICKS_STAIRS.get());
-
                         output.accept(BGBlocks.CLAYSTONE_BRICKS_SLAB.get());
                         output.accept(BGBlocks.CLAYSTONE_BRICKS_WALL.get());
+
+                        output.accept(BGBlocks.TERRACLAYSTONE.get());
+                        output.accept(BGBlocks.EMBEDDED_TERRACLAYSTONE.get());
+                        output.accept(BGBlocks.TERRACLAYSTONE_BRICKS.get());
+                        output.accept(BGBlocks.EMBEDDED_TERRACLAYSTONE_BRICKS.get());
+                        output.accept(BGBlocks.CHISELED_TERRACLAYSTONE.get());
+                        output.accept(BGBlocks.EMBEDDED_CHISELED_TERRACLAYSTONE.get());
+
                         output.accept(BGBlocks.MOSSY_CLAYSTONE.get());
                         output.accept(BGBlocks.ANCIENT_ROOTS.get());
                         output.accept(BGBlocks.ANCIENT_VINE.get());

@@ -132,6 +132,13 @@ public class BygoneNeoForge {
             else if (state.is(BGBlocks.COARSE_CLAYSTONE.get()))
                 event.setFinalState(BGBlocks.CLAYSTONE.get().defaultBlockState());
         }
+        if (event.getItemAbility() == ItemAbilities.SHOVEL_FLATTEN && event.getLevel().getBlockState(event.getPos().above()).isAir()) {
+            BlockState state = event.getState();
+            if (state.is(BGBlocks.MOSSY_CLAYSTONE.get()))
+                event.setFinalState(BGBlocks.MOSSY_CLAYSTONE_PATH.get().defaultBlockState());
+            else if (state.is(BGBlocks.ALPHA_MOSSY_CLAYSTONE.get()))
+                event.setFinalState(BGBlocks.ALPHA_MOSSY_CLAYSTONE_PATH.get().defaultBlockState());
+        }
     }
 
     public void modifyDefaultComponents(ModifyDefaultComponentsEvent event) {

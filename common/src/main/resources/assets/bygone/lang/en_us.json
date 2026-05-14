@@ -271,6 +271,7 @@
   "block.bygone.yellow_sagaria": "Yellow Sagaria",
   "block.bygone.rafflesia": "Rafflesia",
   "block.bygone.gourd_lantern": "Gourd Lantern",
+
   "block.bygone.claystone": "Claystone",
   "block.bygone.claystone_bricks": "Claystone Bricks",
   "block.bygone.claystone_bricks_slab": "Claystone Brick Slab",
@@ -279,6 +280,22 @@
   "block.bygone.coarse_claystone": "Coarse Claystone",
   "block.bygone.mossy_claystone": "Mossy Claystone",
   "block.bygone.suspicious_claystone": "Suspicious Claystone",
+
+  "block.bygone.alpha_mossy_claystone_path": "Alpha Mossy Claystone Path",
+  "block.bygone.mossy_claystone_path": "Mossy Claystone Path",
+  "block.bygone.chiseled_terraclaystone": "Chiseled Terraclaystone",
+  "block.bygone.embedded_chiseled_terraclaystone": "Embedded Chiseled Terraclaystone",
+  "block.bygone.embedded_terraclaystone": "Embedded Terraclaystone",
+  "block.bygone.embedded_terraclaystone_bricks": "Embedded Terraclaystone Bricks",
+  "block.bygone.terraclaystone": "Terraclaystone",
+  "block.bygone.terraclaystone_slab": "Terraclaystone Slab",
+  "block.bygone.terraclaystone_stairs": "Terraclaystone Stairs",
+  "block.bygone.terraclaystone_wall": "Terraclaystone Wall",
+  "block.bygone.terraclaystone_bricks": "Terraclaystone Bricks",
+  "block.bygone.terraclaystone_bricks_slab": "Terraclaystone Brick Slab",
+  "block.bygone.terraclaystone_bricks_stairs": "Terraclaystone Brick Stairs",
+  "block.bygone.terraclaystone_bricks_wall": "Terraclaystone Brick Wall",
+
 
   "block.bygone.ancient_dogu": "Ancient Dogu",
   "block.bygone.painted_dogu": "Painted Dogu",
