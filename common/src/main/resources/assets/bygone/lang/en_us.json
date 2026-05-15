@@ -690,8 +690,9 @@
   "subtitles.ambient.shelfhollows.additions": "Fungal noises ring...",
   "subtitles.ambient.sable_forest.additions": "",
 
+  "subtitles.entity.arcane_mechanism.fade": "Arcane Mechanism fades",
   "subtitles.entity.arcane_mechanism.open": "Arcane Mechanism opens",
-  "subtitles.entity.arcane_mechanism.idle": "Arcane Mechanism whirls",
+  "subtitles.entity.arcane_mechanism.loop": "Arcane Mechanism whirls",
   "subtitles.entity.arcane_mechanism.close": "Arcane Mechanism closes",
 
   "subtitles.entity.amoeba.ambient": "Amoeba squeaks",

@@ -31,8 +31,10 @@ public class BGSoundEvents {
     public static SoundEvent ENTITY_ARCANE_MECHANISM_OPEN_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_ARCANE_MECHANISM_OPEN);
     public static final ResourceLocation ENTITY_ARCANE_MECHANISM_CLOSE = id("entity.arcane_mechanism.close");
     public static SoundEvent ENTITY_ARCANE_MECHANISM_CLOSE_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_ARCANE_MECHANISM_CLOSE);
-    public static final ResourceLocation ENTITY_ARCANE_MECHANISM_IDLE = id("entity.arcane_mechanism.idle");
+    public static final ResourceLocation ENTITY_ARCANE_MECHANISM_IDLE = id("entity.arcane_mechanism.loop");
     public static SoundEvent ENTITY_ARCANE_MECHANISM_IDLE_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_ARCANE_MECHANISM_IDLE);
+    public static final ResourceLocation ENTITY_ARCANE_MECHANISM_FADE = id("entity.arcane_mechanism.fade");
+    public static SoundEvent ENTITY_ARCANE_MECHANISM_FADE_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_ARCANE_MECHANISM_FADE);
 
     public static final ResourceLocation ENTITY_AMOEBA_AMBIENT = id("entity.amoeba.ambient");
     public static final ResourceLocation ENTITY_AMOEBA_FLOP = id("entity.amoeba.flop");
@@ -223,6 +225,7 @@ public class BGSoundEvents {
         Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_ARCANE_MECHANISM_OPEN, BGSoundEvents.ENTITY_ARCANE_MECHANISM_OPEN_EVENT);
         Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_ARCANE_MECHANISM_CLOSE, BGSoundEvents.ENTITY_ARCANE_MECHANISM_CLOSE_EVENT);
         Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_ARCANE_MECHANISM_IDLE, BGSoundEvents.ENTITY_ARCANE_MECHANISM_IDLE_EVENT);
+        Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_ARCANE_MECHANISM_FADE, BGSoundEvents.ENTITY_ARCANE_MECHANISM_FADE_EVENT);
 
         Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.WEATHER_INVERTED_RAIN, BGSoundEvents.WEATHER_INVERTED_RAIN_EVENT);
 
