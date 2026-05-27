@@ -58,6 +58,10 @@
       {
         "name": "bygone:music/theashfalls",
         "stream": true
+      },
+      {
+        "name": "bygone:music/faraways",
+        "stream": true
       }
     ]
   },
@@ -66,6 +70,10 @@
     "sounds": [
       {
         "name": "bygone:music/oldstoneblues",
+        "stream": true
+      },
+      {
+        "name": "bygone:music/faraways",
         "stream": true
       }
     ]
@@ -76,6 +84,10 @@
       {
         "name": "bygone:music/glimmer",
         "stream": true
+      },
+      {
+        "name": "bygone:music/faraways",
+        "stream": true
       }
     ]
   },
@@ -84,6 +96,10 @@
     "sounds": [
       {
         "name": "bygone:music/changing",
+        "stream": true
+      },
+      {
+        "name": "bygone:music/faraways",
         "stream": true
       }
     ]
@@ -97,6 +113,10 @@
       },
       {
         "name": "bygone:music/lullaby",
+        "stream": true
+      },
+      {
+        "name": "bygone:music/faraways",
         "stream": true
       }
     ]
@@ -312,6 +332,15 @@
     "sounds": [
       {
         "name": "bygone:music/changing",
+        "stream": true
+      }
+    ]
+  },
+  "music.faraways": {
+    "category": "music",
+    "sounds": [
+      {
+        "name": "bygone:music/faraways",
         "stream": true
       }
     ]
