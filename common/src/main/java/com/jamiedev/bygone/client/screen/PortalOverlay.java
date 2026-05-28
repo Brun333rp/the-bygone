@@ -9,8 +9,11 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.PortalProcessor;
+import net.minecraft.world.entity.player.Player;
 import org.joml.Quaternionf;
 
 public class PortalOverlay implements LayeredDraw.Layer {
@@ -24,16 +27,32 @@ public class PortalOverlay implements LayeredDraw.Layer {
         if (BygoneClient.portalTimeout <= 0) invert = true;
         if (BygoneClient.portalTimeout > 0) invert = false;
 
-        if (BygoneClient.portalOverlay > 0) {
-            var mc = Minecraft.getInstance();
-            if (mc.level == null || mc.player == null || mc.options.hideGui) return;
-//
-//            alpha = BygoneClient.portalOverlay;
-//
-//            if (invert) BygoneClient.portalOverlay = BygoneClient.portalOverlay - 0.01f ;
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
 
-            alpha = alpha + 0.005f;
-            if (invert) alpha = alpha - 0.01f ;
+        if (player == null) return;
+        boolean flag = false;
+
+        PortalProcessor processor = player.portalProcess;
+        if (processor != null && processor.isInsidePortalThisTick()) {
+            flag = true;
+            if (player instanceof LocalPlayer localPlayer)
+                localPlayer.spinningEffectIntensity = 0.0125F;
+        }
+
+        if (flag) {
+            invert = false;
+        } else {
+            invert = true;
+        }
+
+        if ((!invert || alpha > 0)) {
+            if (mc.level == null || mc.player == null || mc.options.hideGui) return;
+
+            alpha = Mth.lerp(0.03f, alpha, 1);
+            if (invert) alpha = Mth.lerp(0.05f, alpha, 0);
+
+            if (alpha <= 0.37 && invert) alpha = alpha - 0.01f;
 
             alpha = Math.clamp(alpha, 0, 1);
 
@@ -86,9 +105,6 @@ public class PortalOverlay implements LayeredDraw.Layer {
 
             guiGraphics.setColor(1f, 1f, 1f, 1f);
             RenderSystem.disableBlend();
-
-            if (BygoneClient.portalTimeout > 0)
-                BygoneClient.portalTimeout = BygoneClient.portalTimeout-1;
         }
     }
 }
