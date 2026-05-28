@@ -24,8 +24,9 @@ public class PortalOverlay implements LayeredDraw.Layer {
 
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        if (BygoneClient.portalTimeout <= 0) invert = true;
-        if (BygoneClient.portalTimeout > 0) invert = false;
+
+        int screenWidth = guiGraphics.guiWidth();
+        int screenHeight = guiGraphics.guiHeight();
 
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
@@ -55,9 +56,6 @@ public class PortalOverlay implements LayeredDraw.Layer {
             if (alpha <= 0.37 && invert) alpha = alpha - 0.01f;
 
             alpha = Math.clamp(alpha, 0, 1);
-
-            int screenWidth = guiGraphics.guiWidth();
-            int screenHeight = guiGraphics.guiHeight();
 
             int portalWidth = 128;
             int portalHeight = 128;
