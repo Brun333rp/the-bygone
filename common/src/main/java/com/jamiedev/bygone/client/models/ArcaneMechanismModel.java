@@ -147,8 +147,9 @@ public class ArcaneMechanismModel<T extends BygonePortalEntity> extends Hierarch
         this.animate(entity.triggerAnimationState, ArcaneMechanismAnimations.TRIGGERED, ageInTicks);
         this.animate(entity.activeAnimationState, ArcaneMechanismAnimations.ACTIVE, ageInTicks);
 
-        if (Minecraft.getInstance().player != null) {
-            Player player = Minecraft.getInstance().player;
+        //Minecraft.getInstance().getCameraEntity()
+        if (Minecraft.getInstance().getCameraEntity() != null) {
+            Entity player = Minecraft.getInstance().getCameraEntity();
             double dx = entity.getX() - player.getX();
             double dz = entity.getZ() - player.getZ() - 1;
             double dy = entity.getY() - player.getY();

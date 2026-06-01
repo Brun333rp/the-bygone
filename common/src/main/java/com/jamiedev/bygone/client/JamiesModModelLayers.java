@@ -51,6 +51,9 @@ public class JamiesModModelLayers {
     public static final ModelLayerLocation BIG_BEAK_SADDLE = new ModelLayerLocation(Bygone.id("big_beak"), "saddle");
     public static final ModelLayerLocation BIG_BEAK_ARMOR = new ModelLayerLocation(Bygone.id("big_beak"), "armor");
 
+    public static final ModelLayerLocation GEIST =
+            new ModelLayerLocation(Bygone.id("geist"), "main");
+
     public static final ModelLayerLocation HAUNT =
             new ModelLayerLocation(Bygone.id("haunt"), "main");
 
