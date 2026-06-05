@@ -180,6 +180,10 @@ public class BGItems {
             "scuttle_spike",
             () -> new Item(new Item.Properties().fireResistant())
     );
+    public static final Supplier<Item> COPPER_NUGGET = registerItem(
+            "copper_nugget",
+            () -> new Item(new Item.Properties().fireResistant())
+    );
     public static final Supplier<Item> BEIGE_SLICE = registerItem(
             "glow_gourd_beige_slice",
             () -> new Item(new Item.Properties().food(Foods.CARROT))
