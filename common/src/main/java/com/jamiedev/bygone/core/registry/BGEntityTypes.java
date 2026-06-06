@@ -200,6 +200,15 @@ public class BGEntityTypes {
                     .build("")
     );
 
+    public static final Supplier<EntityType<GeistEntity>> GEIST = registerEntityType(
+            "geist",
+            () -> EntityType.Builder.of(GeistEntity::new, MobCategory.CREATURE)
+                    .immuneTo(BGBlocks.ICE_BOUQUET.get())
+                    .fireImmune()
+                    .sized(1.0F, 2.0F)
+                    .build("")
+    );
+
     public static final Supplier<EntityType<WraithEntity>> WRAITH = registerEntityType(
             "wraith",
             () -> EntityType.Builder.of(WraithEntity::new, MobCategory.CREATURE)
