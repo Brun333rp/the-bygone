@@ -168,6 +168,7 @@ public class BGItemGroups {
                         output.accept(BGBlocks.CLAYSTONE_BRICKS_SLAB.get());
                         output.accept(BGBlocks.CLAYSTONE_BRICKS_WALL.get());
 
+                        output.accept(BGItems.COPPER_NUGGET.get());
                         output.accept(BGBlocks.TERRACLAYSTONE.get());
                         output.accept(BGBlocks.EMBEDDED_TERRACLAYSTONE.get());
                         output.accept(BGBlocks.TERRACLAYSTONE_BRICKS.get());

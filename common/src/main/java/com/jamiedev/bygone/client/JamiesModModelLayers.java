@@ -103,4 +103,8 @@ public class JamiesModModelLayers {
             Bygone.id("primordial_fish_large"),
             "pattern"
     );
+
+
+    public static final ModelLayerLocation WALLOW =
+            new ModelLayerLocation(Bygone.id("wallow"), "main");
 }
