@@ -26,6 +26,8 @@ public abstract class LevelChunkMixin implements LevelChunkExtension {
 
     @Unique private InvertedHeightmap bygone$InvertedHeightmap;
     @Override public InvertedHeightmap bygone$getInvertedHeightmap() {
+        if (bygone$InvertedHeightmap != null && bygone$InvertedHeightmap.dirty)
+            bygone$InvertedHeightmap.primeSelf();
         return bygone$InvertedHeightmap;
     }
 

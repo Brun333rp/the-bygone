@@ -92,8 +92,7 @@ public class InvertedRainRenderer extends WeatherRenderer<InvertedRain> {
             ChunkAccess chunkAccess = level.getChunk(offsetBlockPos);
             if (chunkAccess instanceof LevelChunk levelChunk) {
                 InvertedHeightmap invertedHeightmap = ((LevelChunkExtension) levelChunk).bygone$getInvertedHeightmap();
-                if (invertedHeightmap != null && invertedHeightmap.dirty) invertedHeightmap.primeSelf();
-                else if (invertedHeightmap == null) return;
+                if (invertedHeightmap == null) return;
 
                 mutableBlockPos.set(
                     offsetBlockPos.getX(),

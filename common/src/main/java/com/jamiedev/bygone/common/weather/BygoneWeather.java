@@ -1,8 +1,10 @@
 package com.jamiedev.bygone.common.weather;
 
 import com.jamiedev.bygone.Bygone;
+import com.jamiedev.bygone.client.renderer.weather.HauntingsRenderer;
 import com.jamiedev.bygone.client.renderer.weather.InvertedRainRenderer;
 import com.jamiedev.bygone.client.renderer.weather.WeatherRenderer;
+import com.jamiedev.bygone.common.weather.weather_types.HauntingsEvent;
 import com.jamiedev.bygone.common.weather.weather_types.InvertedRain;
 import com.jamiedev.bygone.common.weather.weather_types.WeatherProperties;
 import com.jamiedev.bygone.common.weather.weather_types.WeatherType;
@@ -36,6 +38,7 @@ public class BygoneWeather extends SavedData {
 
     public static void bootstrap(Consumer<WeatherType.Factory> consumer) {
         consumer.accept(new WeatherType.Factory<InvertedRain>("inverted_rain", InvertedRain::new, () -> InvertedRainRenderer::new));
+        consumer.accept(new WeatherType.Factory<HauntingsEvent>("hauntings", HauntingsEvent::new, () -> HauntingsRenderer::new));
     }
 
     @Nullable private final ServerLevel level;
