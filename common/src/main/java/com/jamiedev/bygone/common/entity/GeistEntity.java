@@ -1,16 +1,17 @@
 package com.jamiedev.bygone.common.entity;
 
-import com.google.common.collect.ImmutableRangeSet;
-import com.google.common.collect.Range;
 import com.jamiedev.bygone.common.entity.ai.goal.GeistGotoLightGoal;
 import com.jamiedev.bygone.core.init.JamiesModTag;
+import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -21,27 +22,27 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class GeistEntity extends Monster implements FlyingAnimal
-{
+public class GeistEntity extends Monster implements FlyingAnimal {
+
+    public static final int DEFAULT_LIGHT_THRESHOLD = 1;
+
     public static final EntityDataAccessor<Integer> LIGHT_THRESHOLD = SynchedEntityData.defineId(GeistEntity.class, EntityDataSerializers.INT);
-    EntityDimensions dimensions;
-    public Vec3 gotoPosition;
+//    public final EntityDimensions dimensions;
+//    public Vec3 gotoPosition;
 
     public GeistEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
-        this.dimensions = entityType.getDimensions();
+//        this.dimensions = entityType.getDimensions();
         this.xpReward = 5;
         this.moveControl = new FlyingMoveControl(this, 35, false);
         this.setNoGravity(true);
@@ -49,35 +50,40 @@ public class GeistEntity extends Monster implements FlyingAnimal
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MOVEMENT_SPEED, 0.2)
-                .add(Attributes.FLYING_SPEED, 0.4)
-                .add(Attributes.FOLLOW_RANGE, 18.0)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1.0)
-                .add(Attributes.MAX_HEALTH, 16.0);
+            .add(Attributes.MOVEMENT_SPEED, 0.2F)
+            .add(Attributes.FLYING_SPEED, 0.4F)
+            .add(Attributes.FOLLOW_RANGE, 18)
+            .add(Attributes.ATTACK_DAMAGE, 4)
+            .add(Attributes.KNOCKBACK_RESISTANCE, 1)
+            .add(Attributes.MAX_HEALTH, 16);
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new GeistGotoLightGoal(this, 5, 8));
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, HauntEntity.class, 16.0F, (double)1.0F,
-                1.5));
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.1, true));
-        this.goalSelector.addGoal(8, new WraithEntity.WraithWanderGoal(this, 0.6));
-        this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
-        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, HauntEntity.class, 16, 1, 1.5F));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5F, true));
+        this.goalSelector.addGoal(4, new GeistGotoLightGoal(this, 5, 8));
+        this.goalSelector.addGoal(8, new WraithEntity.WraithWanderGoal(this, 0.6F));
+        this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3, 1));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, WraithEntity.class).setAlertOthers());
-        this.targetSelector.addGoal(
-                2,
-                new NearestAttackableTargetGoal<>(this, Player.class, true).setUnseenMemoryTicks(300)
-        );
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, this::targetTooClose));
+    }
+
+    public boolean targetTooClose(LivingEntity entity) {
+        return this.distanceTo(entity) <= 3;
+    }
+
+    @Override
+    public boolean isWithinMeleeAttackRange(LivingEntity entity) {
+        return super.isWithinMeleeAttackRange(entity);
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(LIGHT_THRESHOLD, 1);
+        builder.define(LIGHT_THRESHOLD, DEFAULT_LIGHT_THRESHOLD);
     }
 
     @Override
@@ -92,55 +98,84 @@ public class GeistEntity extends Monster implements FlyingAnimal
         this.setLightThreshold(compoundTag.getInt("LightThreshold"));
     }
 
-    protected void playStepSound(BlockPos pos, BlockState state) {
+    public int getLightThreshold() {
+        System.out.println(this.entityData.get(LIGHT_THRESHOLD));
+        return this.entityData.get(LIGHT_THRESHOLD);
     }
 
-    protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
+    public void setLightThreshold(int threshold) {
+        this.entityData.set(LIGHT_THRESHOLD, threshold);
     }
 
+    @Override
+    protected @Nullable SoundEvent getAmbientSound() {
+        return this.getTarget() == null ? BGSoundEvents.GEIST_AMBIENT_EVENT : BGSoundEvents.GEIST_AMBIENT_ANGRY_EVENT;
+    }
+
+    @Override
+    public int getAmbientSoundInterval() {
+        int multiplier = this.getTarget() == null ? 1 : 2;
+        return super.getAmbientSoundInterval() * multiplier;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return BGSoundEvents.GEIST_HURT_EVENT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return BGSoundEvents.GEIST_DEATH_EVENT;
+    }
+
+    @Override
+    public void playAttackSound() {
+        this.playSound(BGSoundEvents.GEIST_ATTACK_EVENT, 1, 1);
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {}
+
+    @Override
+    protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {}
+
+    @Override
     public boolean isFlapping() {
         return !this.onGround();
     }
 
     @Override
     protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
-        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level) {
-            @Override
-            public void tick() {
-                super.tick();
-            }
+		return new GeistPathNavigation(this, level);
+    }
 
-            @Override
-            public boolean isStableDestination(@NotNull BlockPos pos) {
-                return this.level.getBlockState(pos).isAir();
-            }
-        };
-        flyingpathnavigation.setCanOpenDoors(false);
-        flyingpathnavigation.setCanFloat(true);
-        flyingpathnavigation.setCanPassDoors(true);
-        return flyingpathnavigation;
+    public static class GeistPathNavigation extends FlyingPathNavigation {
+
+        public GeistPathNavigation(Mob mob, Level level) {
+            super(mob, level);
+            this.setCanOpenDoors(false);
+            this.setCanFloat(true);
+            this.setCanPassDoors(true);
+        }
+
+        @Override
+        public boolean isStableDestination(@NotNull BlockPos pos) {
+            return this.level.getBlockState(pos).isAir();
+        }
+
     }
 
     @Override
     public void aiStep() {
+//        BlockPos blockPos = this.blockPosition();
+//        RandomSource randomSource = this.getRandom();
+//        BlockPos pos = blockPos.offset(randomSource.nextInt(20) - 10, randomSource.nextInt(6) - 3, randomSource.nextInt(20) - 10);
 
-            BlockPos blockPos = this.blockPosition();
-            RandomSource randomSource = this.getRandom();
-            BlockPos pos = blockPos.offset(randomSource.nextInt(20) - 10, randomSource.nextInt(6) - 3, randomSource.nextInt(20) - 10);
-
-            if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) > this.getLightThreshold() || this.isOnFire()) {
-                this.gotoPosition = Vec3.atBottomCenterOf(pos);
-            }
+//        if (this.level().getBrightness(LightLayer.BLOCK, this.blockPosition()) > this.getLightThreshold() || this.isOnFire()) {
+//            this.gotoPosition = Vec3.atBottomCenterOf(pos);
+//        }
 
         super.aiStep();
-    }
-
-    public int getLightThreshold() {
-        return this.entityData.get(LIGHT_THRESHOLD);
-    }
-
-    public void setLightThreshold(int threshold) {
-        this.entityData.set(LIGHT_THRESHOLD, threshold);
     }
 
     @Override
@@ -151,4 +186,5 @@ public class GeistEntity extends Monster implements FlyingAnimal
     public static boolean canSpawn(EntityType<? extends Mob> type, LevelAccessor level, MobSpawnType reason, BlockPos blockPos, RandomSource random) {
         return level.getBlockState(blockPos.below()).is(JamiesModTag.WRAITH_SPAWNABLE_ON);
     }
+
 }

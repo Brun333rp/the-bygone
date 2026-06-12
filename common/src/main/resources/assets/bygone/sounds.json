@@ -600,6 +600,51 @@
     "subtitle": "subtitles.entity.wraith.fly"
   },
 
+  "entity.geist.ambient": {
+    "sounds": [
+      "bygone:entity/lithy/idle1",
+      "bygone:entity/lithy/idle2",
+      "bygone:entity/lithy/idle3"
+    ],
+    "subtitle": "subtitles.entity.geist.ambient"
+  },
+  "entity.geist.attack": {
+    "sounds": [
+      "bygone:entity/wraith/attack"
+    ],
+    "subtitle": "subtitles.entity.geist.attack"
+  },
+  "entity.geist.ambient.angry": {
+    "sounds": [
+      "bygone:entity/lithy/idle1",
+      "bygone:entity/lithy/idle2",
+      "bygone:entity/lithy/idle3"
+    ],
+    "subtitle": "subtitles.entity.geist.ambient.angry"
+  },
+  "entity.geist.hurt": {
+    "sounds": [
+      "bygone:entity/lithy/hit1",
+      "bygone:entity/lithy/hit2",
+      "bygone:entity/lithy/hit3"
+    ],
+    "subtitle": "subtitles.entity.geist.hurt"
+  },
+  "entity.geist.death": {
+    "sounds": [
+      "bygone:entity/lithy/death1",
+      "bygone:entity/lithy/death2",
+      "bygone:entity/lithy/death3"
+    ],
+    "subtitle": "subtitles.entity.geist.death"
+  },
+  "entity.geist.fly": {
+    "sounds": [
+      "bygone:entity/wraith/fly1"
+    ],
+    "subtitle": "subtitles.entity.geist.fly"
+  },
+
   "entity.lithy.ambient": {
     "sounds": [
       "bygone:entity/lithy/idle1",
