@@ -775,6 +775,12 @@
   "subtitles.entity.sabeast.hurt": "Sabeast hurts",
   "subtitles.entity.sabeast.death": "Sabeast dies",
 
+  "subtitles.entity.geist.attack": "Geist attacks",
+  "subtitles.entity.geist.ambient": "Geist murmurs",
+  "subtitles.entity.geist.ambient.angry": "Geist shrieks",
+  "subtitles.entity.geist.hurt": "Geist hurts",
+  "subtitles.entity.geist.death": "Geist dies",
+
   "subtitles.entity.haunt.attack": "Haunt attacks",
   "subtitles.entity.haunt.ambient": "Haunt glees",
   "subtitles.entity.haunt.hurt": "Haunt hurts",

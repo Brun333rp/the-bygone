@@ -82,6 +82,12 @@ public class BGSoundEvents {
     public static final ResourceLocation ENTITY_LITHY_TRIP = id("entity.lithy.trip");
     public static final ResourceLocation ENTITY_LITHY_HURT = id("entity.lithy.hurt");
     public static final ResourceLocation ENTITY_LITHY_DEATH = id("entity.lithy.death");
+    public static final ResourceLocation ENTITY_GEIST_AMBIENT = id("entity.geist.ambient");
+    public static final ResourceLocation ENTITY_GEIST_AMBIENT_ANGRY = id("entity.geist.ambient.angry");
+    public static final ResourceLocation ENTITY_GEIST_ATTACK = id("entity.geist.attack");
+    public static final ResourceLocation ENTITY_GEIST_HURT = id("entity.geist.hurt");
+    public static final ResourceLocation ENTITY_GEIST_DEATH = id("entity.geist.death");
+    public static final ResourceLocation ENTITY_GEIST_FLY = id("entity.geist.fly");
 
     public static final ResourceLocation WEATHER_INVERTED_RAIN = id("weather.inverted_rain");
     public static SoundEvent WEATHER_INVERTED_RAIN_EVENT = SoundEvent.createVariableRangeEvent(WEATHER_INVERTED_RAIN);
@@ -149,6 +155,12 @@ public class BGSoundEvents {
     public static SoundEvent WRAITH_FLY_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_WRAITH_FLY);
     public static SoundEvent WRAITH_TELEPORT_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_WRAITH_TELEPORT);
 
+    public static SoundEvent GEIST_AMBIENT_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_GEIST_AMBIENT);
+    public static SoundEvent GEIST_AMBIENT_ANGRY_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_GEIST_AMBIENT_ANGRY);
+    public static SoundEvent GEIST_ATTACK_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_GEIST_ATTACK);
+    public static SoundEvent GEIST_DEATH_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_GEIST_DEATH);
+    public static SoundEvent GEIST_HURT_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_GEIST_HURT);
+    public static SoundEvent GEIST_FLY_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_GEIST_FLY);
 
     public static SoundEvent AMOEBA_AMBIENT_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_AMOEBA_AMBIENT);
     public static SoundEvent AMOEBA_FLOP_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_AMOEBA_FLOP);
