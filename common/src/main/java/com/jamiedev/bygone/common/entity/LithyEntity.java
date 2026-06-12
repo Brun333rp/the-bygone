@@ -644,7 +644,7 @@ public class LithyEntity extends PathfinderMob {
 
         public LithyFollowPlayerGoal(LithyEntity mob, double speedModifier, float stopDistance, float areaSize) {
             this.mob = mob;
-            this.followPredicate = Objects::nonNull;//&& mob.getClass() != p_25278_.getClass();
+            this.followPredicate = Objects::nonNull;
             this.speedModifier = speedModifier;
             this.navigation = mob.getNavigation();
             this.stopDistance = stopDistance;

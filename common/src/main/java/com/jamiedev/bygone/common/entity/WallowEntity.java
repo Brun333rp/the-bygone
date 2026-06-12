@@ -1,87 +1,270 @@
 package com.jamiedev.bygone.common.entity;
 
+import com.jamiedev.bygone.core.init.JamiesModTag;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.FlyingAnimal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.ai.util.AirRandomPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class WallowEntity extends Animal implements FlyingAnimal
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+
+public class WallowEntity extends FlyingMob
 {
-    public WallowEntity(EntityType<? extends Animal> entityType, Level level) {
+    
+    public WallowEntity(EntityType<? extends WallowEntity> entityType, Level level) {
         super(entityType, level);
-        this.moveControl = new FlyingMoveControl(this, 20, true);
+        this.moveControl = new WallowEntityMoveControl(this);
     }
 
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(1, new WallowEntity.RandomFloatAroundGoal(this));
+        this.goalSelector.addGoal(2, new WallowEntity.WallowEntityLookGoal(this));
+        this.goalSelector.addGoal(3, new FollowMobGoal(this, 1.0, 3.0F, 7.0F));
+        this.goalSelector.addGoal(6, new WallowFollowPlayerGoal(this, 1.4F, 3.0F, 10.0F));
+  }
+    
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, (double)20.0F).add(Attributes.FLYING_SPEED, (double)0.1F).add(Attributes.MOVEMENT_SPEED, (double)0.1F).add(Attributes.ATTACK_DAMAGE, (double)2.0F).add(Attributes.FOLLOW_RANGE, (double)48.0F);
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 10.0)
+                .add(Attributes.MOVEMENT_SPEED, 0.01)
+                .add(Attributes.FOLLOW_RANGE, 10.0);
     }
 
-    protected PathNavigation createNavigation(Level level) {
-        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level);
-        flyingpathnavigation.setCanOpenDoors(false);
-        flyingpathnavigation.setCanFloat(true);
-        flyingpathnavigation.setCanPassDoors(true);
-        return flyingpathnavigation;
+    @Override
+    public void playerTouch(@NotNull Player entity) {
+        int i = 1;
+        if (entity instanceof ServerPlayer && entity.hurt(this.damageSources().mobAttack(this), (float) (1 + i))) {
+            this.playSound(SoundEvents.PLAYER_HURT_FREEZE, 1.0F, 1.0F);
+            entity.hurt(this.damageSources().freeze(), i + random.nextInt(6));
+        }
     }
 
-    protected void playStepSound(BlockPos pos, BlockState state) {
-    }
 
-    protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
-    }
+    static class WallowEntityLookGoal extends Goal {
+        private final WallowEntity wallow;
 
-    public void travel(Vec3 travelVector) {
-        if (this.isControlledByLocalInstance()) {
-            if (this.isInWater()) {
-                this.moveRelative(0.02F, travelVector);
-                this.move(MoverType.SELF, this.getDeltaMovement());
-                this.setDeltaMovement(this.getDeltaMovement().scale((double)0.8F));
-            } else if (this.isInLava()) {
-                this.moveRelative(0.02F, travelVector);
-                this.move(MoverType.SELF, this.getDeltaMovement());
-                this.setDeltaMovement(this.getDeltaMovement().scale((double)0.5F));
+        public WallowEntityLookGoal(WallowEntity wallow) {
+            this.wallow = wallow;
+            this.setFlags(EnumSet.of(Goal.Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            return true;
+        }
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            if (this.wallow.getTarget() == null) {
+                Vec3 vec3 = this.wallow.getDeltaMovement();
+                this.wallow.setYRot(-((float)Mth.atan2(vec3.x, vec3.z)) * (180.0F / (float)Math.PI));
+                this.wallow.yBodyRot = this.wallow.getYRot();
             } else {
-                this.moveRelative(this.getSpeed(), travelVector);
-                this.move(MoverType.SELF, this.getDeltaMovement());
-                this.setDeltaMovement(this.getDeltaMovement().scale((double)0.91F));
+                LivingEntity livingentity = this.wallow.getTarget();
+                double d0 = 64.0;
+                if (livingentity.distanceToSqr(this.wallow) < 4096.0) {
+                    double d1 = livingentity.getX() - this.wallow.getX();
+                    double d2 = livingentity.getZ() - this.wallow.getZ();
+                    this.wallow.setYRot(-((float)Mth.atan2(d1, d2)) * (180.0F / (float)Math.PI));
+                    this.wallow.yBodyRot = this.wallow.getYRot();
+                }
+            }
+        }
+    }
+
+    static class WallowEntityMoveControl extends MoveControl {
+        private final WallowEntity wallow;
+        private int floatDuration;
+
+        public WallowEntityMoveControl(WallowEntity wallow) {
+            super(wallow);
+            this.wallow = wallow;
+        }
+
+        @Override
+        public void tick() {
+            if (this.operation == MoveControl.Operation.MOVE_TO) {
+                if (this.floatDuration-- <= 0) {
+                    this.floatDuration = this.floatDuration + this.wallow.getRandom().nextInt(5) + 2;
+                    Vec3 vec3 = new Vec3(this.wantedX - this.wallow.getX(), this.wantedY - this.wallow.getY(), this.wantedZ - this.wallow.getZ());
+                    double d0 = vec3.length();
+                    vec3 = vec3.normalize();
+                    if (this.canReach(vec3, Mth.ceil(d0))) {
+                        this.wallow.setDeltaMovement(this.wallow.getDeltaMovement().add(vec3.scale(0.1)));
+                    } else {
+                        this.operation = MoveControl.Operation.WAIT;
+                    }
+                }
             }
         }
 
-        this.calculateEntityAnimation(false);
+        private boolean canReach(Vec3 pos, int length) {
+            AABB aabb = this.wallow.getBoundingBox();
+
+            for (int i = 1; i < length; i++) {
+                aabb = aabb.move(pos);
+                if (!this.wallow.level().noCollision(this.wallow, aabb)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 
+    static class RandomFloatAroundGoal extends Goal {
+        private final WallowEntity wallow;
 
-    @Override
-    public float getLightLevelDependentMagicValue() {
-        return 1.0F;
+        public RandomFloatAroundGoal(WallowEntity wallow) {
+            this.wallow = wallow;
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            MoveControl movecontrol = this.wallow.getMoveControl();
+            if (!movecontrol.hasWanted()) {
+                return true;
+            } else {
+                double d0 = movecontrol.getWantedX() - this.wallow.getX();
+                double d1 = movecontrol.getWantedY() - this.wallow.getY();
+                double d2 = movecontrol.getWantedZ() - this.wallow.getZ();
+                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+                return d3 < 1.0 || d3 > 3600.0;
+            }
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return false;
+        }
+
+        @Override
+        public void start() {
+            RandomSource randomsource = this.wallow.getRandom();
+            double d0 = this.wallow.getX() + (double)((randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F);
+            double d1 = this.wallow.getY() + (double)((randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F);
+            double d2 = this.wallow.getZ() + (double)((randomsource.nextFloat() * 2.0F - 1.0F) * 16.0F);
+            this.wallow.getMoveControl().setWantedPosition(d0, d1, d2, 1.0);
+        }
     }
 
-    @Override
-    public boolean isFood(ItemStack itemStack) {
-        return false;
+    static class WallowFollowPlayerGoal extends Goal {
+        private final WallowEntity mob;
+        private final Predicate<Player> followPredicate;
+        private final double speedModifier;
+        private final PathNavigation navigation;
+        private final float stopDistance;
+        private final float areaSize;
+        @javax.annotation.Nullable
+        private Player followingMob;
+        private int timeToRecalcPath;
+        private float oldWaterCost;
+
+        public WallowFollowPlayerGoal(WallowEntity mob, double speedModifier, float stopDistance, float areaSize) {
+            this.mob = mob;
+            this.followPredicate = Objects::nonNull;
+            this.speedModifier = speedModifier;
+            this.navigation = mob.getNavigation();
+            this.stopDistance = stopDistance;
+            this.areaSize = areaSize;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+            if (!(mob.getNavigation() instanceof GroundPathNavigation) && !(mob.getNavigation() instanceof FlyingPathNavigation)) {
+                throw new IllegalArgumentException("Unsupported mob type for FollowPlayerGoal");
+            }
+        }
+
+        public boolean canUse() {
+
+                List<Player> list = this.mob.level().getEntitiesOfClass(Player.class, this.mob.getBoundingBox().inflate(this.areaSize), this.followPredicate);
+                if (!list.isEmpty()) {
+                    for (Player mob : list) {
+                        if (!mob.isInvisible()) {
+                            this.followingMob = mob;
+                            return true;
+                        }
+                    }
+                }
+
+
+            return false;
+        }
+
+        public boolean canContinueToUse() {
+            return this.followingMob != null && !this.navigation.isDone() && this.mob.distanceToSqr(this.followingMob) > (double) (this.stopDistance * this.stopDistance);
+        }
+
+        public void start() {
+            this.timeToRecalcPath = 0;
+            this.oldWaterCost = this.mob.getPathfindingMalus(PathType.WATER);
+            this.mob.setPathfindingMalus(PathType.WATER, 0.0F);
+        }
+
+        public void stop() {
+            this.followingMob = null;
+            this.navigation.stop();
+            this.mob.setPathfindingMalus(PathType.WATER, this.oldWaterCost);
+        }
+
+        public void tick() {
+            if (this.followingMob != null && !this.mob.isLeashed()) {
+                this.mob.getLookControl().setLookAt(this.followingMob, 10.0F, (float) this.mob.getMaxHeadXRot());
+                if (--this.timeToRecalcPath <= 0) {
+                    this.timeToRecalcPath = this.adjustedTickDelay(10);
+                    double d0 = this.mob.getX() - this.followingMob.getX();
+                    double d1 = this.mob.getY() - this.followingMob.getY();
+                    double d2 = this.mob.getZ() - this.followingMob.getZ();
+                    double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+                    if (!(d3 <= (double) (this.stopDistance * this.stopDistance))) {
+                        this.navigation.moveTo(this.followingMob, this.speedModifier);
+                    } else {
+                        this.navigation.stop();
+
+                    }
+                }
+            }
+
+        }
     }
 
-    @Override
-    public @Nullable AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        return null;
-    }
-
-    @Override
-    public boolean isFlying() {
-        return false;
-    }
 }

@@ -77,6 +77,7 @@ public class JamiesModTag {
     public static final TagKey<Block> COPPERBUGNESTS = Blocks.createTag("copperbug_nests");
 
     public static final TagKey<EntityType<?>> SPECTRAL = Entities.createTag("spectral");
+    public static final TagKey<EntityType<?>> NOT_FREEZE_WALLOW = Entities.createTag("not_freeze_wallow");
 
     public static final TagKey<EntityType<?>> ICE_BOUQUET_HEALS = Entities.createTag("ice_bouquet_heals");
 

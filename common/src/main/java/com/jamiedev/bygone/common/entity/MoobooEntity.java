@@ -44,6 +44,8 @@ public class MoobooEntity extends Cow {
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, SabeastEntity.class, 16.0F, (double)1.0F,
+                1.75));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, HauntEntity.class, 16.0F, (double)1.0F,
                 1.5));
     }
