@@ -3110,6 +3110,16 @@ public class BGBlocks {
                         return 1;
                     }))
     );
+    public static Supplier<Block> HAUNTED_GROUND = registerBlock(
+            "haunted_ground",
+            () -> new HauntedGroundBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_CYAN)
+                    .noCollission()
+                    .instabreak()
+                    .sound(SoundType.SLIME_BLOCK)
+                    .pushReaction(PushReaction.DESTROY)
+                    .lightLevel(state -> 1))
+    );
 
     public static Supplier<Block> MURKLING_EGG = registerBlock(
             "murkling_egg",
