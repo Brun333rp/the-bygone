@@ -2,6 +2,7 @@ package com.jamiedev.bygone.core.mixin;
 
 import com.jamiedev.bygone.common.item.VerdigrisBladeItem;
 import com.jamiedev.bygone.core.init.JamiesModTag;
+import com.jamiedev.bygone.core.registry.BGDamageTypes;
 import com.jamiedev.bygone.core.registry.BGMobEffects;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -82,6 +83,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@WrapMethod(method = "isInvulnerableTo")
 	private boolean wrapIsInvulnerableTo(DamageSource source, Operation<Boolean> original) {
+
 		if (this.getType().is(JamiesModTag.SPECTRAL)) {
 			if (source.getWeaponItem() == null || !source.getWeaponItem().is(JamiesModTag.SPECTRAL_VULNERABLE_TO)) {
 				return true;
