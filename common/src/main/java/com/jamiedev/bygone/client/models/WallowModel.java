@@ -43,6 +43,17 @@ public class WallowModel<T extends Entity> extends HierarchicalModel<T> {
 	@Override
 	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
+		boolean flag = entity.onGround() && entity.getDeltaMovement().lengthSqr() < 1.0E-7;
+
+		if (flag)
+		{
+
+		}
+
+		else
+		{
+
+		}
 	}
 
 	@Override

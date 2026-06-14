@@ -43,6 +43,7 @@ public class BygoneClient {
         consumer.accept(BGBlocks.BYGONE_PORTAL.get(), RenderType.translucent());
 
         consumer.accept(BGBlocks.SMOOTH_SEAGLASS.get(), RenderType.cutoutMipped());
+        consumer.accept(BGBlocks.HAUNTED_GROUND.get(), RenderType.translucent());
         consumer.accept(BGBlocks.SEAGLASS_BLOCK.get(), RenderType.translucent());
         consumer.accept(BGBlocks.SEAGLASS_PANE.get(), RenderType.translucent());
         consumer.accept(BGBlocks.COBBLED_SEAGLASS.get(), RenderType.solid());
