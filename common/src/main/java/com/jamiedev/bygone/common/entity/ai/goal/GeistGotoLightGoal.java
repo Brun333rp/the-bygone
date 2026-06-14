@@ -25,13 +25,11 @@ public class GeistGotoLightGoal extends MoveToBlockGoal {
     @Override
     public void start() {
         super.start();
-        System.out.println("TEST");
     }
 
     @Override
     public void stop() {
         super.stop();
-//        this.geist.gotoPosition = null;
     }
 
     @Override
@@ -60,8 +58,6 @@ public class GeistGotoLightGoal extends MoveToBlockGoal {
 //        int lightLevel = this.geist.level().getBrightness(LightLayer.BLOCK, this.geist.blockPosition());
         int lightLevel = level.getBrightness(LightLayer.BLOCK, pos);
         int threshold = this.geist.getLightThreshold();
-//        System.out.println(lightLevel);
-//        System.out.println(threshold);
         boolean aboveThreshold = lightLevel > threshold || this.geist.isOnFire();
         return level.isEmptyBlock(pos.above()) && aboveThreshold;
     }
