@@ -99,7 +99,6 @@ public class GeistEntity extends Monster implements FlyingAnimal {
     }
 
     public int getLightThreshold() {
-        System.out.println(this.entityData.get(LIGHT_THRESHOLD));
         return this.entityData.get(LIGHT_THRESHOLD);
     }
 
