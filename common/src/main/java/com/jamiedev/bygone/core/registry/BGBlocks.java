@@ -1231,14 +1231,12 @@ public class BGBlocks {
                     (SimpleParticleType) BGParticleTypes.ALGAE_BLOOM,
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.GLOW_LICHEN)
-                            .replaceable()
                             .noCollission()
-                            .strength(0.2F)
+                            .instabreak()
                             .sound(SoundType.GLOW_LICHEN)
                             .lightLevel((state) -> {
                                 return 15;
                             })
-                            .ignitedByLava()
                             .pushReaction(PushReaction.DESTROY)
             )
     );

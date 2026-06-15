@@ -9,10 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BushBlock;
-import net.minecraft.world.level.block.IceBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -21,6 +18,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BlueAlgueBlock extends BushBlock {
+
     public static final MapCodec<BlueAlgueBlock> CODEC = simpleCodec(BlueAlgueBlock::new);
     protected static final VoxelShape SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 1.5, 15.0);
 
@@ -61,8 +59,10 @@ public class BlueAlgueBlock extends BushBlock {
         return SHAPE;
     }
 
-    @Override
-    protected boolean mayPlaceOn(BlockState floor, BlockGetter world, BlockPos pos) {
-        return world.getFluidState(pos).getType() == Fluids.WATER || floor.getBlock() instanceof IceBlock;
+    protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
+        FluidState fluidstate = level.getFluidState(pos);
+        FluidState fluidstate1 = level.getFluidState(pos.above());
+        return (fluidstate.getType() == Fluids.WATER || state.getBlock() instanceof IceBlock) && fluidstate1.getType() == Fluids.EMPTY;
     }
+
 }
