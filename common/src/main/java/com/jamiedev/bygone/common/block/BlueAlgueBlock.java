@@ -17,9 +17,10 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class BlueAlgueBlock extends BushBlock {
+public class BlueAlgueBlock extends WaterlilyBlock
+{
 
-    public static final MapCodec<BlueAlgueBlock> CODEC = simpleCodec(BlueAlgueBlock::new);
+    //public static final MapCodec<BlueAlgueBlock> CODEC = simpleCodec(BlueAlgueBlock::new);
     protected static final VoxelShape SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 1.5, 15.0);
 
     protected SimpleParticleType particle;
@@ -35,10 +36,6 @@ public class BlueAlgueBlock extends BushBlock {
         super(settings);
     }
 
-    @Override
-    public MapCodec<BlueAlgueBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
@@ -59,10 +56,5 @@ public class BlueAlgueBlock extends BushBlock {
         return SHAPE;
     }
 
-    protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-        FluidState fluidstate = level.getFluidState(pos);
-        FluidState fluidstate1 = level.getFluidState(pos.above());
-        return (fluidstate.getType() == Fluids.WATER || state.getBlock() instanceof IceBlock) && fluidstate1.getType() == Fluids.EMPTY;
-    }
 
 }
