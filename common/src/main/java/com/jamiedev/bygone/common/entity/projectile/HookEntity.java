@@ -152,6 +152,7 @@ public class HookEntity extends AbstractArrow {
         } else {
             float f = this.getDimensions(this.getPose()).width() * 0.8F;
             AABB box = AABB.ofSize(this.getEyePosition(), f, 1.0E-6, f);
+            // this.playSound(BGSoundEvents.HOOK_HIT_ADDITIONS_EVENT, 0.25F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
             return BlockPos.betweenClosedStream(box).anyMatch((pos) -> {
                 BlockState blockState = this.level().getBlockState(pos);
                 return !blockState.isAir() && Shapes.joinIsNotEmpty(blockState.getCollisionShape(this.level(), pos)
