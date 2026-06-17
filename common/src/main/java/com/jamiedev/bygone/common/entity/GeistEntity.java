@@ -1,6 +1,8 @@
 package com.jamiedev.bygone.common.entity;
 
 import com.jamiedev.bygone.common.entity.ai.goal.GeistGotoLightGoal;
+import com.jamiedev.bygone.common.entity.ai.goal.GeistLeapGoal;
+import com.jamiedev.bygone.common.entity.ai.navigation.GeistPathNavigation;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import net.minecraft.core.BlockPos;
@@ -20,7 +22,6 @@ import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.monster.Monster;
@@ -63,8 +64,9 @@ public class GeistEntity extends Monster implements FlyingAnimal {
         super.registerGoals();
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, HauntEntity.class, 16, 1, 1.5F));
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5F, true));
-        this.goalSelector.addGoal(4, new GeistGotoLightGoal(this, 5, 8));
+        this.goalSelector.addGoal(2, new GeistGotoLightGoal(this, 5, 8));
+        this.goalSelector.addGoal(3, new GeistLeapGoal(this, 0.2F));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 2, true));
         this.goalSelector.addGoal(8, new WraithEntity.WraithWanderGoal(this, 0.6F));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3, 1));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, WraithEntity.class).setAlertOthers());
@@ -146,22 +148,6 @@ public class GeistEntity extends Monster implements FlyingAnimal {
     @Override
     protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
 		return new GeistPathNavigation(this, level);
-    }
-
-    public static class GeistPathNavigation extends FlyingPathNavigation {
-
-        public GeistPathNavigation(Mob mob, Level level) {
-            super(mob, level);
-            this.setCanOpenDoors(false);
-            this.setCanFloat(true);
-            this.setCanPassDoors(true);
-        }
-
-        @Override
-        public boolean isStableDestination(@NotNull BlockPos pos) {
-            return this.level.getBlockState(pos).isAir();
-        }
-
     }
 
     @Override

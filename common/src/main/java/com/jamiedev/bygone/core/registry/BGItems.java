@@ -311,6 +311,10 @@ public class BGItems {
             "fungal_parent_spawn_egg",
             () -> new SpawnEggItem(BGEntityTypes.FUNGAL_PARENT.get(), 0xf5f7e3, 0x3ed8fe, new Item.Properties())
     );
+    public static final Supplier<Item> GEIST_SPAWN_EGG = registerItem(
+            "geist_spawn_egg",
+            () -> new SpawnEggItem(BGEntityTypes.GEIST.get(), 0x254e6e, 0x3b9cde, new Item.Properties())
+    );
     public static final Supplier<Item> HAUNT_SPAWN_EGG = registerItem(
             "haunt_spawn_egg",
             () -> new SpawnEggItem(BGEntityTypes.HAUNT.get(), 0x9AE4BC, 0xb2c7c8, new Item.Properties())

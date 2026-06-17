@@ -2,13 +2,10 @@ package com.jamiedev.bygone.common.entity.ai.goal;
 
 import com.jamiedev.bygone.common.entity.GeistEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
-import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.EnumSet;
 
@@ -44,7 +41,10 @@ public class GeistGotoLightGoal extends MoveToBlockGoal {
         );
 //        Vec3 vec3 = LandRandomPos.getPosTowards(this.geist, 10, 7, this.geist.position());
 //        this.geist.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, 1.6D);
-        if (this.isReachedTarget()) this.nextStartTick = 10;
+        if (this.isReachedTarget()) {
+            this.nextStartTick = 200;
+            this.stop();
+        }
 //        if (this.geist.getNavigation().isDone()) {
 //            Vec3 vec3 = LandRandomPos.getPosTowards(this.geist, 10, 7, this.geist.gotoPosition);
 //            if (vec3 != null) {
@@ -55,8 +55,10 @@ public class GeistGotoLightGoal extends MoveToBlockGoal {
     
     @Override
     protected boolean isValidTarget(LevelReader level, BlockPos pos) {
-//        int lightLevel = this.geist.level().getBrightness(LightLayer.BLOCK, this.geist.blockPosition());
-        int lightLevel = level.getBrightness(LightLayer.BLOCK, pos);
+        if (this.geist.distanceToSqr(pos.getX(), pos.getY(), pos.getZ()) < 4) return false;
+
+        BlockState state = level.getBlockState(pos);
+        int lightLevel = state.getLightEmission();
         int threshold = this.geist.getLightThreshold();
         boolean aboveThreshold = lightLevel > threshold || this.geist.isOnFire();
         return level.isEmptyBlock(pos.above()) && aboveThreshold;
