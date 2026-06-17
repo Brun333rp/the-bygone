@@ -60,6 +60,7 @@ public class HookRenderer extends EntityRenderer<HookEntity> {
         ItemStack chainStack = new ItemStack(Blocks.CHAIN.asItem());
 
         int segments = (int)Math.round(distance * 4.0D);
+        if (segments < 1) segments = 1;
 
         Vec3 hookPos = hook.getPosition(partialTick);
 
@@ -113,25 +114,35 @@ public class HookRenderer extends EntityRenderer<HookEntity> {
     @Override
     public void render(HookEntity hook, float yaw, float tickDelta, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light) {
         Player playerOwner = hook.getPlayerOwner();
-        if (playerOwner != null) {
-            matrixStack.pushPose();
-            matrixStack.pushPose();
-            matrixStack.scale(0.5F, 0.5F, 0.5F);
-            matrixStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-            PoseStack.Pose hookEntry = matrixStack.last();
-            VertexConsumer hookBuffer = vertexConsumerProvider.getBuffer(LAYER);
-            vertex(hookBuffer, hookEntry, light, 0.0F, 0, 0, 1);
-            vertex(hookBuffer, hookEntry, light, 1.0F, 0, 1, 1);
-            vertex(hookBuffer, hookEntry, light, 1.0F, 1, 1, 0);
-            vertex(hookBuffer, hookEntry, light, 0.0F, 1, 0, 0);
-            matrixStack.popPose();
+        if (playerOwner != null && hook.tickCount > 1) {
+            float progress = hook.getChainProgress(tickDelta);
+
             float handSwingProgress = playerOwner.getAttackAnim(tickDelta);
             float handBob = Mth.sin(Mth.sqrt(handSwingProgress) * Mth.PI);
             Vec3 handPos = this.getHandPos(playerOwner, handBob, tickDelta, BGItems.ANCIENT_HOOK.get());
             Vec3 lerpedPos = hook.getPosition(tickDelta).add(0.0, 0.25, 0.0);
-            renderChain(matrixStack, vertexConsumerProvider, hook, handPos, lerpedPos, tickDelta);
+            Vec3 animatedEnd = handPos.lerp(lerpedPos, progress);
+
+            matrixStack.pushPose();
+            if (progress > 0.5F) {
+                matrixStack.pushPose();
+                matrixStack.scale(0.5F, 0.5F, 0.5F);
+                matrixStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+                PoseStack.Pose hookEntry = matrixStack.last();
+                VertexConsumer hookBuffer = vertexConsumerProvider.getBuffer(LAYER);
+                vertex(hookBuffer, hookEntry, light, 0.0F, 0, 0, 1);
+                vertex(hookBuffer, hookEntry, light, 1.0F, 0, 1, 1);
+                vertex(hookBuffer, hookEntry, light, 1.0F, 1, 1, 0);
+                vertex(hookBuffer, hookEntry, light, 0.0F, 1, 0, 0);
+                matrixStack.popPose();
+            }
+
+            renderChain(matrixStack, vertexConsumerProvider, hook, handPos, animatedEnd, tickDelta);
             matrixStack.popPose();
-            super.render(hook, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
+
+            if (progress > 0.5F) {
+                super.render(hook, yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
+            }
         }
     }
 
