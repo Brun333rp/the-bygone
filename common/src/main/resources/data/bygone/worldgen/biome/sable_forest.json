@@ -85,6 +85,10 @@
       "charge": 0.6,
       "energy_budget": 0.1
     },
+    "bygone:wallow": {
+      "charge": 0.65,
+      "energy_budget": 0.1
+    },
     "bygone:sabeast": {
       "charge": 0.7,
       "energy_budget": 0.15
@@ -102,6 +106,12 @@
 
     ],
     "monster": [
+      {
+        "type": "bygone:wallow",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 9
+      },
       {
         "type": "bygone:mooboo",
         "maxCount": 1,

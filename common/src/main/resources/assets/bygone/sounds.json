@@ -62,6 +62,10 @@
       {
         "name": "bygone:music/faraways",
         "stream": true
+      },
+      {
+        "name": "bygone:music/blurrededges",
+        "stream": true
       }
     ]
   },
@@ -74,6 +78,10 @@
       },
       {
         "name": "bygone:music/faraways",
+        "stream": true
+      },
+      {
+        "name": "bygone:music/blurrededges",
         "stream": true
       }
     ]
@@ -88,6 +96,10 @@
       {
         "name": "bygone:music/faraways",
         "stream": true
+      },
+      {
+        "name": "bygone:music/blurrededges",
+        "stream": true
       }
     ]
   },
@@ -100,6 +112,10 @@
       },
       {
         "name": "bygone:music/faraways",
+        "stream": true
+      },
+      {
+        "name": "bygone:music/blurrededges",
         "stream": true
       }
     ]
@@ -117,6 +133,10 @@
       },
       {
         "name": "bygone:music/faraways",
+        "stream": true
+      },
+      {
+        "name": "bygone:music/blurrededges",
         "stream": true
       }
     ]
@@ -341,6 +361,15 @@
     "sounds": [
       {
         "name": "bygone:music/faraways",
+        "stream": true
+      }
+    ]
+  },
+  "music.blurrededges": {
+    "category": "music",
+    "sounds": [
+      {
+        "name": "bygone:music/blurrededges",
         "stream": true
       }
     ]
