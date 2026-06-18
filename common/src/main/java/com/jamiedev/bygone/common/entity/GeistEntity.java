@@ -1,7 +1,8 @@
 package com.jamiedev.bygone.common.entity;
 
 import com.jamiedev.bygone.common.entity.ai.goal.GeistGotoLightGoal;
-import com.jamiedev.bygone.common.entity.ai.goal.GeistLeapGoal;
+import com.jamiedev.bygone.common.entity.ai.goal.GeistSwoopAttackGoal;
+import com.jamiedev.bygone.common.entity.ai.goal.SpectralWanderGoal;
 import com.jamiedev.bygone.common.entity.ai.navigation.GeistPathNavigation;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
@@ -64,10 +65,9 @@ public class GeistEntity extends Monster implements FlyingAnimal {
         super.registerGoals();
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, HauntEntity.class, 16, 1, 1.5F));
-        this.goalSelector.addGoal(2, new GeistGotoLightGoal(this, 5, 8));
-        this.goalSelector.addGoal(3, new GeistLeapGoal(this, 0.2F));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 2, true));
-        this.goalSelector.addGoal(8, new WraithEntity.WraithWanderGoal(this, 0.6F));
+        this.goalSelector.addGoal(2, new GeistGotoLightGoal(this, 2, 8));
+        this.goalSelector.addGoal(4, new GeistSwoopAttackGoal(this, 1.75F, true));
+        this.goalSelector.addGoal(8, new SpectralWanderGoal(this, 0.6F));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3, 1));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, WraithEntity.class).setAlertOthers());
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, this::targetTooClose));

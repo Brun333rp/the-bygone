@@ -22,11 +22,8 @@ public class GeistGotoLightGoal extends MoveToBlockGoal {
     @Override
     public void start() {
         super.start();
-    }
-
-    @Override
-    public void stop() {
-        super.stop();
+        this.geist.setAggressive(false);
+        this.geist.setTarget(null);
     }
 
     @Override
@@ -39,18 +36,10 @@ public class GeistGotoLightGoal extends MoveToBlockGoal {
             10,
             (float)this.geist.getMaxHeadXRot()
         );
-//        Vec3 vec3 = LandRandomPos.getPosTowards(this.geist, 10, 7, this.geist.position());
-//        this.geist.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, 1.6D);
         if (this.isReachedTarget()) {
             this.nextStartTick = 200;
             this.stop();
         }
-//        if (this.geist.getNavigation().isDone()) {
-//            Vec3 vec3 = LandRandomPos.getPosTowards(this.geist, 10, 7, this.geist.gotoPosition);
-//            if (vec3 != null) {
-//                this.geist.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, 1.6D);
-//            }
-//        }
     }
     
     @Override
