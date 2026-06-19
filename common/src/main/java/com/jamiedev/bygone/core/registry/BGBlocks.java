@@ -2730,10 +2730,10 @@ public class BGBlocks {
     public static final Supplier<Block> LITHINE_LAMP = registerBlock(
             "lithine_lamp", () ->
                     new LithineLampBlock(BlockBehaviour.Properties.of()
-                            .lightLevel(litBlockEmission(15))
-                            .strength(0.3F)
-                            .sound(SoundType.GLASS)
-                            .isValidSpawn(Blocks::always))
+                        .lightLevel(LithineLampBlock.lithineLampValue())
+                        .strength(0.3F)
+                        .sound(SoundType.GLASS)
+                        .isValidSpawn(Blocks::always))
     );
     public static final Supplier<Block> SABLE_SAPLING = registerBlock(
             "sable_sapling",
