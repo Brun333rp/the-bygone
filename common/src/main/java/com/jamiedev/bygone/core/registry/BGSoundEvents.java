@@ -25,6 +25,7 @@ public class BGSoundEvents {
     public static final ResourceLocation AMBIENT_SABLE_FOREST_LOOPS = id("ambient.sable_forest.loop");
     public static final ResourceLocation AMBIENT_SABLE_FOREST_ADDITIONS = id("ambient.sable_forest.additions");
     public static final Holder.Reference<SoundEvent> MUSIC_DISC_SHUFFLE = registerSoundEventHolder("music_disc.shuffle");
+    public static final Holder.Reference<SoundEvent> MUSIC_DISC_UNDER = registerSoundEventHolder("music_disc.under");
     public static final ResourceLocation BLOCK_MEGALITH_BLOCK_IDLE = id("block.megalith_block.idle");
 
     public static final ResourceLocation ENTITY_ARCANE_MECHANISM_OPEN = id("entity.arcane_mechanism.open");

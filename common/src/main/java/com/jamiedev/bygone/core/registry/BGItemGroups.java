@@ -461,6 +461,7 @@ public class BGItemGroups {
                         output.accept(BGBlocks.PINK_AMPHORA.get());
 
                         output.accept(BGItems.MUSIC_DISC_SHUFFLE.get());
+                        output.accept(BGItems.MUSIC_DISC_UNDER.get());
                     })
                     .title(Component.translatable("itemGroup.test"))
                     .build()

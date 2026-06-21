@@ -494,7 +494,12 @@ public class BGItems {
                     new BreathPodItem(new Item.Properties().fireResistant())
     );
 
-    //public static final Supplier<Item> BRONZE_BUCKET = registerItem((String)"bronze_bucket", () -> new BucketItem(BGFluids.BRONZE_STILL.get(), (new Item.Properties()).craftRemainder(BUCKET).stacksTo(1)));
+    public static final Supplier<Item> MUSIC_DISC_UNDER = registerItem(
+            "music_disc_under",
+            () -> new Item((new Item.Properties()).stacksTo(1)
+                    .rarity(Rarity.RARE)
+                    .jukeboxPlayable(BGJukeboxSongs.UNDER))
+    );
     public static final Supplier<Item> MUSIC_DISC_SHUFFLE = registerItem(
             "music_disc_shuffle",
             () -> new Item((new Item.Properties()).stacksTo(1)
