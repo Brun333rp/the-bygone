@@ -1231,14 +1231,12 @@ public class BGBlocks {
                     (SimpleParticleType) BGParticleTypes.ALGAE_BLOOM,
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.GLOW_LICHEN)
-                            .replaceable()
                             .noCollission()
-                            .strength(0.2F)
+                            .instabreak()
                             .sound(SoundType.GLOW_LICHEN)
                             .lightLevel((state) -> {
                                 return 15;
                             })
-                            .ignitedByLava()
                             .pushReaction(PushReaction.DESTROY)
             )
     );
@@ -2732,10 +2730,10 @@ public class BGBlocks {
     public static final Supplier<Block> LITHINE_LAMP = registerBlock(
             "lithine_lamp", () ->
                     new LithineLampBlock(BlockBehaviour.Properties.of()
-                            .lightLevel(litBlockEmission(15))
-                            .strength(0.3F)
-                            .sound(SoundType.GLASS)
-                            .isValidSpawn(Blocks::always))
+                        .lightLevel(LithineLampBlock.lithineLampValue())
+                        .strength(0.3F)
+                        .sound(SoundType.GLASS)
+                        .isValidSpawn(Blocks::always))
     );
     public static final Supplier<Block> SABLE_SAPLING = registerBlock(
             "sable_sapling",
@@ -3109,6 +3107,16 @@ public class BGBlocks {
                     .lightLevel((state) -> {
                         return 1;
                     }))
+    );
+    public static Supplier<Block> HAUNTED_GROUND = registerBlock(
+            "haunted_ground",
+            () -> new HauntedGroundBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_CYAN)
+                    .noCollission()
+                    .instabreak()
+                    .sound(SoundType.SLIME_BLOCK)
+                    .pushReaction(PushReaction.DESTROY)
+                    .lightLevel(state -> 1))
     );
 
     public static Supplier<Block> MURKLING_EGG = registerBlock(

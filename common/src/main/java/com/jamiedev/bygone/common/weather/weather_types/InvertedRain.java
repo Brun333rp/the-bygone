@@ -19,6 +19,10 @@ public class InvertedRain extends WeatherType {
         this.registerProperty(WeatherProperties::ofFloat, RAIN_AMOUNT, 0.0f);
     }
 
+    @Override public boolean isActive() {
+        return (boolean) this.getProperty(IS_RAINING).getValue();
+    }
+
     @Override
     public void startWeather() {
         assert level != null;

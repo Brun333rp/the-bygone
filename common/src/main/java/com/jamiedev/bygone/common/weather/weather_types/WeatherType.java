@@ -47,6 +47,7 @@ public abstract class WeatherType {
 
     public abstract void startWeather();
     public abstract void clearWeather();
+    public abstract boolean isActive();
 
     public void tick() {}
 

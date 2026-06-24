@@ -26,7 +26,7 @@ public class GeistModel<T extends Entity> extends EntityModel<T> {
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition Body = partdefinition.addOrReplaceChild("Body", CubeListBuilder.create().texOffs(0, 22).addBox(-4.0F, -20.0F, -4.0F, 8.0F, 18.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 48).addBox(-2.0F, -17.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 12.0F, 0.0F));
+				.texOffs(0, 48).addBox(-2.0F, -17.0F, -2.0F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 12.0F, 0.0F, 0.0F, 1.5708F, 0.0F));
 
 		PartDefinition LowerBody_r1 = Body.addOrReplaceChild("LowerBody_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-15.04F, -6.95F, -4.0F, 18.0F, 14.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.4F, 4.1F, 0.0F, 0.0F, 0.0F, 0.2182F));
 
@@ -40,7 +40,9 @@ public class GeistModel<T extends Entity> extends EntityModel<T> {
 
 		PartDefinition cube_r2 = ArmLeft.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(28, 44).addBox(-2.0F, -2.0F, -3.0F, 13.0F, 13.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -2.0F, 3.1F, 0.0094F, -0.0426F, 0.3489F));
 
-		PartDefinition Mouth = partdefinition.addOrReplaceChild("Mouth", CubeListBuilder.create().texOffs(16, 44).addBox(0.0F, -10.0F, -2.0F, 0.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, 10.0F, 0.0F, 0.0F, 0.0F, 0.2182F));
+		PartDefinition Mouth = partdefinition.addOrReplaceChild("Mouth", CubeListBuilder.create(), PartPose.offsetAndRotation(4.0F, 10.0F, 0.0F, 0.0F, 1.5708F, 0.2182F));
+
+		PartDefinition cube_r3 = Mouth.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(16, 44).addBox(1.2F, -11.0F, -2.7F, 0.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.8F, 1.0F, -3.0F, 0.2182F, 0.0F, 0.1745F));
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}

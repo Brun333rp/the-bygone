@@ -147,8 +147,22 @@ public class BigBeakEntity extends AbstractHorse implements VariantHolder<BigBea
         if (holder.is(JamiesModTag.SPAWNS_WARM_BIGBEAKS)) {
             return i < 80 ? BigBeakVariants.SAVANNA : (i < 90 ? BigBeakVariants.NOMAD : BigBeakVariants.PEACHY);
         } else {
-            return i < 10 ? BigBeakVariants.TRANS : i < 15 ? BigBeakVariants.LESBIAN : i < 20 ? BigBeakVariants.MLM :
-                    i < 30 ? BigBeakVariants.FROSTY : i < 40 ? BigBeakVariants.BLUEBILL : (i < 50 ? BigBeakVariants.TROPICAL : BigBeakVariants.NORMAL);
+            return
+                    i < 10 ? BigBeakVariants.PEACHY :
+                    i < 11 ? BigBeakVariants.SAVANNA :
+                    i < 12 ? BigBeakVariants.NOMAD:
+                    i < 13 ? BigBeakVariants.FROSTY :
+                    i < 14 ? BigBeakVariants.TROPICAL :
+                    i < 15 ? BigBeakVariants.BLUEBILL :
+                    i < 40 ? BigBeakVariants.FABLEGENDER :
+                    i < 41 ? BigBeakVariants.LESBIAN :
+                    i < 42 ? BigBeakVariants.MLM :
+                    i < 43 ? BigBeakVariants.TRANS :
+                    i < 44 ? BigBeakVariants.NB:
+                    i < 45 ? BigBeakVariants.BI :
+                    i < 46 ? BigBeakVariants.PRIDE :
+                    (i < 50 ? BigBeakVariants.PRIDE
+                            : BigBeakVariants.NORMAL);
         }
     }
 

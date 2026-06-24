@@ -6,7 +6,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import org.spongepowered.asm.util.ObfuscationUtil;
 
 import java.util.function.Supplier;
 
@@ -60,6 +59,7 @@ public class BGItemGroups {
                         output.accept(BGItems.COELACANTH_SPAWN_EGG.get());
                         output.accept(BGItems.COPPERBUG_SPAWN_EGG.get());
                         output.accept(BGItems.FUNGALPARENT_SPAWN_EGG.get());
+                        output.accept(BGItems.GEIST_SPAWN_EGG.get());
                         output.accept(BGItems.HAUNT_SPAWN_EGG.get());
                         output.accept(BGItems.LITHY_SPAWN_EGG.get());
                         output.accept(BGItems.MOOBOO_SPAWN_EGG.get());
@@ -168,6 +168,7 @@ public class BGItemGroups {
                         output.accept(BGBlocks.CLAYSTONE_BRICKS_SLAB.get());
                         output.accept(BGBlocks.CLAYSTONE_BRICKS_WALL.get());
 
+                        output.accept(BGItems.COPPER_NUGGET.get());
                         output.accept(BGBlocks.TERRACLAYSTONE.get());
                         output.accept(BGBlocks.EMBEDDED_TERRACLAYSTONE.get());
                         output.accept(BGBlocks.TERRACLAYSTONE_BRICKS.get());
@@ -460,6 +461,7 @@ public class BGItemGroups {
                         output.accept(BGBlocks.PINK_AMPHORA.get());
 
                         output.accept(BGItems.MUSIC_DISC_SHUFFLE.get());
+                        output.accept(BGItems.MUSIC_DISC_UNDER.get());
                     })
                     .title(Component.translatable("itemGroup.test"))
                     .build()

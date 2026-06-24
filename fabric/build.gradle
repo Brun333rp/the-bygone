@@ -76,3 +76,10 @@ modrinth {
         //   optional.version "sodium", "mc1.19.3-0.4.8" // Creates a new optional dependency on this specific version of Sodium
     }
 }
+afterEvaluate {
+    loom.runs.configureEach {
+        vmArgs "-XX:+IgnoreUnrecognizedVMOptions",
+                "-XX:+AllowEnhancedClassRedefinition",
+                "-javaagent:${configurations.compileClasspath.find { it.name.contains("sponge-mixin") }}"
+    }
+}

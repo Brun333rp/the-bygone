@@ -1,5 +1,6 @@
 package com.jamiedev.bygone.common.entity.projectile;
 
+import com.jamiedev.bygone.core.registry.BGDamageTypes;
 import com.jamiedev.bygone.core.registry.BGEntityTypes;
 import com.jamiedev.bygone.core.registry.BGItems;
 import com.jamiedev.bygone.core.registry.BGMobEffects;
@@ -67,6 +68,7 @@ public class LithoArrowEntity extends AbstractArrow
     protected void doPostHurtEffects(LivingEntity living) {
         super.doPostHurtEffects(living);
         MobEffectInstance mobeffectinstance = new MobEffectInstance(BGMobEffects.HAUNTED.get(), this.duration, 0);
+        living.hurt(BGDamageTypes.source(living.level(), BGDamageTypes.HAUNTED, living, living.getLastAttacker()), 1);
         living.addEffect(mobeffectinstance, this.getEffectSource());
     }
 

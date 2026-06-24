@@ -180,6 +180,10 @@ public class BGItems {
             "scuttle_spike",
             () -> new Item(new Item.Properties().fireResistant())
     );
+    public static final Supplier<Item> COPPER_NUGGET = registerItem(
+            "copper_nugget",
+            () -> new Item(new Item.Properties().fireResistant())
+    );
     public static final Supplier<Item> BEIGE_SLICE = registerItem(
             "glow_gourd_beige_slice",
             () -> new Item(new Item.Properties().food(Foods.CARROT))
@@ -306,6 +310,10 @@ public class BGItems {
     public static final Supplier<Item> FUNGALPARENT_SPAWN_EGG = registerItem(
             "fungal_parent_spawn_egg",
             () -> new SpawnEggItem(BGEntityTypes.FUNGAL_PARENT.get(), 0xf5f7e3, 0x3ed8fe, new Item.Properties())
+    );
+    public static final Supplier<Item> GEIST_SPAWN_EGG = registerItem(
+            "geist_spawn_egg",
+            () -> new SpawnEggItem(BGEntityTypes.GEIST.get(), 0x254e6e, 0x3b9cde, new Item.Properties())
     );
     public static final Supplier<Item> HAUNT_SPAWN_EGG = registerItem(
             "haunt_spawn_egg",
@@ -486,7 +494,12 @@ public class BGItems {
                     new BreathPodItem(new Item.Properties().fireResistant())
     );
 
-    //public static final Supplier<Item> BRONZE_BUCKET = registerItem((String)"bronze_bucket", () -> new BucketItem(BGFluids.BRONZE_STILL.get(), (new Item.Properties()).craftRemainder(BUCKET).stacksTo(1)));
+    public static final Supplier<Item> MUSIC_DISC_UNDER = registerItem(
+            "music_disc_under",
+            () -> new Item((new Item.Properties()).stacksTo(1)
+                    .rarity(Rarity.RARE)
+                    .jukeboxPlayable(BGJukeboxSongs.UNDER))
+    );
     public static final Supplier<Item> MUSIC_DISC_SHUFFLE = registerItem(
             "music_disc_shuffle",
             () -> new Item((new Item.Properties()).stacksTo(1)

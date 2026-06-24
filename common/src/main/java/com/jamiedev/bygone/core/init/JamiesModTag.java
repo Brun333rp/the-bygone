@@ -3,6 +3,7 @@ package com.jamiedev.bygone.core.init;
 import com.jamiedev.bygone.Bygone;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
@@ -69,7 +70,9 @@ public class JamiesModTag {
 
     public static final TagKey<Item> SABEAST_AFRAID_PLAYER_HOLD = Items.createTag("sabeast_afraid_player_hold");
 
-	public static final TagKey<Item> SPECTRAL_VULNERABLE_TO = Items.createTag("spectral_vulnerable_to");
+    public static final TagKey<EntityType<?>> SPECTRAL_VULNERABLE_TO_ENTITY = Entities.createTag("spectral_vulnerable_to");
+    public static final TagKey<DamageType> SPECTRAL_VULNERABLE_TO_DAMAGE = DamageTypes.createTag("spectral_vulnerable_to");
+    public static final TagKey<Item> SPECTRAL_VULNERABLE_TO_ITEM = Items.createTag("spectral_vulnerable_to");
 
 	public static final TagKey<Structure> ON_BYGONE_PORTAL_MAPS = Structures.createTag("on_bygone_portal_maps");
 
@@ -77,6 +80,7 @@ public class JamiesModTag {
     public static final TagKey<Block> COPPERBUGNESTS = Blocks.createTag("copperbug_nests");
 
     public static final TagKey<EntityType<?>> SPECTRAL = Entities.createTag("spectral");
+    public static final TagKey<EntityType<?>> NOT_FREEZE_WALLOW = Entities.createTag("not_freeze_wallow");
 
     public static final TagKey<EntityType<?>> ICE_BOUQUET_HEALS = Entities.createTag("ice_bouquet_heals");
 
@@ -93,6 +97,13 @@ public class JamiesModTag {
 
         private static TagKey<MobEffect> createTag(String name) {
             return TagKey.create(Registries.MOB_EFFECT, Bygone.id(name));
+        }
+    }
+
+    public static class DamageTypes {
+
+        private static TagKey<DamageType> createTag(String name) {
+            return TagKey.create(Registries.DAMAGE_TYPE, Bygone.id(name));
         }
     }
 

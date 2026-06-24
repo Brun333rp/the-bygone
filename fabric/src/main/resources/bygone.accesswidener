@@ -27,3 +27,6 @@ accessible field net/minecraft/world/level/block/BaseFireBlock fireDamage F
 accessible method net/minecraft/world/level/block/IronBarsBlock <init> (Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)V
 
 transitive-mutable field net/minecraft/world/level/block/entity/BlockEntityType validBlocks Ljava/util/Set;
+
+# GeistEntity
+accessible field net/minecraft/world/entity/ai/goal/MeleeAttackGoal ticksUntilNextAttack I

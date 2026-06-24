@@ -86,6 +86,7 @@
   "item.bygone.chantrelle": "Chantrelle",
   "item.bygone.chantrelle_spores": "Chantrelle Spores",
   "item.bygone.plaga_seeds": "Plaga Seeds",
+  "item.bygone.copper_nugget": "Copper Nugget",
   "item.bygone.plaga": "Plaga",
   "item.bygone.exotic_arrow": "Exotic Arrow",
   "item.bygone.exotic_plumage": "Exotic Plumage",
@@ -107,6 +108,7 @@
   "item.bygone.copperbug_spawn_egg": "Copperbug Spawn Egg",
   "item.bygone.fungal_parent_spawn_egg": "Fungal Being Spawn Egg",
   "item.bygone.haunt_spawn_egg": "Haunt Spawn Egg",
+  "item.bygone.geist_spawn_egg": "Geist Spawn Egg",
   "item.bygone.lithy_spawn_egg": "Lithy Spawn Egg",
   "item.bygone.mooboo_spawn_egg": "Mooboo Spawn Egg",
   "item.bygone.murkling_spawn_egg": "Murkling Spawn Egg",
@@ -356,6 +358,7 @@
   "block.bygone.cobbled_seaglass": "Cobbled Seaglass",
   "block.bygone.seaglass_block": "Seaglass",
   "block.bygone.seaglass_pane": "Seaglass Pane",
+  "item.bygone.seaglass_prism": "Seaglass Prism",
   "item.bygone.crushed_seaglass": "Crushed Seaglass",
   "block.bygone.smooth_seaglass": "Smooth Seaglass",
   "block.bygone.breath_pod_plant": "Breath Pod",
@@ -587,6 +590,7 @@
   "entity.bygone.copperbug": "Copperbug",
   "entity.bygone.duck": "Da Duck!",
   "entity.bygone.fungal_parent": "Fungal Being",
+  "entity.bygone.geist": "Geist",
   "entity.bygone.glare": "Glare",
   "entity.bygone.lithy": "Lithy",
   "entity.bygone.haunt": "Haunt",
@@ -601,6 +605,7 @@
   "entity.bygone.sabeast": "Sabeast",
   "entity.bygone.scuttle": "Scuttle",
   "entity.bygone.scuttle_spike": "Scuttle's Spike",
+  "entity.bygone.wallow": "Wallow",
   "entity.bygone.whiskbill": "Whiskbill",
   "entity.bygone.wisp": "Wisp",
   "entity.bygone.wraith": "Wraith",
@@ -774,6 +779,12 @@
   "subtitles.entity.sabeast.hurt": "Sabeast hurts",
   "subtitles.entity.sabeast.death": "Sabeast dies",
 
+  "subtitles.entity.geist.attack": "Geist attacks",
+  "subtitles.entity.geist.ambient": "Geist murmurs",
+  "subtitles.entity.geist.ambient.angry": "Geist shrieks",
+  "subtitles.entity.geist.hurt": "Geist hurts",
+  "subtitles.entity.geist.death": "Geist dies",
+
   "subtitles.entity.haunt.attack": "Haunt attacks",
   "subtitles.entity.haunt.ambient": "Haunt glees",
   "subtitles.entity.haunt.hurt": "Haunt hurts",
@@ -787,6 +798,8 @@
 
   "item.bygone.music_disc_shuffle": "Music Disc",
   "item.bygone.shuffle_music_disc.desc": "Ludo Crypt - Shuffle",
+  "item.bygone.music_disc_under": "Music Disc",
+  "item.bygone.under_music_disc.desc": "Soul - Under",
 
   "itemGroup.test": "The Bygone",
 
