@@ -116,6 +116,7 @@ public class BGItems {
             "echo_gong",
             () -> new EchoGongItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE))
     );
+
     public static final Supplier<Item> ANCIENT_SIGN = registerItem(
             "ancient_sign", () ->
                     new SignItem(

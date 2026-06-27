@@ -6,7 +6,7 @@
       "element": {
         "location": "bygone:village_sable/treasure_rooms/treasure_room_0",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     }

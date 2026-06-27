@@ -6,7 +6,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_0",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -15,7 +15,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_1",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -24,7 +24,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_2",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -33,7 +33,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_3",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -42,7 +42,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_4",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -51,7 +51,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_5",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -60,7 +60,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_6",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -69,7 +69,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_7",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -78,7 +78,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_8",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -87,7 +87,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_9",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -96,7 +96,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_10",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -105,7 +105,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_11",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -114,7 +114,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_12",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -123,7 +123,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_13",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -132,7 +132,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_20",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -141,7 +141,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_21",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -150,7 +150,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/hut_small_22",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -159,7 +159,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/pile_1",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -168,7 +168,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/pile_2",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -177,7 +177,7 @@
       "element": {
         "location": "bygone:village_sable/huts_small/pile_3",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     }

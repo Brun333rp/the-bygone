@@ -7,7 +7,7 @@
       "element": {
         "location": "bygone:village_sable/base_plates/tl",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -16,7 +16,7 @@
       "element": {
         "location": "bygone:village_sable/base_plates/br",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -25,7 +25,7 @@
       "element": {
         "location": "bygone:village_sable/base_plates/bl",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     }

@@ -6,7 +6,7 @@
       "element": {
         "location": "bygone:village_sable/town_halls/town_hall_0",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -15,7 +15,7 @@
       "element": {
         "location": "bygone:village_sable/town_halls/town_hall_1",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -24,7 +24,7 @@
       "element": {
         "location": "bygone:village_sable/town_halls/town_hall_2",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -33,7 +33,7 @@
       "element": {
         "location": "bygone:village_sable/town_halls/town_hall_3",
         "projection": "rigid",
-        "processors": "minecraft:empty",
+        "processors": "bygone:village_sable",
         "element_type": "minecraft:single_pool_element"
       }
     }
