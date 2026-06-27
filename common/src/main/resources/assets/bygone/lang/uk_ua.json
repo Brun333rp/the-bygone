@@ -30,8 +30,8 @@
   "advancements.bygone.cowabummer.desc": "Серйозно?",
   "advancements.bygone.cowabummer.title": "Кава-облом!",
 
-  "advancements.bygone.find_village.desc": "Знайдіть забуте село",
-  "advancements.bygone.find_village.title": "Вас це не жужжить?",
+  "advancements.bygone.find_village_underhang_underhang.desc": "Знайдіть забуте село",
+  "advancements.bygone.find_village_underhang.title": "Вас це не жужжить?",
 
   "advancements.bygone.ride_big_beak.desc": "Прокатайтеся на великодзьобі вперше",
   "advancements.bygone.ride_big_beak.title": "Знайдено баранця!",
@@ -606,7 +606,7 @@
   "structure.bygone.ancient_roots": "Стародавнє коріння",
   "structure.bygone.ruin": "Руїни Вади",
   "structure.bygone.sewer": "Колектор",
-  "structure.bygone.village": "Село",
+  "structure.bygone.village_underhang": "Село",
 
   "dimension.bygone.bygone": "Минуле",
 

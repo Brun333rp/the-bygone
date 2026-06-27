@@ -30,8 +30,8 @@
   "advancements.bygone.cowabummer.desc": "Серьёзно?",
   "advancements.bygone.cowabummer.title": "Кава-облом!",
 
-  "advancements.bygone.find_village.desc": "Найдите забытую деревню",
-  "advancements.bygone.find_village.title": "Вас это не жужжит?",
+  "advancements.bygone.find_village_underhang.desc": "Найдите забытую деревню",
+  "advancements.bygone.find_village_underhang.title": "Вас это не жужжит?",
 
   "advancements.bygone.ride_big_beak.desc": "Прокатитесь на большеклюве впервые",
   "advancements.bygone.ride_big_beak.title": "Найден бекас!",
@@ -604,7 +604,7 @@
   "structure.bygone.ancient_roots": "Древние корни",
   "structure.bygone.ruin": "Руины Изъяна",
   "structure.bygone.sewer": "Коллектор",
-  "structure.bygone.village": "Деревня",
+  "structure.bygone.village_underhang": "Деревня",
 
   "dimension.bygone.bygone": "Былое",
 

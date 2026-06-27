@@ -32,8 +32,8 @@
   "advancements.bygone.cowabummer.desc": "Seriously?",
   "advancements.bygone.cowabummer.title": "Cowabummer!",
 
-  "advancements.bygone.find_village.desc": "Enter a forgotten Village",
-  "advancements.bygone.find_village.title": "Is this Bugging you?",
+  "advancements.bygone.find_village_underhang.desc": "Enter a forgotten Village",
+  "advancements.bygone.find_village_underhang.title": "Is this Bugging you?",
 
   "advancements.bygone.ride_big_beak.desc": "Ride a Big Beak for the first time",
   "advancements.bygone.ride_big_beak.title": "Found the Snipe!",
@@ -665,7 +665,7 @@
   "structure.bygone.ancient_roots": "Ancient Roots",
   "structure.bygone.ruin": "Blemished Ruins",
   "structure.bygone.sewer": "Sewer",
-  "structure.bygone.village": "Village",
+  "structure.bygone.village_underhang": "Village",
 
   "dimension.bygone.bygone": "The Bygone",
 
