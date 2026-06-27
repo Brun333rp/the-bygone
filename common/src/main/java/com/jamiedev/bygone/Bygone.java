@@ -53,6 +53,7 @@ public class Bygone {
         BGBlockEntities.init();
         BGItems.init();
         BGMobEffects.init();
+        BGAttributes.init();
         BGEntityTypes.postInit();
         BGBiomes.init();
         BGBlockProperties.init();

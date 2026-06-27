@@ -10,11 +10,14 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.function.Supplier;
@@ -606,6 +609,21 @@ public class BGItems {
                     new Item.Properties().food(SPEED_WHEAT_COMP)
             )
     );
+
+    public static final Supplier<Item> WALLOW_SHAWL_SCRAP = registerItem("wallow_shawl_scrap",
+            () -> new Item(new Item.Properties())
+    );
+
+    public static final ItemAttributeModifiers WALLOW_SHAWL_ATTRIBUTES = ItemAttributeModifiers.builder().add(
+            BGAttributes.PHASING_DURATION.get(),
+            new AttributeModifier(Bygone.id("wallow_shawl.phase_duration"), 8, AttributeModifier.Operation.ADD_VALUE),
+            EquipmentSlotGroup.CHEST
+    ).build();
+
+    public static final Supplier<Item> WALLOW_SHAWL = registerItem("wallow_shawl",
+            () -> new WallowShawlItem(new Item.Properties().attributes(WALLOW_SHAWL_ATTRIBUTES))
+    );
+
     Items item;
     ParticleTypes ref;
     ArmorMaterials ma;
