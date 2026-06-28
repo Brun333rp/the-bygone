@@ -72,6 +72,9 @@ public class JamiesModModelLayers {
     public static final ModelLayerLocation LITHY =
             new ModelLayerLocation(Bygone.id("lithy"), "main");
 
+    public static final ModelLayerLocation REAVER =
+            new ModelLayerLocation(Bygone.id("reaver"), "main");
+
     public static final ModelLayerLocation WISP =
             new ModelLayerLocation(Bygone.id("wisp"), "main");
 

@@ -96,6 +96,7 @@ public class Bygone {
         consumer.accept(BGEntityTypes.LITHY.get(), LithyEntity.createAttributes().build());
         consumer.accept(BGEntityTypes.WISP.get(), WispEntity.createAttributes().build());
         consumer.accept(BGEntityTypes.GEIST.get(), GeistEntity.createAttributes().build());
+        consumer.accept(BGEntityTypes.REAVER.get(), ReaverEntity.createAttributes().build());
         consumer.accept(BGEntityTypes.WALLOW.get(), WallowEntity.createAttributes().build());
         consumer.accept(BGEntityTypes.HAUNT.get(), HauntEntity.createAttributes().build());
         consumer.accept(BGEntityTypes.WRAITH.get(), WraithEntity.createAttributes().build());

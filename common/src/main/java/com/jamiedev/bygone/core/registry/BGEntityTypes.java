@@ -177,6 +177,17 @@ public class BGEntityTypes {
             () -> EntityType.Builder.of(LithyEntity::new, MobCategory.CREATURE).sized(1.0F, 2.0F).build("")
     );
 
+    public static final Supplier<EntityType<ReaverEntity>> REAVER = registerEntityType(
+            "reaver",
+            () -> EntityType.Builder.of(ReaverEntity::new, MobCategory.CREATURE)
+                    .sized(1.0F, 0.85F)
+                    .eyeHeight(0.36F)
+                    .ridingOffset(0.04F)
+                    .clientTrackingRange(8)
+                    .updateInterval(2)
+                    .build("")
+    );
+
     public static final Supplier<EntityType<WallowEntity>> WALLOW = registerEntityType(
             "wallow",
             () -> EntityType.Builder.of(WallowEntity::new, MobCategory.CREATURE)
