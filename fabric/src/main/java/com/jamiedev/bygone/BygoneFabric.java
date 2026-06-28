@@ -41,8 +41,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.saveddata.maps.MapDecorationTypes;
 
-import java.util.Set;
-
 public class BygoneFabric implements ModInitializer {
 
 
@@ -142,6 +140,7 @@ public class BygoneFabric implements ModInitializer {
         BGBlockEntitiesFabric.register();
         initEvents();
         BGDataComponentsFabric.init();
+        BGAttributesFabric.init();
         Bygone.init();
 
         Bygone.registerBuiltIn();

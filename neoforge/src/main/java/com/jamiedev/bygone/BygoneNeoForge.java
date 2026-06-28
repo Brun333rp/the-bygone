@@ -18,10 +18,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.monster.Vex;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -34,7 +31,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
@@ -100,6 +96,7 @@ public class BygoneNeoForge {
     public BygoneNeoForge(IEventBus eventBus, Dist dist) {
         BGDataComponentsNeoForge.DATA_COMPONENTS.register(eventBus);
         BGDecoratedPotPatternsNeoForge.POT_PATTERNS.register(eventBus);
+        BGAttributesNeoForge.init(eventBus);
         Bygone.init();
 
         fluidRegister.register(eventBus);
