@@ -27,6 +27,7 @@
 		"VexMixin"
 	],
 	"client": [
+		"client.EntityPhaseMeterGuiMixin",
 		"client.BipedEntityModelMixin",
 		"client.LevelChunkMixin",
 		"client.LevelRendererMixin",

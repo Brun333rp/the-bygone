@@ -5,6 +5,7 @@ import com.jamiedev.bygone.core.registry.BGAttributes;
 import com.jamiedev.bygone.core.registry.BGItems;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -22,13 +23,11 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(Player.class)
 public abstract class BlockPhasingPlayerMixin extends LivingEntity implements BlockPhasingEntity {
 
-	@Shadow
-	@Final
-	private Abilities abilities;
-
 	protected BlockPhasingPlayerMixin(EntityType<? extends LivingEntity> entityType, Level level) {
 		super(entityType, level);
 	}
+
+	@Shadow @Final private Abilities abilities;
 
 	@Unique boolean phasing = false;
 	@Unique int phasingTicks = 0;
@@ -49,12 +48,25 @@ public abstract class BlockPhasingPlayerMixin extends LivingEntity implements Bl
 	@WrapMethod(method = "tick")
 	private void tick(Operation<Void> original) {
 		original.call();
+		this.phasingTicks = Math.min(this.phasingTicks + 1, this.getMaxPhasingTicks());
 		if (this.isPhasing()) this.tickPhasing();
 	}
 
 	@WrapMethod(method = "createAttributes")
 	private static AttributeSupplier.Builder addPhasingAttribute(Operation<AttributeSupplier.Builder> original) {
 		return original.call().add(BGAttributes.PHASING_DURATION.get(), 0);
+	}
+
+	@WrapMethod(method = "readAdditionalSaveData")
+	private void readPhasingData(CompoundTag compound, Operation<Void> original) {
+		original.call(compound);
+		this.phasingTicks = compound.getInt("phasing_ticks");
+	}
+
+	@WrapMethod(method = "addAdditionalSaveData")
+	private void addPhasingData(CompoundTag compound, Operation<Void> original) {
+		original.call(compound);
+		compound.putInt("phasing_ticks", this.phasingTicks);
 	}
 
 	@Override
@@ -87,8 +99,13 @@ public abstract class BlockPhasingPlayerMixin extends LivingEntity implements Bl
 
 	@Override
 	public void tickPhasing() {
-		this.phasingTicks++;
-		if (this.onGround() || this.phasingTicks >= this.getMaxPhasingTicks()) this.stopPhasing();
+		this.phasingTicks--;
+		if (this.onGround() || this.phasingTicks <= 0) this.stopPhasing();
+	}
+
+	@Override
+	public int getPhasingTicks() {
+		return this.phasingTicks;
 	}
 
 	@Override

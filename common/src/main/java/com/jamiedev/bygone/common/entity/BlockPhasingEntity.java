@@ -7,6 +7,7 @@ public interface BlockPhasingEntity {
 	void startPhasing();
 	void stopPhasing();
 	void tickPhasing();
+	int getPhasingTicks();
 	int getMaxPhasingTicks();
 
 }
