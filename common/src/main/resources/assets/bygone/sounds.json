@@ -640,9 +640,9 @@
 
   "entity.geist.ambient": {
     "sounds": [
-      "bygone:entity/lithy/idle1",
-      "bygone:entity/lithy/idle2",
-      "bygone:entity/lithy/idle3"
+      "bygone:entity/geist/idle1",
+      "bygone:entity/geist/idle2",
+      "bygone:entity/geist/idle3"
     ],
     "subtitle": "subtitles.entity.geist.ambient"
   },
@@ -654,25 +654,25 @@
   },
   "entity.geist.ambient.angry": {
     "sounds": [
-      "bygone:entity/lithy/idle1",
-      "bygone:entity/lithy/idle2",
-      "bygone:entity/lithy/idle3"
+      "bygone:entity/geist/angry1",
+      "bygone:entity/geist/angry2",
+      "bygone:entity/geist/angry3"
     ],
     "subtitle": "subtitles.entity.geist.ambient.angry"
   },
   "entity.geist.hurt": {
     "sounds": [
-      "bygone:entity/lithy/hit1",
-      "bygone:entity/lithy/hit2",
-      "bygone:entity/lithy/hit3"
+      "bygone:entity/geist/hit1",
+      "bygone:entity/geist/hit2",
+      "bygone:entity/geist/hit3"
     ],
     "subtitle": "subtitles.entity.geist.hurt"
   },
   "entity.geist.death": {
     "sounds": [
-      "bygone:entity/lithy/death1",
-      "bygone:entity/lithy/death2",
-      "bygone:entity/lithy/death3"
+      "bygone:entity/geist/death1",
+      "bygone:entity/geist/death2",
+      "bygone:entity/geist/death3"
     ],
     "subtitle": "subtitles.entity.geist.death"
   },

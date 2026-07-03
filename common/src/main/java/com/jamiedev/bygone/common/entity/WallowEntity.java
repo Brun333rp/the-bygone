@@ -44,7 +44,9 @@ import java.util.function.Predicate;
 
 public class WallowEntity extends FlyingMob
 {
-    
+    public AnimationState floatAnimationState = new AnimationState();
+    public AnimationState idleAnimationState = new AnimationState();
+
     public WallowEntity(EntityType<? extends WallowEntity> entityType, Level level) {
         super(entityType, level);
         this.moveControl = new WallowEntityMoveControl(this);
@@ -72,6 +74,35 @@ public class WallowEntity extends FlyingMob
             this.playSound(SoundEvents.PLAYER_HURT_FREEZE, 1.0F, 1.0F);
             entity.hurt(this.damageSources().freeze(), i + random.nextInt(6));
         }
+    }
+
+    private boolean collidingSpectralBlocks() {
+        AABB aabb = this.getBoundingBox().inflate(1.0F, 1.0F, 1.0F);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((collisionShape) -> {
+            BlockState blockstate = this.level().getBlockState(collisionShape);
+            return blockstate.is(JamiesModTag.SPECTRAL_BLOCKS);
+        });
+    }
+
+    private void setupAnimationStates() {
+        this.idleAnimationState.startIfStopped(this.tickCount);
+        if (this.getDeltaMovement().horizontalDistanceSqr() > 2.5000003E-7F) {
+            this.floatAnimationState.startIfStopped(this.tickCount);
+        } else {
+            this.floatAnimationState.stop();
+        }
+   }
+
+    public void tick() {
+        this.setNoGravity(true);
+        super.tick();
+
+        if (this.level().isClientSide()) {
+            this.setupAnimationStates();
+        }
+
+        noPhysics = !collidingSpectralBlocks();
+
     }
 
 

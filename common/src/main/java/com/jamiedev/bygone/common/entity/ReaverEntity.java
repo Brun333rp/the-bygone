@@ -101,21 +101,7 @@ public class ReaverEntity extends Monster implements RangedAttackMob, FlyingAnim
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, HauntEntity.class, 16.0F, (double)1.0F,
                 1.5));
-        this.goalSelector.addGoal(1, new SpellcasterCastingSpellGoal());
-        this.goalSelector.addGoal(
-                2,
-                new WraithFireSquareSpellGoal(ImmutableRangeSet.of(Range.open(
-                        FIRE_SQUARE_MIN_RANGE,
-                        Double.POSITIVE_INFINITY
-                )))
-        );
-        this.goalSelector.addGoal(
-                2,
-                new ReaverEntity.WraithTeleportSpellGoal(ImmutableRangeSet.of(Range.closed(
-                        0.0,
-                        TELEPORT_TARGET_AWAY_RANGE
-                )))
-        );
+
         this.goalSelector.addGoal(
                 2,
                 new ReaverEntity.WraithFleeSpellGoal(ImmutableRangeSet.of(Range.closed(
@@ -171,43 +157,6 @@ public class ReaverEntity extends Monster implements RangedAttackMob, FlyingAnim
         }
 
         noPhysics = !collidingSpectralBlocks();
-
-        // Creates the particles for casting the spell.
-        if (this.level().isClientSide && this.isCastingSpell()) {
-            ReaverEntity.WraithSpell spell = this.getCurrentSpell();
-            float r = (float) spell.spellColor[0];
-            float g = (float) spell.spellColor[1];
-            float b = (float) spell.spellColor[2];
-            float swayAngle = this.yBodyRot * ((float) Math.PI / 180F) + Mth.cos((float) this.tickCount * 0.6662F) * 0.25F;
-            float swayX = Mth.cos(swayAngle);
-            float swayZ = Mth.sin(swayAngle);
-            double radius = 0.6 * (double) this.getScale();
-            double height = 1.8 * (double) this.getScale();
-
-            for (int i = 0; i < SPELL_PARTICLES_PER_HAND_PER_TICK; i++) {
-                this.level().addParticle(
-                        ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, r, g, b),
-                        this.getX() + (double) swayX * radius,
-                        this.getY() + height,
-                        this.getZ() + (double) swayZ * radius,
-                        0.0F,
-                        0.0F,
-                        0.0F
-                );
-            }
-            for (int i = 0; i < SPELL_PARTICLES_PER_HAND_PER_TICK; i++) {
-                this.level().addParticle(
-                        ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, r, g, b),
-                        this.getX() - (double) swayX * radius,
-                        this.getY() + height,
-                        this.getZ() - (double) swayZ * radius,
-                        0.0F,
-                        0.0F,
-                        0.0F
-                );
-            }
-
-        }
     }
 
     @Override

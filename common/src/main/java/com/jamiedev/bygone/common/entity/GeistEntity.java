@@ -7,16 +7,16 @@ import com.jamiedev.bygone.common.entity.ai.navigation.GeistPathNavigation;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ColorParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
@@ -31,20 +31,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class GeistEntity extends Monster implements FlyingAnimal {
 
+    public AnimationState floatAnimationState = new AnimationState();
+    public AnimationState idleAnimationState = new AnimationState();
+    public AnimationState meleeAnimationState = new AnimationState();
+
     public static final int DEFAULT_LIGHT_THRESHOLD = 1;
 
     public static final EntityDataAccessor<Integer> LIGHT_THRESHOLD = SynchedEntityData.defineId(GeistEntity.class, EntityDataSerializers.INT);
-//    public final EntityDimensions dimensions;
-//    public Vec3 gotoPosition;
 
     public GeistEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
-//        this.dimensions = entityType.getDimensions();
         this.xpReward = 5;
         this.moveControl = new FlyingMoveControl(this, 35, false);
         this.setNoGravity(true);
@@ -72,6 +74,7 @@ public class GeistEntity extends Monster implements FlyingAnimal {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, WraithEntity.class).setAlertOthers());
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, this::targetTooClose));
     }
+
 
     public boolean targetTooClose(LivingEntity entity) {
         return this.distanceTo(entity) <= 3;
@@ -149,6 +152,38 @@ public class GeistEntity extends Monster implements FlyingAnimal {
     protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
 		return new GeistPathNavigation(this, level);
     }
+
+    private boolean collidingSpectralBlocks() {
+        AABB aabb = this.getBoundingBox().inflate(1.0F, 1.0F, 1.0F);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((collisionShape) -> {
+            BlockState blockstate = this.level().getBlockState(collisionShape);
+            return blockstate.is(JamiesModTag.SPECTRAL_BLOCKS);
+        });
+    }
+
+    private void setupAnimationStates() {
+        this.idleAnimationState.startIfStopped(this.tickCount);
+        if (this.getDeltaMovement().horizontalDistanceSqr() > 2.5000003E-7F) {
+            this.floatAnimationState.startIfStopped(this.tickCount);
+        } else {
+            this.floatAnimationState.stop();
+        }
+
+        this.meleeAnimationState.animateWhen(this.attackAnim > 0, this.tickCount);
+    }
+
+    public void tick() {
+        this.setNoGravity(true);
+        super.tick();
+
+        if (this.level().isClientSide()) {
+            this.setupAnimationStates();
+        }
+
+        noPhysics = !collidingSpectralBlocks();
+
+    }
+
 
     @Override
     public void aiStep() {
