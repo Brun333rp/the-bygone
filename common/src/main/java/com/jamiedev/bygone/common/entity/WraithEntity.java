@@ -3,6 +3,7 @@ package com.jamiedev.bygone.common.entity;
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
+import com.jamiedev.bygone.common.entity.ai.AvoidBlockGoal;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGBlocks;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
@@ -82,7 +83,7 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
     public WraithEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
         this.dimensions = entityType.getDimensions();
-        this.xpReward = 5;
+        this.xpReward = 15;
         this.moveControl = new FlyingMoveControl(this, 35, false);
         this.setNoGravity(true);
         this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
@@ -130,6 +131,10 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
                         FLEE_RANGE
                 )))
         );
+        this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
+            BlockState state = this.level().getBlockState(pos);
+            return state.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        }));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.1, true));
         this.goalSelector.addGoal(8, new WraithEntity.WraithWanderGoal(this, 0.6));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));

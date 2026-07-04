@@ -6,6 +6,7 @@ import com.jamiedev.bygone.common.entity.ai.goal.GeistSwoopAttackGoal;
 import com.jamiedev.bygone.common.entity.ai.goal.SpectralWanderGoal;
 import com.jamiedev.bygone.common.entity.ai.navigation.GeistPathNavigation;
 import com.jamiedev.bygone.core.init.JamiesModTag;
+import com.jamiedev.bygone.core.registry.BGBlocks;
 import com.jamiedev.bygone.core.registry.BGDamageTypes;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import net.minecraft.core.BlockPos;
@@ -51,7 +52,7 @@ public class GeistEntity extends Monster implements FlyingAnimal {
 
     public GeistEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
-        this.xpReward = 5;
+        this.xpReward = 10;
         this.moveControl = new FlyingMoveControl(this, 35, false);
         this.setNoGravity(true);
     }
@@ -76,6 +77,10 @@ public class GeistEntity extends Monster implements FlyingAnimal {
         this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
             BlockState state = this.level().getBlockState(pos);
             return state.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        }));
+        this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
+            BlockState state = this.level().getBlockState(pos);
+            return state.is(BGBlocks.LITHOPLASMIC_POWDER.get());
         }));
 
         this.goalSelector.addGoal(4, new GeistSwoopAttackGoal(this, 1.75F, true));
@@ -229,7 +234,7 @@ public class GeistEntity extends Monster implements FlyingAnimal {
  
         }
 
-        noPhysics = !collidingSpectralBlocks();
+        //noPhysics = !collidingSpectralBlocks();
 
     }
 
@@ -249,7 +254,7 @@ public class GeistEntity extends Monster implements FlyingAnimal {
 
     @Override
     public boolean isFlying() {
-        return !this.onGround();
+        return true;
     }
 
     public static boolean canSpawn(EntityType<? extends Mob> type, LevelAccessor level, MobSpawnType reason, BlockPos blockPos, RandomSource random) {
