@@ -1,10 +1,8 @@
 package com.jamiedev.bygone.common.entity;
 
+import com.jamiedev.bygone.common.entity.ai.AvoidBlockGoal;
 import com.jamiedev.bygone.core.init.JamiesModTag;
-import com.jamiedev.bygone.core.registry.BGBlocks;
-import com.jamiedev.bygone.core.registry.BGEntityTypes;
-import com.jamiedev.bygone.core.registry.BGItems;
-import com.jamiedev.bygone.core.registry.BGSoundEvents;
+import com.jamiedev.bygone.core.registry.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -48,6 +46,11 @@ public class MoobooEntity extends Cow {
                 1.75));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, HauntEntity.class, 16.0F, (double)1.0F,
                 1.5));
+
+        this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
+            BlockState state = this.level().getBlockState(pos);
+            return state.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        }));
     }
 
     public static boolean checkAnimalSpawnRules(
@@ -104,6 +107,15 @@ public class MoobooEntity extends Cow {
     public MoobooEntity getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
         return BGEntityTypes.MOOBOO.get().create(level);
     }
+    private boolean collidingHurtSpectralBlocks() {
+        AABB aabb = this.getBoundingBox().inflate(1.0F, 1.0F, 1.0F);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((collisionShape) -> {
+            BlockState blockstate = this.level().getBlockState(collisionShape);
+            return blockstate.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        });
+    }
+
+
 
 
     public void tick()
@@ -112,6 +124,11 @@ public class MoobooEntity extends Cow {
 
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
+        }
+        if  (collidingHurtSpectralBlocks())
+        {
+            this.hurt(BGDamageTypes.source(this.level(), BGDamageTypes.HAUNTED, this, this.getLastAttacker()), 1);
+ 
         }
     }
 

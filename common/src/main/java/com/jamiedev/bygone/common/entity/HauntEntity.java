@@ -1,7 +1,9 @@
 package com.jamiedev.bygone.common.entity;
 
 import com.jamiedev.bygone.client.particles.LithoParticleOptions;
+import com.jamiedev.bygone.common.entity.ai.AvoidBlockGoal;
 import com.jamiedev.bygone.core.init.JamiesModTag;
+import com.jamiedev.bygone.core.registry.BGDamageTypes;
 import com.jamiedev.bygone.core.registry.BGParticleTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -24,6 +26,8 @@ import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -49,6 +53,10 @@ public class HauntEntity extends Allay {
     {
         super.registerGoals();
         this.randomStrollGoal = new RandomStrollGoal(this, (double)1.0F, 80);
+        this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
+            BlockState state = this.level().getBlockState(pos);
+            return state.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        }));
         this.goalSelector.addGoal(4, new HauntEntityAttackGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, new HauntEntityAttackSelector(this)));
         this.randomStrollGoal.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
@@ -64,12 +72,37 @@ public class HauntEntity extends Allay {
         }
     }
 
+    private boolean collidingHurtSpectralBlocks() {
+        AABB aabb = this.getBoundingBox().inflate(1.0F, 1.0F, 1.0F);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((collisionShape) -> {
+            BlockState blockstate = this.level().getBlockState(collisionShape);
+            return blockstate.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        });
+    }
+
+    private boolean collidingSpectralBlocks() {
+        AABB aabb = this.getBoundingBox().inflate(1.0F, 1.0F, 1.0F);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((collisionShape) -> {
+            BlockState blockstate = this.level().getBlockState(collisionShape);
+            return blockstate.is(JamiesModTag.SPECTRAL_BLOCKS);
+        });
+    }
+
+
     public void tick() {
         super.tick();
 
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
         }
+
+        if  (collidingHurtSpectralBlocks())
+        {
+            this.hurt(BGDamageTypes.source(this.level(), BGDamageTypes.HAUNTED, this, this.getLastAttacker()), 1);
+ 
+        }
+
+        noPhysics = !collidingSpectralBlocks();
 
     }
 

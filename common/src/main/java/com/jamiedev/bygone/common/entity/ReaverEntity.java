@@ -3,8 +3,10 @@ package com.jamiedev.bygone.common.entity;
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
+import com.jamiedev.bygone.common.entity.ai.AvoidBlockGoal;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGBlocks;
+import com.jamiedev.bygone.core.registry.BGDamageTypes;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -109,6 +111,10 @@ public class ReaverEntity extends Monster implements RangedAttackMob, FlyingAnim
                         FLEE_RANGE
                 )))
         );
+        this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
+            BlockState state = this.level().getBlockState(pos);
+            return state.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        }));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.1, true));
         this.goalSelector.addGoal(8, new ReaverEntity.WraithWanderGoal(this, 0.6));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
@@ -154,6 +160,12 @@ public class ReaverEntity extends Monster implements RangedAttackMob, FlyingAnim
 
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
+        }
+
+        if  (collidingHurtSpectralBlocks())
+        {
+            this.hurt(BGDamageTypes.source(this.level(), BGDamageTypes.HAUNTED, this, this.getLastAttacker()), 1);
+ 
         }
 
         noPhysics = !collidingSpectralBlocks();
@@ -336,6 +348,13 @@ public class ReaverEntity extends Monster implements RangedAttackMob, FlyingAnim
         if (this.isControlledByLocalInstance()) {
             super.travel(travelVector);
         }
+    }
+    private boolean collidingHurtSpectralBlocks() {
+        AABB aabb = this.getBoundingBox().inflate(1.0F, 1.0F, 1.0F);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((collisionShape) -> {
+            BlockState blockstate = this.level().getBlockState(collisionShape);
+            return blockstate.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        });
     }
 
     private boolean collidingSpectralBlocks() {

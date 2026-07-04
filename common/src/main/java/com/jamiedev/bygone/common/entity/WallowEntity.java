@@ -1,6 +1,8 @@
 package com.jamiedev.bygone.common.entity;
 
+import com.jamiedev.bygone.common.entity.ai.AvoidBlockGoal;
 import com.jamiedev.bygone.core.init.JamiesModTag;
+import com.jamiedev.bygone.core.registry.BGDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -42,7 +44,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class WallowEntity extends FlyingMob
+public class WallowEntity extends PathfinderMob
 {
     public AnimationState floatAnimationState = new AnimationState();
     public AnimationState idleAnimationState = new AnimationState();
@@ -57,8 +59,52 @@ public class WallowEntity extends FlyingMob
         this.goalSelector.addGoal(1, new WallowEntity.RandomFloatAroundGoal(this));
         this.goalSelector.addGoal(2, new WallowEntity.WallowEntityLookGoal(this));
         this.goalSelector.addGoal(3, new FollowMobGoal(this, 1.0, 3.0F, 7.0F));
+
+        this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
+            BlockState state = this.level().getBlockState(pos);
+            return state.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        }));
+
         this.goalSelector.addGoal(6, new WallowFollowPlayerGoal(this, 1.4F, 3.0F, 10.0F));
   }
+
+    protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
+    }
+
+    public void travel(Vec3 travelVector) {
+        if (this.isControlledByLocalInstance()) {
+            if (this.isInWater()) {
+                this.moveRelative(0.02F, travelVector);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().scale((double)0.8F));
+            } else if (this.isInLava()) {
+                this.moveRelative(0.02F, travelVector);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().scale((double)0.5F));
+            } else {
+                float f = 0.91F;
+                if (this.onGround()) {
+                    f = this.level().getBlockState(this.getBlockPosBelowThatAffectsMyMovement()).getBlock().getFriction() * 0.91F;
+                }
+
+                float f1 = 0.16277137F / (f * f * f);
+                f = 0.91F;
+                if (this.onGround()) {
+                    f = this.level().getBlockState(this.getBlockPosBelowThatAffectsMyMovement()).getBlock().getFriction() * 0.91F;
+                }
+
+                this.moveRelative(this.onGround() ? 0.1F * f1 : 0.02F, travelVector);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setDeltaMovement(this.getDeltaMovement().scale((double)f));
+            }
+        }
+
+        this.calculateEntityAnimation(false);
+    }
+
+    public boolean onClimbable() {
+        return false;
+    }
     
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -84,6 +130,15 @@ public class WallowEntity extends FlyingMob
         });
     }
 
+    private boolean collidingHurtSpectralBlocks() {
+        AABB aabb = this.getBoundingBox().inflate(1.0F, 1.0F, 1.0F);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((collisionShape) -> {
+            BlockState blockstate = this.level().getBlockState(collisionShape);
+            return blockstate.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        });
+    }
+
+
     private void setupAnimationStates() {
         this.idleAnimationState.startIfStopped(this.tickCount);
         if (this.getDeltaMovement().horizontalDistanceSqr() > 2.5000003E-7F) {
@@ -100,6 +155,12 @@ public class WallowEntity extends FlyingMob
         if (this.level().isClientSide()) {
             this.setupAnimationStates();
         }
+        if  (collidingHurtSpectralBlocks())
+        {
+            this.hurt(BGDamageTypes.source(this.level(), BGDamageTypes.HAUNTED, this, this.getLastAttacker()), 1);
+ 
+        }
+
 
         noPhysics = !collidingSpectralBlocks();
 
