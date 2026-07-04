@@ -3,6 +3,7 @@ package com.jamiedev.bygone.common.entity;
 import com.jamiedev.bygone.client.particles.LithoParticleOptions;
 import com.jamiedev.bygone.common.entity.ai.AvoidBlockGoal;
 import com.jamiedev.bygone.core.init.JamiesModTag;
+import com.jamiedev.bygone.core.registry.BGBlocks;
 import com.jamiedev.bygone.core.registry.BGDamageTypes;
 import com.jamiedev.bygone.core.registry.BGParticleTypes;
 import net.minecraft.core.BlockPos;
@@ -56,6 +57,10 @@ public class HauntEntity extends Allay {
         this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
             BlockState state = this.level().getBlockState(pos);
             return state.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
+        }));
+        this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
+            BlockState state = this.level().getBlockState(pos);
+            return state.is(BGBlocks.LITHOPLASMIC_POWDER.get());
         }));
         this.goalSelector.addGoal(4, new HauntEntityAttackGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, new HauntEntityAttackSelector(this)));

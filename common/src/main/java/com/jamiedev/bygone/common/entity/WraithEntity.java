@@ -133,6 +133,10 @@ public class WraithEntity extends Monster implements RangedAttackMob, FlyingAnim
         );
         this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
             BlockState state = this.level().getBlockState(pos);
+            return state.is(BGBlocks.LITHOPLASMIC_POWDER.get());
+        }));
+        this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
+            BlockState state = this.level().getBlockState(pos);
             return state.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
         }));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.1, true));

@@ -46,7 +46,10 @@ public class MoobooEntity extends Cow {
                 1.75));
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, HauntEntity.class, 16.0F, (double)1.0F,
                 1.5));
-
+        this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
+            BlockState state = this.level().getBlockState(pos);
+            return state.is(BGBlocks.LITHOPLASMIC_POWDER.get());
+        }));
         this.goalSelector.addGoal(3, new AvoidBlockGoal(this, 16, 1.4, 1.6, (pos) -> {
             BlockState state = this.level().getBlockState(pos);
             return state.is(JamiesModTag.HURT_SPECTRAL_BLOCKS);
