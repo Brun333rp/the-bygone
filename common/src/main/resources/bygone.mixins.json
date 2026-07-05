@@ -1,42 +1,43 @@
 {
-	"required": true,
-	"minVersion": "0.8",
-	"package": "com.jamiedev.bygone.core.mixin",
-	"refmap": "${mod_id}.refmap.json",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"AxeItemAccess",
-		"BlockPhasingBehaviourMixin",
-		"BlockPhasingPlayerMixin",
-		"BundleContentsMixin",
-		"BundleContentsMutableMixin",
-		"BundleItemMixin",
-		"DoorBlockMixin",
-		"EmptyMapMixin",
-		"FarmlandBlockMixin",
-		"FishingHookMixin",
-		"LevelMixin",
-		"LivingEntityMixin",
-		"LivingEntityMixinVex",
-		"MapItemMixin",
-		"MobBucketItemMixin",
-		"MobMixin",
-		"PhasingCollisionContextMixin",
-		"PlayerMixin",
-		"ServerLevelMixin",
-		"VexMixin"
-	],
-	"client": [
-		"client.EntityPhaseMeterGuiMixin",
-		"client.BipedEntityModelMixin",
-		"client.LevelChunkMixin",
-		"client.LevelRendererMixin",
-		"client.MixinHeldItemRenderer",
-		"client.MixinItemRenderer",
-		"client.MixinPlayerEntityRenderer"
-	],
-	"server": [],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.jamiedev.bygone.core.mixin",
+  "refmap": "${mod_id}.refmap.json",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AxeItemAccess",
+    "BlockPhasingBehaviourMixin",
+    "BlockPhasingPlayerMixin",
+    "BundleContentsMixin",
+    "BundleContentsMutableMixin",
+    "BundleItemMixin",
+    "DoorBlockMixin",
+    "EmptyMapMixin",
+    "FarmlandBlockMixin",
+    "FishingHookMixin",
+    "LevelMixin",
+    "LivingEntityMixin",
+    "LivingEntityMixinVex",
+    "MapItemMixin",
+    "MobBucketItemMixin",
+    "MobMixin",
+    "PhasingCollisionContextMixin",
+    "PlayerMixin",
+    "PortalProcessorAccessor",
+    "ServerLevelMixin",
+    "VexMixin"
+  ],
+  "client": [
+    "client.BipedEntityModelMixin",
+    "client.EntityPhaseMeterGuiMixin",
+    "client.LevelChunkMixin",
+    "client.LevelRendererMixin",
+    "client.MixinHeldItemRenderer",
+    "client.MixinItemRenderer",
+    "client.MixinPlayerEntityRenderer"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

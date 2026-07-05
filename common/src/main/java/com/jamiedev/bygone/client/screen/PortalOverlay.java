@@ -2,6 +2,8 @@ package com.jamiedev.bygone.client.screen;
 
 import com.jamiedev.bygone.Bygone;
 import com.jamiedev.bygone.client.BygoneClient;
+import com.jamiedev.bygone.common.entity.BygonePortalEntity;
+import com.jamiedev.bygone.core.mixin.PortalProcessorAccessor;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -36,6 +38,9 @@ public class PortalOverlay implements LayeredDraw.Layer {
 
         PortalProcessor processor = player.portalProcess;
         if (processor != null && processor.isInsidePortalThisTick()) {
+            if (processor instanceof PortalProcessorAccessor accessor) {
+                if (!(accessor.getPortal() instanceof BygonePortalEntity)) return;
+            }
             flag = true;
             if (player instanceof LocalPlayer localPlayer)
                 localPlayer.spinningEffectIntensity = 0.0125F;
