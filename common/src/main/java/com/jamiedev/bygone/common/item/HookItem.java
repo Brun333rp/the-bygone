@@ -26,7 +26,7 @@ public class HookItem extends Item {
         super(settings);
     }
 
-    private static void retrieve(Level level, Player player, HookEntity hook) {
+    public static void retrieve(Level level, Player player, HookEntity hook) {
         level.playSound(null, player.getX(), player.getY(), player.getZ(), BGSoundEvents.HOOK_RETRIEVE_ADDITIONS_EVENT, SoundSource.NEUTRAL, 1.0F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!level.isClientSide()) {
             hook.discard();
@@ -38,7 +38,7 @@ public class HookItem extends Item {
     }
 
     // Based on how TridentItem launches the player when enchanted with Riptide
-    private static void grapple(HookEntity hook, Player player) {
+    public static void grapple(HookEntity hook, Player player) {
         float xStep = (float) (hook.getX() - player.getX());
         float yStep = (float) (hook.getY() - player.getY());
         float zStep = (float) (hook.getZ() - player.getZ());
@@ -46,6 +46,10 @@ public class HookItem extends Item {
         int speedLevel = 1;
         float customScale = 0.1F;
         float speed = 3.0F * ((1.0F + (float) speedLevel) / 4.0F) * customScale;
+        if (distance <= 0.0F) {
+            return;
+        }
+
         xStep *= speed / distance;
         yStep *= speed / distance;
         zStep *= speed / distance;
@@ -88,7 +92,11 @@ public class HookItem extends Item {
             user.gameEvent(GameEvent.ITEM_INTERACT_START);
         }
         if (hook != null && secondaryUse) {
-            retrieve(world, user, hook);
+            if (hook.isInWall() && hook.distanceTo(user) > 2.0F) {
+                user.startUsingItem(hand);
+            } else {
+                retrieve(world, user, hook);
+            }
             used = true;
             user.awardStat(Stats.ITEM_USED.get(this));
             user.gameEvent(GameEvent.ITEM_INTERACT_START);
@@ -103,12 +111,14 @@ public class HookItem extends Item {
         if (user instanceof Player player) {
             HookEntity hook = ((PlayerWithHook) player).bygone$getHook();
             if (hook != null) {
-                if (remainingUseTicks % 5 == 0) {
-                    world.playSound(null, user.getX(), user.getY(), user.getZ(), BGSoundEvents.HOOK_RETRIEVE_ADDITIONS_EVENT, SoundSource.NEUTRAL, 1.0F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
-                }
-
                 if (hook.isInWall()) {
-                    grapple(hook, player);
+                    if (remainingUseTicks % 5 == 0) {
+                        world.playSound(null, user.getX(), user.getY(), user.getZ(), BGSoundEvents.HOOK_RETRIEVE_ADDITIONS_EVENT, SoundSource.NEUTRAL, 1.0F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
+                    }
+
+                    if (!player.isShiftKeyDown() || world.isClientSide()) {
+                        grapple(hook, player);
+                    }
                 }
 
 

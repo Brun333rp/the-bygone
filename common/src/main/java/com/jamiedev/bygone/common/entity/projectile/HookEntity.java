@@ -1,5 +1,7 @@
 package com.jamiedev.bygone.common.entity.projectile;
 
+import com.jamiedev.bygone.common.item.HookItem;
+import com.jamiedev.bygone.common.util.PlayerWithHook;
 import com.jamiedev.bygone.core.registry.BGEntityTypes;
 import com.jamiedev.bygone.core.registry.BGItems;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
@@ -61,16 +63,36 @@ public class HookEntity extends AbstractArrow {
         super.tick();
         Player player = this.getPlayerOwner();
         if (!this.level().isClientSide) {
-            if ((player == null || this.shouldRetract(player))) {
+            if (player == null) {
                 this.discard();
+                return;
+            }
+            if (this.shouldRetract(player)) {
+                this.retract(player);
+                return;
             }
             if (!this.level().getFluidState(new BlockPos(this.getBlockX(), this.getBlockY(), this.getBlockZ())).isEmpty()) {
-                this.discard();
+                this.retract(player);
+                return;
             }
-            if (player != null && player.isShiftKeyDown()) {
-                this.discard();
+            if (player.isShiftKeyDown()) {
+                if (this.isInWall() && this.distanceTo(player) > 2.0F) {
+                    HookItem.grapple(this, player);
+                    return;
+                } else {
+                    this.retract(player);
+                    return;
+                }
+            }
+            if (this.distanceTo(player) > 64F) {
+                this.retract(player);
             }
         }
+    }
+
+    private void retract(Player player) {
+        this.discard();
+        ((PlayerWithHook) player).bygone$setHook(null);
     }
 
     private boolean shouldRetract(Player player) {
