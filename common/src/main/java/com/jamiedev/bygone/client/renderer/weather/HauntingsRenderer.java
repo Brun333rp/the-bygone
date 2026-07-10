@@ -71,8 +71,5 @@ public class HauntingsRenderer extends WeatherRenderer<HauntingsEvent> {
         }
     }
 
-    @Override
-    public void render(Level level, LightTexture lightTexture, float partialTick, double camX, double camY, double camZ) {
-
-    }
+    @Override public void render(Level level, LightTexture lightTexture, float partialTick, double camX, double camY, double camZ) {}
 }

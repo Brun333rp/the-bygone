@@ -126,11 +126,10 @@ public class BygoneWeather extends SavedData {
         public void updateContext(CompoundTag compoundTag) {
             weatherContext.load(compoundTag, null);
         }
-
         private final Collection<WeatherRenderer> instancedWeatherRenderers;
-        public Stream<WeatherRenderer> stream() {
-            return instancedWeatherRenderers.stream();
-        }
+
+        public Stream<WeatherRenderer> stream() { return instancedWeatherRenderers.stream(); }
+
         private Client() {
             weatherContext = new BygoneWeather(null);
             instancedWeatherRenderers = WEATHER_TYPES.stream()

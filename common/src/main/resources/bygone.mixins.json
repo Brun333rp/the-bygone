@@ -29,9 +29,11 @@
   ],
   "client": [
     "client.BipedEntityModelMixin",
+    "client.GameRendererMixin",
     "client.EntityPhaseMeterGuiMixin",
     "client.LevelChunkMixin",
     "client.LevelRendererMixin",
+    "client.LightTextureMixin",
     "client.MixinHeldItemRenderer",
     "client.MixinItemRenderer",
     "client.MixinPlayerEntityRenderer"
