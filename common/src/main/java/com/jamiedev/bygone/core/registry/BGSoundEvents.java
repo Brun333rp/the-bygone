@@ -90,6 +90,15 @@ public class BGSoundEvents {
     public static final ResourceLocation ENTITY_GEIST_DEATH = id("entity.geist.death");
     public static final ResourceLocation ENTITY_GEIST_FLY = id("entity.geist.fly");
 
+    public static final ResourceLocation ENTITY_WALLOW_AMBIENT = id("entity.wallow.ambient");
+    public static final ResourceLocation ENTITY_WALLOW_FREEZE = id("entity.wallow.freeze");
+    public static final ResourceLocation ENTITY_WALLOW_HURT = id("entity.wallow.hurt");
+    public static final ResourceLocation ENTITY_WALLOW_DEATH = id("entity.wallow.death");
+    public static SoundEvent WALLOW_AMBIENT_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_WALLOW_AMBIENT);
+    public static SoundEvent WALLOW_FREEZE_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_WALLOW_FREEZE);
+    public static SoundEvent WALLOW_DEATH_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_WALLOW_DEATH);
+    public static SoundEvent WALLOW_HURT_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_WALLOW_HURT);
+
     public static final ResourceLocation WEATHER_INVERTED_RAIN = id("weather.inverted_rain");
     public static SoundEvent WEATHER_INVERTED_RAIN_EVENT = SoundEvent.createVariableRangeEvent(WEATHER_INVERTED_RAIN);
 
@@ -344,5 +353,10 @@ public class BGSoundEvents {
         Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_AQUIFAWN_DEATH, BGSoundEvents.AQUIFAWN_DEATH_ADDITIONS_EVENT);
         Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_AQUIFAWN_FLOP, BGSoundEvents.AQUIFAWN_FLOP_ADDITIONS_EVENT);
 
+
+        Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_WALLOW_AMBIENT, BGSoundEvents.WALLOW_AMBIENT_ADDITIONS_EVENT);
+        Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_WALLOW_FREEZE, BGSoundEvents.WALLOW_FREEZE_ADDITIONS_EVENT);
+        Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_WALLOW_HURT, BGSoundEvents.WALLOW_HURT_ADDITIONS_EVENT);
+        Registry.register(BuiltInRegistries.SOUND_EVENT, BGSoundEvents.ENTITY_WALLOW_DEATH, BGSoundEvents.WALLOW_DEATH_ADDITIONS_EVENT);
     }
 }

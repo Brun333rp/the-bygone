@@ -790,6 +790,11 @@
   "subtitles.entity.haunt.hurt": "Haunt hurts",
   "subtitles.entity.haunt.death": "Haunt dies",
 
+  "subtitles.entity.wallow.ambient": "Wallow sobs",
+  "subtitles.entity.wallow.freeze": "Wallow chills",
+  "subtitles.entity.wallow.hurt": "Wallow hurts",
+  "subtitles.entity.wallow.death": "Wallow dies",
+
   "subtitles.block.portal.ambient": "Portal frazzles",
 
   "subtitles.ambient.sound": "Eerie noise",

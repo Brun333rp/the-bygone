@@ -843,6 +843,39 @@
     "subtitle": "subtitles.entity.aquifawn.flop"
   },
 
+  "entity.wallow.ambient": {
+    "sounds": [
+      "bygone:entity/wallow/idle1",
+      "bygone:entity/wallow/idle2",
+      "bygone:entity/wallow/idle3"
+    ],
+    "subtitle": "subtitles.entity.wallow.ambient"
+  },
+  "entity.wallow.hurt": {
+    "sounds": [
+      "bygone:entity/wallow/hit1",
+      "bygone:entity/wallow/hit2",
+      "bygone:entity/wallow/hit3"
+    ],
+    "subtitle": "subtitles.entity.wallow.hurt"
+  },
+  "entity.wallow.death": {
+    "sounds": [
+      "bygone:entity/wallow/death1",
+      "bygone:entity/wallow/death2",
+      "bygone:entity/wallow/death3"
+    ],
+    "subtitle": "subtitles.entity.wallow.death"
+  },
+  "entity.wallow.freeze": {
+    "sounds": [
+      "bygone:entity/wallow/freeze1",
+      "bygone:entity/wallow/freeze2",
+      "bygone:entity/wallow/freeze3"
+    ],
+    "subtitle": "subtitles.entity.wallow.freeze"
+  },
+
   "entity.arcane_mechanism.close": {
     "sounds": [
       "bygone:entity/arcane_mechanism/close1",

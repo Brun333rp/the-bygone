@@ -3,15 +3,18 @@ package com.jamiedev.bygone.common.entity;
 import com.jamiedev.bygone.common.entity.ai.AvoidBlockGoal;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGDamageTypes;
+import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -117,7 +120,8 @@ public class WallowEntity extends PathfinderMob
     public void playerTouch(@NotNull Player entity) {
         int i = 1;
         if (entity instanceof ServerPlayer && entity.hurt(this.damageSources().mobAttack(this), (float) (1 + i))) {
-            this.playSound(SoundEvents.PLAYER_HURT_FREEZE, 1.0F, 1.0F);
+            this.playSound(BGSoundEvents.WALLOW_FREEZE_ADDITIONS_EVENT, 0.7F, 1.2F + this.random.nextFloat() * 0.2F);
+            this.playSound(SoundEvents.PLAYER_HURT_FREEZE, 0.25F, 0.75F);
             entity.hurt(this.damageSources().freeze(), i + random.nextInt(6));
         }
     }
@@ -164,6 +168,21 @@ public class WallowEntity extends PathfinderMob
 
         noPhysics = !collidingSpectralBlocks();
 
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return BGSoundEvents.WALLOW_AMBIENT_ADDITIONS_EVENT;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return BGSoundEvents.WALLOW_HURT_ADDITIONS_EVENT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return BGSoundEvents.WALLOW_DEATH_ADDITIONS_EVENT;
     }
 
 
