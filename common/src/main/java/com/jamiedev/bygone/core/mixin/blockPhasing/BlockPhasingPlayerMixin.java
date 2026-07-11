@@ -1,4 +1,4 @@
-package com.jamiedev.bygone.core.mixin;
+package com.jamiedev.bygone.core.mixin.blockPhasing;
 
 import com.jamiedev.bygone.common.entity.BlockPhasingEntity;
 import com.jamiedev.bygone.core.registry.BGAttributes;
@@ -6,7 +6,6 @@ import com.jamiedev.bygone.core.registry.BGItems;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,27 +29,9 @@ public abstract class BlockPhasingPlayerMixin extends LivingEntity implements Bl
 	@Shadow @Final private Abilities abilities;
 
 	@Unique boolean phasing = false;
+	@Unique boolean insideBlock = false;
 	@Unique int phasingTicks = 0;
-
-	@WrapMethod(method = "tryToStartFallFlying")
-	private boolean tryToStartPhasing(Operation<Boolean> original) {
-		if (this.isPhasing()) {
-			this.stopPhasing();
-			return true;
-		}
-		if (this.canStartPhasing()) {
-			this.startPhasing();
-			return true;
-		}
-		return original.call();
-	}
-
-	@WrapMethod(method = "tick")
-	private void tick(Operation<Void> original) {
-		original.call();
-		this.phasingTicks = Math.min(this.phasingTicks + 1, this.getMaxPhasingTicks());
-		if (this.isPhasing()) this.tickPhasing();
-	}
+	@Unique int phasingTicksRegenCooldown = 40;
 
 	@WrapMethod(method = "createAttributes")
 	private static AttributeSupplier.Builder addPhasingAttribute(Operation<AttributeSupplier.Builder> original) {
@@ -69,6 +50,71 @@ public abstract class BlockPhasingPlayerMixin extends LivingEntity implements Bl
 		compound.putInt("phasing_ticks", this.phasingTicks);
 	}
 
+	@WrapMethod(method = "tick")
+	private void tick(Operation<Void> original) {
+		original.call();
+		this.setPhasing(this.insideBlock && this.phasingTicks >= 0);
+
+		if (this.isPhasing()) this.tickPhasing();
+		else if (!this.isInsideBlock()) this.tickPhasingRegen();
+	}
+
+	@Override
+	public void tickPhasing() {
+		this.phasingTicks--;
+		if (this.onGround()) this.setDeltaMovement(this.getDeltaMovement().multiply(0.2F, 1, 0.2F));
+		if (this.phasingTicks <= 0) this.setPhasing(false);
+	}
+
+	@Unique
+	private void tickPhasingRegen() {
+		if (this.phasingTicksRegenCooldown > 0) {
+			this.phasingTicksRegenCooldown--;
+		} else {
+			this.phasingTicks = Math.min(this.phasingTicks + 1, this.getMaxPhasingTicks());
+		}
+	}
+
+	@Override
+	protected void checkInsideBlocks() {
+		this.insideBlock = false;
+		super.checkInsideBlocks();
+	}
+
+	@Override
+	public boolean isInsideBlock() {
+		return this.insideBlock;
+	}
+
+	@Override
+	public void setInsideBlock(boolean value) {
+		this.insideBlock = value;
+	}
+
+	@Override
+	public void setPhasing(boolean value) {
+		boolean wasPhasing = this.isPhasing();
+		if (wasPhasing == value) return;
+		this.phasing = value;
+
+		if (value) this.onStartPhasing();
+		else this.onStopPhasing();
+	}
+
+	@Override
+	public void onStartPhasing() {
+//		this.noPhysics = true;
+//		this.abilities.flying = true;
+	}
+
+	@Override
+	public void onStopPhasing() {
+		this.phasingTicksRegenCooldown = 40;
+		System.out.println("AAA");
+//		this.noPhysics = false;
+//		this.abilities.flying = false;
+	}
+
 	@Override
 	public boolean isPhasing() {
 		return this.phasing;
@@ -76,31 +122,10 @@ public abstract class BlockPhasingPlayerMixin extends LivingEntity implements Bl
 
 	@Override
 	public boolean canStartPhasing() {
-		if (this.onGround() || this.isFallFlying()) return false;
+		if (this.phasingTicks <= 0) return false;
+
 		ItemStack stack = this.getItemBySlot(EquipmentSlot.CHEST);
 		return stack.is(BGItems.WALLOW_SHAWL.get());
-	}
-
-	@Override
-	public void startPhasing() {
-		this.sendSystemMessage(Component.literal("THIS IS A TEMPORARY MESSAGE TELLING YOU THAT YOU HAVE STARTED PHASING"));
-		this.phasing = true;
-		this.phasingTicks = 0;
-		this.abilities.flying = true;
-	}
-
-	@Override
-	public void stopPhasing() {
-		this.sendSystemMessage(Component.literal("THIS IS A TEMPORARY MESSAGE TELLING YOU THAT YOU HAVE STOPPED PHASING"));
-		this.phasing = false;
-		this.phasingTicks = 0;
-		this.abilities.flying = false;
-	}
-
-	@Override
-	public void tickPhasing() {
-		this.phasingTicks--;
-		if (this.onGround() || this.phasingTicks <= 0) this.stopPhasing();
 	}
 
 	@Override
@@ -111,6 +136,12 @@ public abstract class BlockPhasingPlayerMixin extends LivingEntity implements Bl
 	@Override
 	public int getMaxPhasingTicks() {
 		return (int) (this.level().tickRateManager().tickrate() * this.getAttributeValue(BGAttributes.PHASING_DURATION.get()));
+	}
+
+	@Override
+	public boolean isInWall() {
+		if (this.isPhasing()) return false;
+		return super.isInWall();
 	}
 
 }
