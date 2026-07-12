@@ -3,9 +3,11 @@ package com.jamiedev.bygone.core.mixin.blockPhasing;
 import com.jamiedev.bygone.common.entity.BlockPhasingEntity;
 import com.jamiedev.bygone.core.registry.BGAttributes;
 import com.jamiedev.bygone.core.registry.BGItems;
+import com.jamiedev.bygone.core.registry.BGSoundEvents;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -103,16 +105,13 @@ public abstract class BlockPhasingPlayerMixin extends LivingEntity implements Bl
 
 	@Override
 	public void onStartPhasing() {
-//		this.noPhysics = true;
-//		this.abilities.flying = true;
+		this.level().playSound(null, this.blockPosition(), BGSoundEvents.PLAYER_PHASING_START_ADDITIONS_EVENT, SoundSource.PLAYERS);
 	}
 
 	@Override
 	public void onStopPhasing() {
+		this.level().playSound(null, this.blockPosition(), BGSoundEvents.PLAYER_PHASING_STOP_ADDITIONS_EVENT, SoundSource.PLAYERS);
 		this.phasingTicksRegenCooldown = 40;
-		System.out.println("AAA");
-//		this.noPhysics = false;
-//		this.abilities.flying = false;
 	}
 
 	@Override

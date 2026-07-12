@@ -121,6 +121,9 @@
   "item.bygone.whiskbill_spawn_egg": "Whiskbill Spawn Egg",
   "item.bygone.wisp_spawn_egg": "Whisp Spawn Egg",
   "item.bygone.wraith_spawn_egg": "Wraith Spawn Egg",
+  "item.bygone.wallow_spawn_egg": "Wallow Spawn Egg",
+  "item.bygone.wallow_shawl_scrap": "Wallow Shawl Scrap",
+  "item.bygone.wallow_shawl": "Wallow Shawl",
   "item.bygone.arcane_core": "Arcane Core",
   "item.bygone.arcane_mechanism": "Arcane Mechanism",
   "item.bygone.verdigris_ingot": "Verdigris Ingot",
@@ -794,6 +797,9 @@
   "subtitles.entity.wallow.freeze": "Wallow chills",
   "subtitles.entity.wallow.hurt": "Wallow hurts",
   "subtitles.entity.wallow.death": "Wallow dies",
+
+  "subtitles.entity.player.phasing.start": "Player phases int",
+  "subtitles.entity.player.phasing.stop": "Player phases out",
 
   "subtitles.block.portal.ambient": "Portal frazzles",
 

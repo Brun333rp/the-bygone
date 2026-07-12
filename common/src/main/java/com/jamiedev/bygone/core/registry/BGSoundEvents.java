@@ -99,6 +99,11 @@ public class BGSoundEvents {
     public static SoundEvent WALLOW_DEATH_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_WALLOW_DEATH);
     public static SoundEvent WALLOW_HURT_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_WALLOW_HURT);
 
+    public static final ResourceLocation ENTITY_PLAYER_PHASING_START = id("entity.player.phasing.start");
+    public static final ResourceLocation ENTITY_PLAYER_PHASING_STOP = id("entity.player.phasing.stop");
+    public static SoundEvent PLAYER_PHASING_START_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_PLAYER_PHASING_START);
+    public static SoundEvent PLAYER_PHASING_STOP_ADDITIONS_EVENT = SoundEvent.createVariableRangeEvent(ENTITY_PLAYER_PHASING_STOP);
+
     public static final ResourceLocation WEATHER_INVERTED_RAIN = id("weather.inverted_rain");
     public static SoundEvent WEATHER_INVERTED_RAIN_EVENT = SoundEvent.createVariableRangeEvent(WEATHER_INVERTED_RAIN);
 

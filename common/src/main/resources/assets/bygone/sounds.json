@@ -876,6 +876,25 @@
     "subtitle": "subtitles.entity.wallow.freeze"
   },
 
+  "entity.player.phasing.start": {
+    "sounds": [
+      {
+        "name": "block/beacon/activate",
+        "volume": 0.2
+      }
+    ],
+    "subtitle": "subtitles.entity.player.phasing.start"
+  },
+  "entity.player.phasing.stop": {
+    "sounds": [
+      {
+        "name": "block/beacon/deactivate",
+        "volume": 0.2
+      }
+    ],
+    "subtitle": "subtitles.entity.player.phasing.stop"
+  },
+
   "entity.arcane_mechanism.close": {
     "sounds": [
       "bygone:entity/arcane_mechanism/close1",
