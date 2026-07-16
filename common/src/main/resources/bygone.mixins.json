@@ -23,7 +23,6 @@
 		"MobMixin",
 		"PlayerMixin",
 		"PortalProcessorAccessor",
-		"ServerLevelMixin",
 		"VexMixin"
 	],
 	"client": [
@@ -38,7 +37,9 @@
 		"client.MixinItemRenderer",
 		"client.MixinPlayerEntityRenderer"
 	],
-	"server": [],
+	"server": [
+		"ServerLevelMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}
