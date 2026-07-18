@@ -5,6 +5,7 @@
   "mixins": [
     "CowEntityMixinFabric",
     "DecoratedPotPatternsMixin",
+    "MobCategoryMixin",
     "ServerLevelMixinFabric"
   ],
   "injectors": {

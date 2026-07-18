@@ -8,6 +8,7 @@ import com.jamiedev.bygone.common.block.entity.GumboPotBlockEntity;
 import com.jamiedev.bygone.common.util.ServerTickHandler;
 import com.jamiedev.bygone.common.util.VexDeathTracker;
 import com.jamiedev.bygone.common.weather.BygoneWeather;
+import com.jamiedev.bygone.common.weather.weather_types.HauntingsCategoryHolder;
 import com.jamiedev.bygone.core.datagen.BygoneDataGenerator;
 import com.jamiedev.bygone.core.registry.*;
 import net.minecraft.core.BlockPos;

@@ -10,6 +10,7 @@ import com.jamiedev.bygone.common.weather.weather_types.WeatherProperties;
 import com.jamiedev.bygone.common.weather.weather_types.WeatherType;
 import com.jamiedev.bygone.core.network.PacketHandler;
 import com.jamiedev.bygone.core.network.SyncWeatherS2C;
+import com.jamiedev.bygone.core.registry.BGDimensions;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -58,6 +59,7 @@ public class BygoneWeather extends SavedData {
     }
 
     public static BygoneWeather getOrDefault(ServerLevel level) {
+        if (!level.dimension().equals(BGDimensions.BYGONE_LEVEL_KEY)) return null;
         return level.getDataStorage().computeIfAbsent(
             new SavedData.Factory<>(
                 () -> new BygoneWeather(level),

@@ -1,46 +1,46 @@
 {
-	"required": true,
-	"minVersion": "0.8",
-	"package": "com.jamiedev.bygone.core.mixin",
-	"refmap": "${mod_id}.refmap.json",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"AxeItemAccess",
-		"blockPhasing.BlockPhasingBehaviourMixin",
-		"blockPhasing.BlockPhasingPlayerMixin",
-		"BundleContentsMixin",
-		"BundleContentsMutableMixin",
-		"BundleItemMixin",
-		"DoorBlockMixin",
-		"EmptyMapMixin",
-		"FarmlandBlockMixin",
-		"FishingHookMixin",
-		"LevelMixin",
-		"LivingEntityMixin",
-		"LivingEntityMixinVex",
-		"MapItemMixin",
-		"MobBucketItemMixin",
-		"MobMixin",
-		"PlayerMixin",
-		"PortalProcessorAccessor",
-		"VexMixin"
-	],
-	"client": [
-		"blockPhasing.LevelRendererMixin",
-		"client.BipedEntityModelMixin",
-		"client.EntityPhaseMeterGuiMixin",
-		"client.GameRendererMixin",
-		"client.LevelChunkMixin",
-		"client.LevelRendererMixin",
-		"client.LightTextureMixin",
-		"client.MixinHeldItemRenderer",
-		"client.MixinItemRenderer",
-		"client.MixinPlayerEntityRenderer"
-	],
-	"server": [
-		"ServerLevelMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.jamiedev.bygone.core.mixin",
+  "refmap": "${mod_id}.refmap.json",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AxeItemAccess",
+    "BundleContentsMixin",
+    "BundleContentsMutableMixin",
+    "BundleItemMixin",
+    "DoorBlockMixin",
+    "EmptyMapMixin",
+    "FarmlandBlockMixin",
+    "FishingHookMixin",
+    "LevelMixin",
+    "LivingEntityMixin",
+    "LivingEntityMixinVex",
+    "MapItemMixin",
+    "MobBucketItemMixin",
+    "MobMixin",
+    "NaturalSpawnerMixin",
+    "PlayerMixin",
+    "PortalProcessorAccessor",
+    "ServerLevelMixin",
+    "SpawnStateMixin",
+    "VexMixin",
+    "blockPhasing.BlockPhasingBehaviourMixin",
+    "blockPhasing.BlockPhasingPlayerMixin"
+  ],
+  "client": [
+    "blockPhasing.LevelRendererMixin",
+    "client.BipedEntityModelMixin",
+    "client.EntityPhaseMeterGuiMixin",
+    "client.GameRendererMixin",
+    "client.LevelChunkMixin",
+    "client.LevelRendererMixin",
+    "client.LightTextureMixin",
+    "client.MixinHeldItemRenderer",
+    "client.MixinItemRenderer",
+    "client.MixinPlayerEntityRenderer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }
