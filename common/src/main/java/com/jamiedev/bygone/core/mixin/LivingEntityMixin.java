@@ -1,6 +1,7 @@
 package com.jamiedev.bygone.core.mixin;
 
 import com.jamiedev.bygone.common.item.VerdigrisBladeItem;
+import com.jamiedev.bygone.common.weather.weather_types.HauntingsCategoryHolder;
 import com.jamiedev.bygone.core.extension.LivingEntityExtension;
 import com.jamiedev.bygone.core.init.JamiesModTag;
 import com.jamiedev.bygone.core.registry.BGBlocks;
@@ -11,6 +12,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -122,21 +124,40 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityEx
 		}
 	}
 
-    @Unique private boolean bygone$isHauntingsMob = false;
-    @Override public boolean bygone$isHauntingsMob() { return bygone$isHauntingsMob; }
-    @Override public void bygone$setHauntingsMob(boolean setTo) { this.bygone$isHauntingsMob = setTo; }
+    @Unique private static final String BYGONE_HAUNTINGS_RISE_TICKS_TAG = "BygoneHauntingsMobRiseTicks";
+    @Unique private static final int BYGONE_HAUNTINGS_RISE_DURATION = 20;
+    @Unique private int bygone$hauntingsRiseTicks = 0;
+
+    @Override public void bygone$startHauntingsRise() {
+        if (bygone$isHauntingsMob()) this.bygone$hauntingsRiseTicks = BYGONE_HAUNTINGS_RISE_DURATION;
+    }
+
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+    private void bygone$saveHauntingsMob(CompoundTag compound, CallbackInfo ci) {
+        if (bygone$isHauntingsMob() && this.bygone$hauntingsRiseTicks > 0)
+            compound.putInt(BYGONE_HAUNTINGS_RISE_TICKS_TAG, this.bygone$hauntingsRiseTicks);
+    }
+
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    private void bygone$readHauntingsMob(CompoundTag compound, CallbackInfo ci) {
+        this.bygone$hauntingsRiseTicks = bygone$isHauntingsMob()
+            ? compound.getInt(BYGONE_HAUNTINGS_RISE_TICKS_TAG) : 0;
+    }
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void bygone$hauntingsPhaseTick(CallbackInfo ci) {
-        if (!this.bygone$isHauntingsMob()) return;
+        if (!bygone$isHauntingsMob()) return;
+        if (this.bygone$hauntingsRiseTicks <= 0) return;
 
-        if (!isFree(this.getX(), this.getY(), this.getZ())) {
-            setDeltaMovement(
-                getDeltaMovement()
-                .multiply(1, 0, 1)
-                .add(0, 0.5, 0)
-            );
-        } else bygone$setHauntingsMob(false);
+        this.noPhysics = true;
+        this.fallDistance = 0.0F;
+        this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D));
+        this.setPos(this.getX(), this.getY() + this.getBbHeight() / BYGONE_HAUNTINGS_RISE_DURATION, this.getZ());
+        this.bygone$hauntingsRiseTicks--;
+    }
+
+    @Unique private boolean bygone$isHauntingsMob() {
+        return this.getType().getCategory() == HauntingsCategoryHolder.HAUNTING_MOB_CATEGORY;
     }
 
 }

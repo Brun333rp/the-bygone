@@ -13,7 +13,7 @@
       "enum": "net/minecraft/world/entity/MobCategory",
       "name": "BYGONE_HAUNTINGS_MOB",
       "constructor": "(Ljava/lang/String;IZZI)V",
-      "parameters": [ "bygone:hauntings_mobs", 1, false, false, 128 ]
+      "parameters": [ "bygone:hauntings_mobs", 50, false, false, 64 ]
     }
   ]
 }

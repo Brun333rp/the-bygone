@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 public enum MobCategoryMixin {
     BYGONE_HAUNTINGS_MOB(
         HauntingsCategoryHolder.CATEGORY_NAME, HauntingsCategoryHolder.CATEGORY_MOB_CAP,
-        HauntingsCategoryHolder.CATEGORY_PERSISTENT, HauntingsCategoryHolder.CATEGORY_FRIENDLY,
+        HauntingsCategoryHolder.CATEGORY_FRIENDLY, HauntingsCategoryHolder.CATEGORY_PERSISTENT,
         HauntingsCategoryHolder.CATEGORY_DESPAWN_RANGE
     );
 
