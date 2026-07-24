@@ -4,6 +4,7 @@ import com.jamiedev.bygone.Bygone;
 import com.jamiedev.bygone.client.renderer.weather.HauntingsRenderer;
 import com.jamiedev.bygone.common.weather.BygoneWeather;
 import com.jamiedev.bygone.common.weather.weather_types.HauntingsEvent;
+import com.jamiedev.bygone.core.registry.BGDimensions;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -31,6 +32,7 @@ public class HauntingsEffectRenderer {
     }
 
     public float progress = 0.0f;
+    // forgot to write this earlier but thank u  cappin
     public float modifyAmbientLightFactor(float ambientLight) {
         float darkeningAmount = 1 - this.progress;
         return ambientLight * darkeningAmount;
@@ -76,6 +78,8 @@ public class HauntingsEffectRenderer {
     }
 
     public void render(Minecraft minecraft, float partialTicks) {
+        // oops lmao
+        if (minecraft.level == null || !minecraft.level.dimension().equals(BGDimensions.BYGONE_LEVEL_KEY)) return;
         BygoneWeather.Client clientWeather = BygoneWeather.Client.getInstance();
         // ough lmao
         Optional<HauntingsRenderer> renderer = clientWeather.stream().filter(HauntingsRenderer.class::isInstance)

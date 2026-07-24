@@ -144,15 +144,23 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityEx
             ? compound.getInt(BYGONE_HAUNTINGS_RISE_TICKS_TAG) : 0;
     }
 
+    // since they sometimes get stuck i might just change it to the behavior in here idk why
+    // i wanted them to rise up at the same time anyways just thought itd be cool
+    @Inject(method = "isInWall", at = @At("HEAD"), cancellable = true)
+    private void bygone$bypassWallDamage(CallbackInfoReturnable<Boolean> cir) {
+        if (!bygone$isHauntingsMob()) return;
+        if (this.bygone$hauntingsRiseTicks <= 0) return;
+        cir.setReturnValue(false);
+    }
+
     @Inject(method = "tick", at = @At("HEAD"))
     private void bygone$hauntingsPhaseTick(CallbackInfo ci) {
         if (!bygone$isHauntingsMob()) return;
         if (this.bygone$hauntingsRiseTicks <= 0) return;
 
-        this.noPhysics = true;
         this.fallDistance = 0.0F;
         this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D));
-        this.setPos(this.getX(), this.getY() + this.getBbHeight() / BYGONE_HAUNTINGS_RISE_DURATION, this.getZ());
+        this.setPos(this.getX(), this.getY() + (this.getBbHeight() * 2.0D) / BYGONE_HAUNTINGS_RISE_DURATION, this.getZ());
         this.bygone$hauntingsRiseTicks--;
     }
 
