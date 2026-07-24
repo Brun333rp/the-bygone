@@ -20,10 +20,10 @@ public abstract class SpawnStateMixin {
     private LocalMobCapCalculator localMobCapCalculator;
 
     // PROBABLY fine to ignore for category since otherwise they spawn with other category???
-    @Inject(method = "canSpawnForCategory", at = @At("RETURN"), cancellable = true)
-    private void bygone$redirectCategory(MobCategory category, ChunkPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (!category.equals(HauntingsCategoryHolder.HAUNTING_MOB_CATEGORY)) return;
-        // ignore local cap??? i dont know man this is annoying
-        cir.setReturnValue(this.localMobCapCalculator.canSpawn(category, pos));
-    }
+//    @Inject(method = "canSpawnForCategory", at = @At("RETURN"), cancellable = true)
+//    private void bygone$redirectCategory(MobCategory category, ChunkPos pos, CallbackInfoReturnable<Boolean> cir) {
+//        if (!category.equals(HauntingsCategoryHolder.HAUNTING_MOB_CATEGORY)) return;
+//        // ignore local cap??? i dont know man this is annoying
+//        cir.setReturnValue(this.localMobCapCalculator.canSpawn(category, pos));
+//    }
 }
