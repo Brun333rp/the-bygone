@@ -6,10 +6,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class HauntingsEvent extends WeatherType {
     private static final String TIME = "time";
+    private static final String ENABLED = "enabled"; // bandage but works for now
     public HauntingsEvent(ResourceLocation id, @Nullable ServerLevel level) {
         super(id, level);
 
         this.registerProperty(WeatherProperties::ofInt, TIME, 0).setSync(false);
+        this.registerProperty(WeatherProperties::ofBool, ENABLED, false);
     }
 
     private static final int HAUNTING_DURATION = 12000; // like 10 or so minutes
@@ -17,14 +19,16 @@ public class HauntingsEvent extends WeatherType {
 
     @Override public void tick() {
         assert level != null;
+
         WeatherProperties.WeatherProperty<Integer> time = this.getProperty(TIME);
         time.setValue((time.getValue() + 1) % (HAUNTING_CYCLE + HAUNTING_DURATION));
+        this.getProperty(ENABLED).setValue(time.getValue() > HAUNTING_CYCLE);
 
         super.tick();
     }
 
     @Override public boolean isActive() {
-        return ((int) this.getProperty(TIME).getValue() > HAUNTING_CYCLE);
+        return ((boolean) this.getProperty(ENABLED).getValue());
     }
     @Override public void startWeather() {
         this.getProperty(TIME).setValue(HAUNTING_CYCLE);
