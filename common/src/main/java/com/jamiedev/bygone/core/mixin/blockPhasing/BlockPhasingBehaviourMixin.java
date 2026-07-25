@@ -38,8 +38,8 @@ public abstract class BlockPhasingBehaviourMixin {
 
 	@WrapMethod(method = "entityInside")
 	private void slowWhilePhasing(Level level, BlockPos pos, Entity entity, Operation<Void> original) {
+		original.call(level, pos, entity);
 		if (this.isSuffocating(level, pos) && entity instanceof BlockPhasingEntity phasing) {
-//		if (this.isSuffocating(level, pos) && entity instanceof BlockPhasingEntity phasing) {
 			phasing.setInsideBlock(true);
 		}
 	}
