@@ -13,6 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -106,22 +107,21 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityEx
 		return original.call(source);
 	}
 
-	@WrapMethod(method = "die")
-	private void spawnHauntedGround(DamageSource source, Operation<Void> original) {
-		original.call(source);
+	@WrapMethod(method = "dropAllDeathLoot")
+	private void spawnHauntedGround(ServerLevel level, DamageSource source, Operation<Void> original) {
+		original.call(level, source);
 		if (!this.getType().is(JamiesModTag.SPECTRAL)) return;
 
 		BlockState groundState = BGBlocks.HAUNTED_GROUND.get().defaultBlockState();
 		BlockPos.MutableBlockPos pos = this.getOnPos().above(2).mutable();
 		for (int i = 0; i < 16; i++) {
 			pos.move(Direction.DOWN);
-			BlockState state = this.level().getBlockState(pos);
+			BlockState state = level.getBlockState(pos);
 			if (!(state.isAir() || state.canBeReplaced())) continue;
-			if (!groundState.canSurvive(this.level(), pos)) continue;
-
-			this.level().setBlock(pos, groundState, Block.UPDATE_ALL);
+			if (!groundState.canSurvive(level, pos)) continue;
 			break;
 		}
+		level.setBlock(pos, groundState, Block.UPDATE_CLIENTS);
 	}
 
     @Unique private static final String BYGONE_HAUNTINGS_RISE_TICKS_TAG = "BygoneHauntingsMobRiseTicks";
