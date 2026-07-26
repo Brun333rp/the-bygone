@@ -6,7 +6,7 @@
       "type": "moredfs:voronoi_cells",
       "value_sampler": { "type": "uniform", "min": -2, "max": 2 },
       "size_x": 256,
-      "size_y": 384,
+      "size_y": 0,
       "size_z": 256,
       "jitter_sampler": {
         "x": { "type": "uniform", "min": -25, "max": 25 },
