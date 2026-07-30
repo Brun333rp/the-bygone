@@ -320,7 +320,8 @@ public class SabeastEntity extends Monster  {
                 double d0 = this.target.distanceToSqr(this.sabeast);
 
                 if (this.target instanceof Player) {
-                    this.target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 200, 0, true, true), this.sabeast);
+                    this.target.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 200, 0, true, true), this.sabeast);
+                    // just experimenting with swapping Blindness ? Darkness
                 }
 
                 return !(d0 > (double) 256.0F) && this.sabeast.isLookingAtMe((Player) this.target);
