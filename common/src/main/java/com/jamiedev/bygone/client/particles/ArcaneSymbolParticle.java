@@ -3,8 +3,6 @@ package com.jamiedev.bygone.client.particles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class ArcaneSymbolParticle extends TextureSheetParticle {
 
@@ -41,7 +39,6 @@ public class ArcaneSymbolParticle extends TextureSheetParticle {
 		if (this.age++ >= this.lifetime) this.remove();
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public static class Provider implements ParticleProvider<SimpleParticleType> {
 		private final SpriteSet sprite;
 
