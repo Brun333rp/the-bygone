@@ -1,13 +1,10 @@
 package com.jamiedev.bygone.common.entity;
 
 import com.jamiedev.bygone.Bygone;
-import com.jamiedev.bygone.client.BygoneClient;
 import com.jamiedev.bygone.core.registry.BGEntityTypes;
 import com.jamiedev.bygone.core.registry.BGItems;
 import com.jamiedev.bygone.core.registry.BGSoundEvents;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -17,11 +14,9 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -31,19 +26,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Portal;
 import net.minecraft.world.level.border.WorldBorder;
-import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.portal.DimensionTransition;
-import net.minecraft.world.level.portal.PortalShape;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec2;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -64,6 +51,10 @@ public class BygonePortalEntity extends LivingEntity implements Portal {
         super(entityType, level);
         this.noPhysics = true;
         this.setNoGravity(true);
+    }
+
+    public BygonePortalEntity(Level level) {
+        super(BGEntityTypes.BYGONE_PORTAL.get(), level);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -129,7 +120,11 @@ public class BygonePortalEntity extends LivingEntity implements Portal {
         }
 
         if (this.level() instanceof ServerLevel serverLevel && this.isReturn()) {
-            List<BygonePortalEntity> existingPortals = serverLevel.getEntitiesOfClass(BygonePortalEntity.class, new AABB(this.blockPosition()).inflate(3));
+            List<BygonePortalEntity> existingPortals = serverLevel
+                    .getEntities(this, this.getBoundingBox().inflate(3), entity -> entity instanceof BygonePortalEntity)
+                    .stream()
+                    .map(entity -> (BygonePortalEntity)entity)
+                    .toList();
             if (!existingPortals.isEmpty()) {
                 for (BygonePortalEntity portal : existingPortals) {
                     portal.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20));
@@ -322,7 +317,7 @@ public class BygonePortalEntity extends LivingEntity implements Portal {
                     double normalizedY = (sourceY - sourceMinY) / (sourceMaxY - sourceMinY);
                     double destY = destMinY + normalizedY * (destMaxY - destMinY);
 
-                    destY = Math.min(destMaxY - 3, Math.max(destMinY + 2, destY));
+                    destY = Math.clamp(destY, destMinY + 2, destMaxY - 3);
 
                     WorldBorder worldborder = serverlevel.getWorldBorder();
                     BlockPos blockpos = worldborder.clampToBounds(player.getX(), destY, player.getZ());
@@ -331,15 +326,12 @@ public class BygonePortalEntity extends LivingEntity implements Portal {
 
                     teleport(player, serverlevel, finalBlockpos);
 
-                    BygonePortalEntity newPortal = BGEntityTypes.BYGONE_PORTAL.get().create(serverlevel);
-
-                    if (newPortal != null) {
-                        newPortal.setPos(player.getX(), player.getY(), player.getZ());
-                        newPortal.setLifeTime(6000);
-                        newPortal.setReturn(true);
-                        newPortal.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20));
-                        serverlevel.addFreshEntity(newPortal);
-                    }
+                    BygonePortalEntity newPortal = new BygonePortalEntity(serverlevel);
+                    newPortal.moveTo(finalBlockpos.getBottomCenter().add(0, 1, 0));
+                    newPortal.setLifeTime(6000);
+                    newPortal.setReturn(true);
+                    newPortal.addEffect(new MobEffectInstance(MobEffects.GLOWING, 200));
+                    serverlevel.addFreshEntity(newPortal);
 
                     player.playSound(SoundEvents.PORTAL_TRAVEL, 1.0F, 1.0F);
                 }
