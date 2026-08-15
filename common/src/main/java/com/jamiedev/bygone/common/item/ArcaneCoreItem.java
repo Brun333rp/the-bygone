@@ -33,7 +33,7 @@ public class ArcaneCoreItem extends Item {
         float pitch = Mth.lerp(level.random.nextFloat(), 0.33F, 0.5F);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), BGSoundEvents.ITEM_ARCANE_CORE_USE_EVENT, SoundSource.NEUTRAL, 1, pitch);
         player.awardStat(Stats.ITEM_USED.get(this));
-        player.getCooldowns().addCooldown(this, (int) serverLevel.tickRateManager().tickrate() * USAGE_COOLDOWN);
+        // player.getCooldowns().addCooldown(this, (int) serverLevel.tickRateManager().tickrate() * USAGE_COOLDOWN);
 
         BlockPos pos = serverLevel.findNearestMapStructure(JamiesModTag.BYGONE_ITEM_LOCATED, player.blockPosition(), 100, false);
         if (pos == null) return InteractionResultHolder.consume(stack);

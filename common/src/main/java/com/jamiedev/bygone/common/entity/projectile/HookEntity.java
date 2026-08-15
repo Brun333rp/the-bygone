@@ -31,7 +31,7 @@ public class HookEntity extends AbstractArrow {
             SynchedEntityData.defineId(HookEntity.class, EntityDataSerializers.FLOAT);
 
     private static final float CHAIN_SPEED = 0.1F;
-    private static final float REVERSE_SPEED = 0.025F;
+    private static final float REVERSE_SPEED = 0.055F;
 
     public float prevChainProgress = 0F;
 

@@ -265,7 +265,7 @@ public class BygonePortalEntity extends LivingEntity implements Portal {
     }
 
     private void spawnPortalParticles() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             double x = this.getX() + (this.random.nextDouble() - 0.5) * 1.5;
             double y = this.getY() + (this.random.nextDouble() - 0.5) * 2.5;
             double z = this.getZ() + (this.random.nextDouble() - 0.5) * 1.5;
