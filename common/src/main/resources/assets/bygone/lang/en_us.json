@@ -820,5 +820,15 @@
   "commands.bygone.weather.incompatible_cast": "Provided new value is incompatible with type %s",
   "commands.bygone.weather.dimension_not_loaded": "Weather events can only be accessed from within the Bygone, or once it is loaded.",
   "commands.bygone.weather.start": "Started Bygone weather %s",
-  "commands.bygone.weather.clear": "Cleared Bygone weather %s"
+  "commands.bygone.weather.clear": "Cleared Bygone weather %s",
+
+  "item.minecraft.tipped_arrow.effect.haunted_potion": "Arrow of Haunted",
+  "item.minecraft.potion.effect.haunted_potion": "Potion of Haunted",
+  "item.minecraft.splash_potion.effect.haunted_potion": "Splash Potion of Haunted",
+  "item.minecraft.lingering_potion.effect.haunted_potion": "Lingering Potion of Haunted",
+
+  "item.minecraft.tipped_arrow.effect.long_haunted_potion": "Arrow of Haunted",
+  "item.minecraft.potion.effect.long_haunted_potion": "Potion of Haunted",
+  "item.minecraft.splash_potion.effect.long_haunted_potion": "Splash Potion of Haunted",
+  "item.minecraft.lingering_potion.effect.long_haunted_potion": "Lingering Potion of Haunted"
 }
