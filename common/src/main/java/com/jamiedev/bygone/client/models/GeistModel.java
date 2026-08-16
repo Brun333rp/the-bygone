@@ -12,7 +12,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
-public class GeistModel<T extends Entity> extends HierarchicalModel<T> {
+public class GeistModel<T extends Entity> extends HauntingsMobModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	private final ModelPart all;
 	private final ModelPart body;
@@ -76,6 +76,6 @@ public class GeistModel<T extends Entity> extends HierarchicalModel<T> {
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int light, int overlay, int color)
 	{
-		all.render(poseStack, vertexConsumer, light, overlay, color);
+		all.render(poseStack, vertexConsumer, light, overlay, this.modifyColor(color));
 	}
 }

@@ -10,7 +10,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
-public class WallowModel<T extends Entity> extends HierarchicalModel<T> {
+public class WallowModel<T extends Entity> extends HauntingsMobModel<T> {
 
 	private final ModelPart all;
 	private final ModelPart body;
@@ -62,7 +62,7 @@ public class WallowModel<T extends Entity> extends HierarchicalModel<T> {
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
-		all.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+		all.render(poseStack, vertexConsumer, packedLight, packedOverlay, this.modifyColor(color));
 	}
 
 	@Override

@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 
-public class HauntModel<T extends Entity> extends HierarchicalModel<T> {
+public class HauntModel<T extends Entity> extends HauntingsMobModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	private final ModelPart haunt;
 	private final ModelPart head;
@@ -75,6 +75,6 @@ public class HauntModel<T extends Entity> extends HierarchicalModel<T> {
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
-		haunt.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+		haunt.render(poseStack, vertexConsumer, packedLight, packedOverlay, this.modifyColor(color));
 	}
 }
