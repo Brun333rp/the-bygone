@@ -982,7 +982,6 @@
     ],
     "subtitle": "subtitles.bygone.item.whirliweed_bundle.use"
   },
-
   "weather.inverted_rain": {
     "sounds": [
       "bygone:weather/inverted_rain/loop1",
@@ -991,5 +990,9 @@
       "bygone:weather/inverted_rain/loop4"
     ],
     "subtitle": "subtitles.bygone.weather.inverted_rain.loop"
+  },
+  "weather.hauntings.toll": {
+    "sounds": ["bygone:weather/hauntings/toll"],
+    "subtitle": "subtitles.bygone.weather.hauntings.toll"
   }
 }

@@ -201,7 +201,8 @@ public abstract class LivingEntityMixin extends Entity implements LivingEntityEx
                 if (this.bygone$getHauntingsFadeTicks() <= 0) {
                     this.discard();
                     serverLevel.sendParticles(
-                        ParticleTypes.SOUL, this.getX(), this.getY() + (this.getBbHeight() / 2f),
+                        ParticleTypes.SOUL, this.getX(),
+                        this.getY() + (this.getBbHeight() / 2f),
                         this.getZ(), random.nextIntBetweenInclusive(4, 8),
                         0, 0, 0, 0.075D
                     );
